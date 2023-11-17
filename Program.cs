@@ -37,7 +37,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 Raylib.ClearBackground(Color.WHITE);
 
                 //this is a code comment
-                Console.WriteLine("Hello");
+                
                 Update();
                 Player();
 
@@ -62,7 +62,7 @@ namespace Assignment_4_Group_2D_Game_Project
             
 
 
-
+            //Bottom of cube
             float PlayerBottomCorner = PlayerPosition.X + PlayerPosition.Y;
 
             //Draws Player
@@ -93,8 +93,8 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
 
             }
-            Console.WriteLine($"{PolarityPressed}");
-
+            
+            // Polarity Swap
             if (Polarity == true)
             {
                 PlayerPosition = PlayerPosition - GravityBasic;
