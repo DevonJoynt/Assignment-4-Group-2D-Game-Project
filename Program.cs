@@ -33,7 +33,8 @@ namespace Assignment_4_Group_2D_Game_Project
                 // Clear the canvas with one color
                 Raylib.ClearBackground(Color.WHITE);
 
-                
+                //this is a code comment
+                Console.WriteLine("Hello");
                 Update();
                 Player();
 
