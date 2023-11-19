@@ -16,12 +16,9 @@ namespace Assignment_4_Group_2D_Game_Project
         static int PolarityPressed;
         static Vector2 PlayerPosition { get; set; } = new Vector2(WindowWidth/2,WindowHeight/2);
         static Vector2 PlayerSize = new Vector2(50,50);
-
-        static Vector2 CameraV = new Vector2(0, 0);
-        
-
-        static Camera2D Camera = new Camera2D();
-
+        static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
+       
+       
         static void Main(string[] args)
         {
             // Create a window to draw to. The arguments define width and height
@@ -29,28 +26,23 @@ namespace Assignment_4_Group_2D_Game_Project
             
             Raylib.SetTargetFPS(60);
             PolarityPressed = 0;
-            
+
             Setup();
-            
-            
 
-            while (!Raylib.WindowShouldClose()) // Enable drawing to the canvas (window)
+            
+            while (!Raylib.WindowShouldClose())
             {
-                
-
-                
-                CameraSetup(); 
-
+                // Enable drawing to the canvas (window)
                 Raylib.BeginDrawing();
-                Raylib.BeginMode2D(Camera);
+                // Clear the canvas with one color
+                Raylib.ClearBackground(Color.WHITE);
+
                 
-                Raylib.ClearBackground(Color.WHITE); // Clear the canvas with one color
-
-
+                
                 Update();
-                Player(); //Player Gravity + Position
+                Player();
+                Floor();
 
-                Raylib.EndMode2D();
 
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame
             }
@@ -63,15 +55,6 @@ namespace Assignment_4_Group_2D_Game_Project
             
         }
         
-        static void CameraSetup() // Positions Camera to player
-        {
-            Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
-            Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
-            Camera2D Camera = new Camera2D(CameraOffset, CameraYLock, 0, 1);
-
-
-
-        }
 
         static void Player()
         {
@@ -112,28 +95,70 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
 
             }
-            
+
+            // Need this for the collision
+            float PlayerWidth = 50;
+            float PlayerHeight = 50;
+            bool TopWall = false;
+            bool BottomWall = false;
+
+            // Side Wall Collision
+            if (PlayerPosition.X - PlayerWidth < 0 || PlayerPosition.X + PlayerWidth > WindowWidth)
+            {
+                GravityBasic = new Vector2(0, 0);
+            }
+
+            // Top and Bottom Collisiom
+            if (PlayerPosition.Y < 0 )
+            {
+                GravityBasic = new Vector2(0, 0);
+                TopWall = true;
+                if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && TopWall)
+                {
+                    GravityBasic = new Vector2(0, 10);
+                    PlayerPosition = PlayerPosition + GravityBasic;
+                }
+
+            }
+             
+            if (PlayerPosition.Y + PlayerHeight > WindowHeight)
+            {
+                GravityBasic = new Vector2(0, 0);
+                BottomWall = true;
+                if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && BottomWall)
+                {
+                    GravityBasic = new Vector2(0, 10);
+                    PlayerPosition = PlayerPosition - GravityBasic;
+                }
+
+            }
+
+
             // Polarity Swap
             if (Polarity == true)
             {
                 PlayerPosition = PlayerPosition - GravityBasic;
             }
             else
-            {
+            { 
                 PlayerPosition = PlayerPosition + GravityBasic;
             }
 
+         
+            
 
+
+
+        }
+        static void Floor()
+        {
+            int FloorBricksRow = 30;
 
         }
 
         static void Update() // Your game code run each frame here
         {
-
             
-
-
-
         }
     }
 }
