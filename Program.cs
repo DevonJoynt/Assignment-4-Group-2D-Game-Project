@@ -17,7 +17,11 @@ namespace Assignment_4_Group_2D_Game_Project
         static Vector2 PlayerPosition { get; set; } = new Vector2(WindowWidth/2,WindowHeight/2);
         static Vector2 PlayerSize = new Vector2(50,50);
 
-       
+        static Vector2 CameraV = new Vector2(0, 0);
+        
+
+        static Camera2D Camera = new Camera2D();
+
         static void Main(string[] args)
         {
             // Create a window to draw to. The arguments define width and height
@@ -25,14 +29,21 @@ namespace Assignment_4_Group_2D_Game_Project
             
             Raylib.SetTargetFPS(60);
             PolarityPressed = 0;
-
-            Setup();
-
             
+            Setup();
+            
+            
+
             while (!Raylib.WindowShouldClose())
             {
                 // Enable drawing to the canvas (window)
+
+                Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
+                Camera2D Camera = new Camera2D(CameraOffset, PlayerPosition, 0, 1);
+
+
                 Raylib.BeginDrawing();
+                Raylib.BeginMode2D(Camera);
                 // Clear the canvas with one color
                 Raylib.ClearBackground(Color.WHITE);
 
@@ -41,6 +52,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 Update();
                 Player();
 
+                Raylib.EndMode2D();
 
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame
             }
@@ -110,7 +122,11 @@ namespace Assignment_4_Group_2D_Game_Project
 
         static void Update() // Your game code run each frame here
         {
+
             
+
+
+
         }
     }
 }
