@@ -84,11 +84,11 @@ namespace Assignment_4_Group_2D_Game_Project
 
             if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
             {
-                PlayerPosition = PlayerPosition - Move;
+                PlayerPosition = PlayerPosition + Move;
             }
             if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
             {
-                PlayerPosition = PlayerPosition + Move;
+                PlayerPosition = PlayerPosition - Move;
             }
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_W) || Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
@@ -148,11 +148,11 @@ namespace Assignment_4_Group_2D_Game_Project
             // Polarity Swap
             if (Polarity == true)
             {
-                PlayerPosition = PlayerPosition - GravityBasic;
+                PlayerPosition = PlayerPosition + GravityBasic;
             }
             else
             {
-                PlayerPosition = PlayerPosition + GravityBasic;
+                PlayerPosition = PlayerPosition - GravityBasic;
             }
 
 
