@@ -32,7 +32,18 @@ namespace Assignment_4_Group_2D_Game_Project
             
             while (!Raylib.WindowShouldClose())
             {
+<<<<<<< Updated upstream
                 // Enable drawing to the canvas (window)
+=======
+                
+
+                
+                CameraSetup();
+                Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
+                Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
+                Camera2D Camera = new Camera2D(CameraOffset, CameraYLock, 0, 1);
+
+>>>>>>> Stashed changes
                 Raylib.BeginDrawing();
                 // Clear the canvas with one color
                 Raylib.ClearBackground(Color.WHITE);
@@ -55,6 +66,16 @@ namespace Assignment_4_Group_2D_Game_Project
             
         }
         
+<<<<<<< Updated upstream
+=======
+        static void CameraSetup() // Positions Camera to player
+        {
+            
+
+
+
+        }
+>>>>>>> Stashed changes
 
         static void Player()
         {
