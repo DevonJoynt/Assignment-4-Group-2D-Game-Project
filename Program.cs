@@ -110,7 +110,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
         static void Update() // Your game code run each frame here
         {
-            
+            // Collision branch check
         }
     }
 }
