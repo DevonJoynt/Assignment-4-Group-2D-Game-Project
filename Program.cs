@@ -16,7 +16,8 @@ namespace Assignment_4_Group_2D_Game_Project
         static int PolarityPressed;
         static Vector2 PlayerPosition { get; set; } = new Vector2(WindowWidth/2,WindowHeight/2);
         static Vector2 PlayerSize = new Vector2(50,50);
-
+        static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
+       
        
         static void Main(string[] args)
         {
@@ -36,10 +37,11 @@ namespace Assignment_4_Group_2D_Game_Project
                 // Clear the canvas with one color
                 Raylib.ClearBackground(Color.WHITE);
 
-                //this is a code comment
+                
                 
                 Update();
                 Player();
+                Floor();
 
 
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame
@@ -93,24 +95,70 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
 
             }
-            
+
+            // Need this for the collision
+            float PlayerWidth = 50;
+            float PlayerHeight = 50;
+            bool TopWall = false;
+            bool BottomWall = false;
+
+            // Side Wall Collision
+            if (PlayerPosition.X - PlayerWidth < 0 || PlayerPosition.X + PlayerWidth > WindowWidth)
+            {
+                GravityBasic = new Vector2(0, 0);
+            }
+
+            // Top and Bottom Collisiom
+            if (PlayerPosition.Y < 0 )
+            {
+                GravityBasic = new Vector2(0, 0);
+                TopWall = true;
+                if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && TopWall)
+                {
+                    GravityBasic = new Vector2(0, 10);
+                    PlayerPosition = PlayerPosition + GravityBasic;
+                }
+
+            }
+             
+            if (PlayerPosition.Y + PlayerHeight > WindowHeight)
+            {
+                GravityBasic = new Vector2(0, 0);
+                BottomWall = true;
+                if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && BottomWall)
+                {
+                    GravityBasic = new Vector2(0, 10);
+                    PlayerPosition = PlayerPosition - GravityBasic;
+                }
+
+            }
+
+
             // Polarity Swap
             if (Polarity == true)
             {
                 PlayerPosition = PlayerPosition - GravityBasic;
             }
             else
-            {
+            { 
                 PlayerPosition = PlayerPosition + GravityBasic;
             }
 
+         
+            
 
+
+
+        }
+        static void Floor()
+        {
+            int FloorBricksRow = 30;
 
         }
 
         static void Update() // Your game code run each frame here
         {
-            // Collision branch check
+            
         }
     }
 }
