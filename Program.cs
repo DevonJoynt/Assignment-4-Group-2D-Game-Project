@@ -39,7 +39,8 @@ namespace Assignment_4_Group_2D_Game_Project
                 // Enable drawing to the canvas (window)
 
                 Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
-                Camera2D Camera = new Camera2D(CameraOffset, PlayerPosition, 0, 1);
+                Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
+                Camera2D Camera = new Camera2D(CameraOffset, CameraYLock, 0, 1);
 
 
                 Raylib.BeginDrawing();
