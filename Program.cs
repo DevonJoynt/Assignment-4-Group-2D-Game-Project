@@ -34,24 +34,21 @@ namespace Assignment_4_Group_2D_Game_Project
             
             
 
-            while (!Raylib.WindowShouldClose())
+            while (!Raylib.WindowShouldClose()) // Enable drawing to the canvas (window)
             {
-                // Enable drawing to the canvas (window)
+                
 
-                Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
-                Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
-                Camera2D Camera = new Camera2D(CameraOffset, CameraYLock, 0, 1);
-
+                
+                CameraSetup(); 
 
                 Raylib.BeginDrawing();
                 Raylib.BeginMode2D(Camera);
-                // Clear the canvas with one color
-                Raylib.ClearBackground(Color.WHITE);
-
-                //this is a code comment
                 
+                Raylib.ClearBackground(Color.WHITE); // Clear the canvas with one color
+
+
                 Update();
-                Player();
+                Player(); //Player Gravity + Position
 
                 Raylib.EndMode2D();
 
@@ -66,6 +63,15 @@ namespace Assignment_4_Group_2D_Game_Project
             
         }
         
+        static void CameraSetup() // Positions Camera to player
+        {
+            Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
+            Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
+            Camera2D Camera = new Camera2D(CameraOffset, CameraYLock, 0, 1);
+
+
+
+        }
 
         static void Player()
         {
