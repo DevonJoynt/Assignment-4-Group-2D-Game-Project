@@ -16,6 +16,8 @@ namespace Assignment_4_Group_2D_Game_Project
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
         static Vector2 PlayerPosition { get; set; } = new Vector2(WindowWidth / 2, WindowHeight / 2);
+        static Vector2 EnemySize = new Vector2(60, 60);
+        static Vector2 EnemyPos = new Vector2(WindowWidth / 3, WindowHeight / 2);
         static Vector2 PlayerSize = new Vector2(50, 50);
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
 
@@ -52,7 +54,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 Update();
                 Player();
                 Floor();
-
+                EnemyDraw();
 
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame
             }
@@ -65,8 +67,64 @@ namespace Assignment_4_Group_2D_Game_Project
 
         }
 
+        static void EnemyDraw()
+        {
+            Vector2 GravityBasic = new Vector2(0, 15);
 
-        static void Player()
+            //Draw enemey
+            Raylib.DrawRectangle((int)EnemyPos.X, (int)EnemyPos.Y, (int)EnemySize.X, (int)EnemySize.Y, Color.RED);
+
+
+            Console.WriteLine($"{Polarity}");
+
+            
+
+
+            // Enemy collisons
+            bool TopWall = false;
+            bool BottomWall = false;
+            bool BottomBrickHit = false;
+
+
+            // Top Collisiom
+            if (EnemyPos.Y - 5 < 0)
+            {
+                GravityBasic = new Vector2(0, 0);
+                TopWall = true;
+                if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && TopWall)
+                {
+                    GravityBasic = new Vector2(0, 10);
+                    EnemyPos = EnemyPos + GravityBasic;
+                }
+
+            }
+
+            // Bottom Collision
+            if (EnemyPos.Y + 15 > FloorBrickHeight)
+            {
+                GravityBasic = new Vector2(0, 0);
+                BottomWall = true;
+                if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && BottomWall)
+                {
+                    GravityBasic = new Vector2(0, 10);
+                    EnemyPos = EnemyPos - GravityBasic;
+                }
+
+
+            }
+
+            if (Polarity == true)
+            {
+                EnemyPos = EnemyPos + GravityBasic;
+            }
+            else
+            {
+                EnemyPos = EnemyPos - GravityBasic;
+            }
+
+
+        }
+            static void Player()
         {
             Vector2 Move = new Vector2(-5, 0);
             Vector2 GravityBasic = new Vector2(0, 10);
@@ -107,8 +165,8 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // Need this for the collision
-            float PlayerWidth = 50;
-            float PlayerHeight = 50;
+            float PlayerWidth = PlayerSize.X;
+            float PlayerHeight = PlayerSize.Y;
             bool TopWall = false;
             bool BottomWall = false;
             bool BottomBrickHit = false;
