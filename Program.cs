@@ -32,7 +32,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
             while (!Raylib.WindowShouldClose())
-            { 
+            {
                 // Camera Dimensions
                 Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
                 Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
@@ -114,7 +114,7 @@ namespace Assignment_4_Group_2D_Game_Project
             bool BottomBrickHit = false;
 
             // Side Wall Collision
-            if (PlayerPosition.X - PlayerWidth < 0 || PlayerPosition.X + PlayerWidth > WindowWidth)
+            if (PlayerPosition.X - PlayerWidth < 0 || PlayerPosition.X + PlayerWidth > 2000)
             {
                 GravityBasic = new Vector2(0, 0);
             }
@@ -158,7 +158,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
         }
-       
+
         static void Floor()
         {
             // Brick Size
@@ -171,7 +171,33 @@ namespace Assignment_4_Group_2D_Game_Project
 
         static void Update() // Your game code run each frame here
         {
-            
+            // MAKING AN ARRAY
+            int spikerow = 2;
+            int spikecolm = 3;
+            int spikeheight = 50;
+            int spikewidth = 50;
+            Rectangle[,] spikes = new Rectangle[spikeheight, spikewidth];
+
+            for (int i = 0; i < spikerow; i++)
+            {
+                for (int j = 0; j < spikecolm; j++)
+                {
+                    // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach
+                    spikes[i, j] = new Rectangle(i * 50 + 1200, j * 800 + 750, 50, 50);
+                }
+            }
+            for (int i = 0; i < spikerow; i++)
+            {
+                for (int j = 0; j < spikecolm; j++)
+                {
+                    if (spikes[i, j].Width > 0)
+                    {
+                        Raylib.DrawRectangleRec(spikes[i, j], Color.RED);
+                        Raylib.DrawRectangleLinesEx(spikes[i, j], 2, Color.DARKPURPLE);
+                    }
+                }
+            }
         }
     }
-}
+    }
+
