@@ -75,16 +75,9 @@ namespace Assignment_4_Group_2D_Game_Project
             Raylib.DrawRectangle((int)EnemyPos.X, (int)EnemyPos.Y, (int)EnemySize.X, (int)EnemySize.Y, Color.RED);
 
 
-            
-
-
-
-
             // Enemy collisons
             bool TopWall = false;
             bool BottomWall = false;
-
-
 
             // Top Collisiom
             if (EnemyPos.Y - 5 < 0)
@@ -110,6 +103,8 @@ namespace Assignment_4_Group_2D_Game_Project
                     EnemyPos = EnemyPos - GravityBasic;
                 }
 
+                
+
 
             }
 
@@ -124,6 +119,51 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
         }
+        static void EnemyCollisionPlayer()
+        {
+            Vector2 GravityBasic = new Vector2(0, 10);
+            bool TopEnemy = false;
+            bool BottomEnemy = false;
+
+            Rectangle PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos.X, EnemyPos.Y, EnemySize.X, EnemySize.Y);
+
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            
+
+            if (collision == true)
+            {
+                // Top Collisiom Enemy
+                if (PlayerPosition.Y - 5 < EnemyRec.Y)
+                {
+                    GravityBasic = new Vector2(0, 0);
+                    TopEnemy = true;
+                    if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && TopEnemy)
+                    {
+                        GravityBasic = new Vector2(0, 10);
+                        PlayerPosition = PlayerPosition + GravityBasic;
+                    }
+
+                }
+
+                // Bottom Collision Enemy
+                if (PlayerPosition.Y + 5 > EnemyRec.Height)
+                {
+                    GravityBasic = new Vector2(0, 0);
+                    BottomEnemy = true;
+                    if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && BottomEnemy)
+                    {
+                        GravityBasic = new Vector2(0, 10);
+                        PlayerPosition = PlayerPosition - GravityBasic;
+                    }
+
+                }
+            }
+
+
+        }
+
         static void Player()
         {
             Vector2 Move = new Vector2(-5, 0);
@@ -163,7 +203,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
 
             }
-
+            
             // Need this for the collision
             float PlayerWidth = PlayerSize.X;
             float PlayerHeight = PlayerSize.Y;
@@ -202,8 +242,8 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
 
             }
-            EnemyCollisionPlayer();
 
+            EnemyCollisionPlayer();
 
 
 
@@ -223,57 +263,6 @@ namespace Assignment_4_Group_2D_Game_Project
 
         }
 
-        static void EnemyCollisionPlayer()
-        {
-            Vector2 GravityBasic = new Vector2(0, 10);
-
-
-
-            float rightEdge2 = PlayerPosition.X + PlayerSize.X;
-            float bottomEdge2 = PlayerPosition.Y + PlayerSize.Y;
-
-            float rightEdge1 = EnemyPos.X + EnemySize.X;
-            float bottomEdge1 = EnemyPos.Y + EnemySize.Y;
-
-            bool doesOverlapLeft = EnemyPos.X < rightEdge2;
-            bool doesOverlapRight = rightEdge1 > PlayerPosition.X;
-            bool doesOverlapTop = EnemyPos.Y < bottomEdge2;
-            bool doesOverlapBottom = bottomEdge1 > PlayerPosition.Y;
-
-            bool doesOverlap = doesOverlapLeft || doesOverlapRight || doesOverlapTop || doesOverlapBottom;
-
-            Console.WriteLine($"{doesOverlap}");
-            if (doesOverlap == false)
-            {
-                // Top Collisiom Enemy
-                if (PlayerPosition.Y - 5 < EnemySize.Y)
-                {
-                    GravityBasic = new Vector2(0, 0);
-
-                    if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
-                    {
-                        GravityBasic = new Vector2(0, 10);
-                        PlayerPosition = PlayerPosition + GravityBasic;
-                    }
-
-                }
-
-                // Bottom Collision Enemy
-                if (PlayerPosition.Y + 5 > EnemySize.Y)
-                {
-                    GravityBasic = new Vector2(0, 0);
-
-                    if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
-                    {
-                        GravityBasic = new Vector2(0, 10);
-                        PlayerPosition = PlayerPosition - GravityBasic;
-                    }
-
-                }
-            }
-
-
-        }
 
         static void Floor()
         {
