@@ -32,9 +32,18 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
             while (!Raylib.WindowShouldClose())
-            {
+            { 
+                // Camera Dimensions
+                Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
+                Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
+                Camera2D Camera = new Camera2D(CameraOffset, CameraYLock, 0, 1);
+
                 // Enable drawing to the canvas (window)
                 Raylib.BeginDrawing();
+
+                // Draw Camera
+                Raylib.BeginMode2D(Camera);
+
                 // Clear the canvas with one color
                 Raylib.ClearBackground(Color.WHITE);
 
@@ -60,7 +69,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static void Player()
         {
             Vector2 Move = new Vector2(-5, 0);
-            Vector2 GravityBasic = new Vector2(0, 10);
+            Vector2 GravityBasic = new Vector2(0, 20);
 
 
 
@@ -75,11 +84,11 @@ namespace Assignment_4_Group_2D_Game_Project
 
             if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
             {
-                PlayerPosition = PlayerPosition - Move;
+                PlayerPosition = PlayerPosition + Move;
             }
             if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
             {
-                PlayerPosition = PlayerPosition + Move;
+                PlayerPosition = PlayerPosition - Move;
             }
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_W) || Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
@@ -105,7 +114,7 @@ namespace Assignment_4_Group_2D_Game_Project
             bool BottomBrickHit = false;
 
             // Side Wall Collision
-            if (PlayerPosition.X - PlayerWidth < 0 || PlayerPosition.X + PlayerWidth > WindowWidth)
+            if (PlayerPosition.X - PlayerWidth < 0 || PlayerPosition.X + PlayerWidth > 2000)
             {
                 GravityBasic = new Vector2(0, 0);
             }
@@ -139,11 +148,11 @@ namespace Assignment_4_Group_2D_Game_Project
             // Polarity Swap
             if (Polarity == true)
             {
-                PlayerPosition = PlayerPosition - GravityBasic;
+                PlayerPosition = PlayerPosition + GravityBasic;
             }
             else
             {
-                PlayerPosition = PlayerPosition + GravityBasic;
+                PlayerPosition = PlayerPosition - GravityBasic;
             }
 
 
@@ -162,7 +171,33 @@ namespace Assignment_4_Group_2D_Game_Project
 
         static void Update() // Your game code run each frame here
         {
-            
+            // MAKING AN ARRAY
+            int spikerow = 2;
+            int spikecolm = 3;
+            int spikeheight = 50;
+            int spikewidth = 50;
+            Rectangle[,] spikes = new Rectangle[spikeheight, spikewidth];
+
+            for (int i = 0; i < spikerow; i++)
+            {
+                for (int j = 0; j < spikecolm; j++)
+                {
+                    // The 50 (X) and 800 (Y) Determines the spacing. The +1200 and +750 Determines its location
+                    spikes[i, j] = new Rectangle(i * 50 + 1200, j * 800 + 750, 50, 50);
+                }
+            }
+            for (int i = 0; i < spikerow; i++)
+            {
+                for (int j = 0; j < spikecolm; j++)
+                {
+                    if (spikes[i, j].Width > 0)
+                    {
+                        Raylib.DrawRectangleRec(spikes[i, j], Color.RED);
+                        Raylib.DrawRectangleLinesEx(spikes[i, j], 2, Color.DARKPURPLE);
+                    }
+                }
+            }
+        }
         }
     }
-}
+
