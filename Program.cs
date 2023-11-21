@@ -69,7 +69,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static void Player()
         {
             Vector2 Move = new Vector2(-5, 0);
-            Vector2 GravityBasic = new Vector2(0, 10);
+            Vector2 GravityBasic = new Vector2(0, 20);
 
 
 
@@ -182,7 +182,7 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 for (int j = 0; j < spikecolm; j++)
                 {
-                    // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach
+                    // The 50 (X) and 800(Y) Determines the spacing. The +1200 and +750 Determines its location
                     spikes[i, j] = new Rectangle(i * 50 + 1200, j * 800 + 750, 50, 50);
                 }
             }
