@@ -34,7 +34,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
             while (!Raylib.WindowShouldClose())
-            { 
+            {
                 // Camera Dimensions
                 Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
                 Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
@@ -75,15 +75,15 @@ namespace Assignment_4_Group_2D_Game_Project
             Raylib.DrawRectangle((int)EnemyPos.X, (int)EnemyPos.Y, (int)EnemySize.X, (int)EnemySize.Y, Color.RED);
 
 
-            Console.WriteLine($"{Polarity}");
-
             
+
+
 
 
             // Enemy collisons
             bool TopWall = false;
             bool BottomWall = false;
-            bool BottomBrickHit = false;
+
 
 
             // Top Collisiom
@@ -124,7 +124,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
         }
-            static void Player()
+        static void Player()
         {
             Vector2 Move = new Vector2(-5, 0);
             Vector2 GravityBasic = new Vector2(0, 10);
@@ -202,6 +202,12 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
 
             }
+            EnemyCollisionPlayer();
+
+
+
+
+
 
             // Polarity Swap
             if (Polarity == true)
@@ -216,7 +222,59 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
         }
-       
+
+        static void EnemyCollisionPlayer()
+        {
+            Vector2 GravityBasic = new Vector2(0, 10);
+
+
+
+            float rightEdge2 = PlayerPosition.X + PlayerSize.X;
+            float bottomEdge2 = PlayerPosition.Y + PlayerSize.Y;
+
+            float rightEdge1 = EnemyPos.X + EnemySize.X;
+            float bottomEdge1 = EnemyPos.Y + EnemySize.Y;
+
+            bool doesOverlapLeft = EnemyPos.X < rightEdge2;
+            bool doesOverlapRight = rightEdge1 > PlayerPosition.X;
+            bool doesOverlapTop = EnemyPos.Y < bottomEdge2;
+            bool doesOverlapBottom = bottomEdge1 > PlayerPosition.Y;
+
+            bool doesOverlap = doesOverlapLeft || doesOverlapRight || doesOverlapTop || doesOverlapBottom;
+
+            Console.WriteLine($"{doesOverlap}");
+            if (doesOverlap == false)
+            {
+                // Top Collisiom Enemy
+                if (PlayerPosition.Y - 5 < EnemySize.Y)
+                {
+                    GravityBasic = new Vector2(0, 0);
+
+                    if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
+                    {
+                        GravityBasic = new Vector2(0, 10);
+                        PlayerPosition = PlayerPosition + GravityBasic;
+                    }
+
+                }
+
+                // Bottom Collision Enemy
+                if (PlayerPosition.Y + 5 > EnemySize.Y)
+                {
+                    GravityBasic = new Vector2(0, 0);
+
+                    if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
+                    {
+                        GravityBasic = new Vector2(0, 10);
+                        PlayerPosition = PlayerPosition - GravityBasic;
+                    }
+
+                }
+            }
+
+
+        }
+
         static void Floor()
         {
             // Brick Size
@@ -229,7 +287,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
         static void Update() // Your game code run each frame here
         {
-            
+
         }
     }
 }
