@@ -164,9 +164,133 @@ namespace Assignment_4_Group_2D_Game_Project
             // Brick Size
             int brickheight = 80;
             int brickwidth = 80;
+<<<<<<< Updated upstream
             Rectangle FloorBrick = new Rectangle(0, 750, 1200, 50);
             Raylib.DrawRectangleRec(FloorBrick, Color.BLUE);
             Raylib.DrawRectangleLinesEx(FloorBrick, 2, Color.ORANGE);
+=======
+
+            // Time to Map Creation
+
+            //pg1 floor 1st level
+            Rectangle FloorBrick = new Rectangle(0, 550, 1250, 50);
+            Raylib.DrawRectangleRec(FloorBrick, Color.GREEN);
+            //pg1 floor 2nd level
+            Rectangle FloorBrick2 = new Rectangle(0, 500, 1150, 50);
+            Raylib.DrawRectangleRec(FloorBrick2, Color.GREEN);
+            //pg1 ceiling
+            Rectangle FloorBrick3 = new Rectangle(0, 0, 700, 50);
+            Raylib.DrawRectangleRec(FloorBrick3, Color.GREEN);
+            
+            //pg1 soacebar
+            Rectangle FloorBrick4 = new Rectangle(520, 250, 110, 50);
+            Raylib.DrawRectangleRec(FloorBrick4, Color.VIOLET);
+            Raylib.DrawRectangleLinesEx(FloorBrick4, 2, Color.YELLOW);
+            //pg1 safety net
+            Rectangle FloorBrick5 = new Rectangle(490, 320, 170, 20);
+            Raylib.DrawRectangleRec(FloorBrick5, Color.VIOLET);
+            //pg1 safety net
+            Rectangle FloorBrick6 = new Rectangle(490, 320, 20, 50);
+            Raylib.DrawRectangleRec(FloorBrick6, Color.VIOLET);
+            //pg1 safety net
+            Rectangle FloorBrick7 = new Rectangle(640, 320, 20, 50);
+            Raylib.DrawRectangleRec(FloorBrick7, Color.VIOLET);
+            //pg2 floor large block level 5
+            Rectangle FloorBrick8 = new Rectangle(1250, 350, 450, 50);
+            Raylib.DrawRectangleRec(FloorBrick8, Color.GREEN);
+            //pg2 floor large block level 4
+            Rectangle FloorBrick9 = new Rectangle(1250, 400, 450, 50);
+            Raylib.DrawRectangleRec(FloorBrick9, Color.GREEN);
+            //pg2 floor large block level 3
+            Rectangle FloorBrick10 = new Rectangle(1250, 450, 450, 50);
+            Raylib.DrawRectangleRec(FloorBrick10, Color.GREEN);
+            //pg2 floor large block level 1
+            Rectangle FloorBrick11 = new Rectangle(1250, 550, 550, 50);
+            Raylib.DrawRectangleRec(FloorBrick11, Color.GREEN);
+            //pg2 floor large block level 2
+            Rectangle FloorBrick12 = new Rectangle(1250, 500, 450, 50);
+            Raylib.DrawRectangleRec(FloorBrick12, Color.GREEN);
+            //pg2 ceiling
+            Rectangle FloorBrick13 = new Rectangle(950, 0, 550, 50);
+            Raylib.DrawRectangleRec(FloorBrick13, Color.GREEN);
+           
+            //pg2 ceiling blocks
+            Rectangle FloorBrick14 = new Rectangle(1250, 50, 100, 50);
+            Raylib.DrawRectangleRec(FloorBrick14, Color.GREEN);
+           
+            //pg2 ceiling blocks
+            Rectangle FloorBrick15 = new Rectangle(1300, 100, 50, 50);
+            Raylib.DrawRectangleRec(FloorBrick15, Color.GREEN);
+
+            //pg2 ceiling blocks
+            Rectangle FloorBrick16 = new Rectangle(1550, 0, 150, 50);
+            Raylib.DrawRectangleRec(FloorBrick16, Color.GREEN);
+
+            //pg2 ceiling blocks second level
+            Rectangle FloorBrick17 = new Rectangle(1550, 50, 100, 50);
+            Raylib.DrawRectangleRec(FloorBrick17, Color.GREEN);
+
+            //pg2 ceiling blocks third level
+            Rectangle FloorBrick18 = new Rectangle(1450, 100, 200, 50);
+            Raylib.DrawRectangleRec(FloorBrick18, Color.GREEN);
+
+            //page3 ceiling 3 blocks
+            Rectangle FloorBrick19 = new Rectangle(1900, 0, 150, 50);
+            Raylib.DrawRectangleRec(FloorBrick19, Color.GREEN);
+
+            //pg3 floor 1 block
+            Rectangle FloorBrick20 = new Rectangle(2150, 550, 50, 50);
+            Raylib.DrawRectangleRec(FloorBrick20, Color.GREEN);
+
+            //pg3/4 floor 11 block
+            Rectangle FloorBrick21 = new Rectangle(2300, 550, 550, 50);
+            Raylib.DrawRectangleRec(FloorBrick21, Color.GREEN);
+
+            //page4 ceiling 9 blocks level 1
+            Rectangle FloorBrick22 = new Rectangle(2400, 0, 450, 50);
+            Raylib.DrawRectangleRec(FloorBrick22, Color.GREEN);
+
+            //page4 ceiling 7 blocks level 2
+            Rectangle FloorBrick23 = new Rectangle(2400, 50, 350, 50);
+            Raylib.DrawRectangleRec(FloorBrick23, Color.GREEN);
+
+            //page4 ceiling 2 blocks level 3
+            Rectangle FloorBrick24 = new Rectangle(2400, 100, 100, 50);
+            Raylib.DrawRectangleRec(FloorBrick24, Color.GREEN);
+
+            //page4 ceiling 2 blocks level 3
+            Rectangle FloorBrick25 = new Rectangle(2650, 100, 100, 50);
+            Raylib.DrawRectangleRec(FloorBrick25, Color.GREEN);
+
+            //page4 ceiling 1 block 
+            Rectangle FloorBrick26 = new Rectangle(2900, 0, 50, 50);
+            Raylib.DrawRectangleRec(FloorBrick26, Color.GREEN);
+
+            //page4 ceiling 2 blocks 
+            Rectangle FloorBrick27 = new Rectangle(3000, 0, 100, 50);
+            Raylib.DrawRectangleRec(FloorBrick27, Color.GREEN);
+
+            //pg4 floor 9 blocks level 2
+            Rectangle FloorBrick28 = new Rectangle(2400, 500, 450, 50);
+            Raylib.DrawRectangleRec(FloorBrick28, Color.GREEN);
+
+            //pg4 floor 8 blocks level 3
+            Rectangle FloorBrick29 = new Rectangle(2400, 450, 400, 50);
+            Raylib.DrawRectangleRec(FloorBrick29, Color.GREEN);
+
+            //pg4 floor 9 blocks level 4
+            Rectangle FloorBrick30 = new Rectangle(2400, 400, 450, 50);
+            Raylib.DrawRectangleRec(FloorBrick30, Color.GREEN);
+
+            //pg4/5/6 floor 23 blocks level 1
+            Rectangle FloorBrick31 = new Rectangle(2950, 550, 1150, 50);
+            Raylib.DrawRectangleRec(FloorBrick31, Color.GREEN);
+
+            //pg4/5 floor 23 blocks level 2
+            Rectangle FloorBrick32 = new Rectangle(2950, 500, 300, 50);
+            Raylib.DrawRectangleRec(FloorBrick32, Color.GREEN);
+
+>>>>>>> Stashed changes
         }
 
         static void Update() // Your game code run each frame here
