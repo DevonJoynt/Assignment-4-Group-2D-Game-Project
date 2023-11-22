@@ -5,83 +5,72 @@ using System.Numerics;
 
 namespace Assignment_4_Group_2D_Game_Project
 {
-
-
-
     internal class Program
     {
-        static int WindowWidth = 1200;
-        static int WindowHeight = 800;
-        static int FloorBrickHeight = 700;
+        static int WindowWidth = 800;
+        static int WindowHeight = 600;
+        static int FloorBrickHeight = 450;
+
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
+
         static Vector2 PlayerPosition { get; set; } = new Vector2(WindowWidth / 2, WindowHeight / 2);
         static Vector2 PlayerSize = new Vector2(50, 50);
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
 
-
         static void Main(string[] args)
         {
-            // Create a window to draw to. The arguments define width and height
+            // Create a window to draw to. The arguments define width and height 
             Raylib.InitWindow(WindowWidth, WindowHeight, "Assignment-2D-Game-Project");
-
             Raylib.SetTargetFPS(60);
+
             PolarityPressed = 0;
 
             Setup();
 
-
             while (!Raylib.WindowShouldClose())
             {
-                // Camera Dimensions
+                // Camera Dimensions 
                 Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
                 Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
+
                 Camera2D Camera = new Camera2D(CameraOffset, CameraYLock, 0, 1);
 
-                // Enable drawing to the canvas (window)
+                // Enable drawing to the canvas (window) 
                 Raylib.BeginDrawing();
 
-                // Draw Camera
+                // Draw Camera 
                 Raylib.BeginMode2D(Camera);
 
-                // Clear the canvas with one color
+                // Clear the canvas with one color 
                 Raylib.ClearBackground(Color.WHITE);
-
-
 
                 Update();
                 Player();
                 Floor();
-
-
-                Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame
+                Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame 
             }
-
-            Raylib.CloseWindow(); // Close the window
+            Raylib.CloseWindow(); // Close the window 
         }
+        static void Setup() // Your one-time setup code here 
 
-        static void Setup() // Your one-time setup code here
         {
 
+
+
         }
-
-
         static void Player()
         {
             Vector2 Move = new Vector2(-5, 0);
-            Vector2 GravityBasic = new Vector2(0, 20);
+            Vector2 GravityBasic = new Vector2(0, 15);
 
-
-
-
-            //Bottom of cube
+            //Bottom of cube 
             float PlayerBottomCorner = PlayerPosition.X + PlayerPosition.Y;
 
-            //Draws Player
+            //Draws Player 
             Raylib.DrawRectangle((int)PlayerPosition.X, (int)PlayerPosition.Y, (int)PlayerSize.X, (int)PlayerSize.Y, Color.BLUE);
 
-            // Controls
-
+            // Controls 
             if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
             {
                 PlayerPosition = PlayerPosition + Move;
@@ -92,7 +81,8 @@ namespace Assignment_4_Group_2D_Game_Project
             }
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_W) || Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
-                // Allows button to be toggle-able, swaps Polarity
+
+                // Allows button to be toggle-able, swaps Polarity 
                 PolarityPressed++;
                 if (PolarityPressed == 1)
                 {
@@ -103,49 +93,45 @@ namespace Assignment_4_Group_2D_Game_Project
                     Polarity = false;
                     PolarityPressed = 0;
                 }
-
             }
-
-            // Need this for the collision
+            // Need this for the collision 
             float PlayerWidth = 50;
             float PlayerHeight = 50;
+
             bool TopWall = false;
             bool BottomWall = false;
             bool BottomBrickHit = false;
 
-            // Side Wall Collision
-            if (PlayerPosition.X - PlayerWidth < 0 || PlayerPosition.X + PlayerWidth > 2000)
+            // Side Wall Collision 
+            if (PlayerPosition.X - PlayerWidth < 0 || PlayerPosition.X + PlayerWidth > 10000000)
             {
                 GravityBasic = new Vector2(0, 0);
             }
-
-            // Top Collisiom
+            // Top Collisiom 
             if (PlayerPosition.Y - 5 < 0)
             {
                 GravityBasic = new Vector2(0, 0);
                 TopWall = true;
+
                 if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && TopWall)
                 {
                     GravityBasic = new Vector2(0, 10);
                     PlayerPosition = PlayerPosition + GravityBasic;
                 }
-
             }
-
-            // Bottom Collision
+            // Bottom Collision 
             if (PlayerPosition.Y + 5 > FloorBrickHeight)
             {
                 GravityBasic = new Vector2(0, 0);
                 BottomWall = true;
+
                 if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && BottomWall)
                 {
                     GravityBasic = new Vector2(0, 10);
                     PlayerPosition = PlayerPosition - GravityBasic;
                 }
-
             }
-
-            // Polarity Swap
+            // Polarity Swap 
             if (Polarity == true)
             {
                 PlayerPosition = PlayerPosition + GravityBasic;
@@ -154,23 +140,14 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 PlayerPosition = PlayerPosition - GravityBasic;
             }
-
-
-
         }
-
         static void Floor()
         {
-            // Brick Size
+            // Brick Size 
             int brickheight = 80;
             int brickwidth = 80;
-<<<<<<< Updated upstream
-            Rectangle FloorBrick = new Rectangle(0, 750, 1200, 50);
-            Raylib.DrawRectangleRec(FloorBrick, Color.BLUE);
-            Raylib.DrawRectangleLinesEx(FloorBrick, 2, Color.ORANGE);
-=======
 
-            // Time to Map Creation
+            // Time to Clean Up
 
             //pg1 floor 1st level
             Rectangle FloorBrick = new Rectangle(0, 550, 1250, 50);
@@ -181,7 +158,7 @@ namespace Assignment_4_Group_2D_Game_Project
             //pg1 ceiling
             Rectangle FloorBrick3 = new Rectangle(0, 0, 700, 50);
             Raylib.DrawRectangleRec(FloorBrick3, Color.GREEN);
-            
+
             //pg1 soacebar
             Rectangle FloorBrick4 = new Rectangle(520, 250, 110, 50);
             Raylib.DrawRectangleRec(FloorBrick4, Color.VIOLET);
@@ -213,11 +190,11 @@ namespace Assignment_4_Group_2D_Game_Project
             //pg2 ceiling
             Rectangle FloorBrick13 = new Rectangle(950, 0, 550, 50);
             Raylib.DrawRectangleRec(FloorBrick13, Color.GREEN);
-           
+
             //pg2 ceiling blocks
             Rectangle FloorBrick14 = new Rectangle(1250, 50, 100, 50);
             Raylib.DrawRectangleRec(FloorBrick14, Color.GREEN);
-           
+
             //pg2 ceiling blocks
             Rectangle FloorBrick15 = new Rectangle(1300, 100, 50, 50);
             Raylib.DrawRectangleRec(FloorBrick15, Color.GREEN);
@@ -290,38 +267,283 @@ namespace Assignment_4_Group_2D_Game_Project
             Rectangle FloorBrick32 = new Rectangle(2950, 500, 300, 50);
             Raylib.DrawRectangleRec(FloorBrick32, Color.GREEN);
 
->>>>>>> Stashed changes
         }
-
-        static void Update() // Your game code run each frame here
+        static void Update() // Your game code run each frame here 
         {
-            // MAKING AN ARRAY
-            int spikerow = 2;
-            int spikecolm = 3;
-            int spikeheight = 50;
-            int spikewidth = 50;
-            Rectangle[,] spikes = new Rectangle[spikeheight, spikewidth];
+            {
+                // MAKING AN ARRAY 
+                //page1 floor
+                int spikerow = 2;
+                int spikecolm = 1;
+                int spikeheight = 50;
+                int spikewidth = 50;
 
-            for (int i = 0; i < spikerow; i++)
-            {
-                for (int j = 0; j < spikecolm; j++)
+                Rectangle[,] spikes = new Rectangle[spikeheight, spikewidth];
+
+                for (int i = 0; i < spikerow; i++)
                 {
-                    // The 50 (X) and 800(Y) Determines the spacing. The +1200 and +750 Determines its location
-                    spikes[i, j] = new Rectangle(i * 50 + 1200, j * 800 + 750, 50, 50);
-                }
-            }
-            for (int i = 0; i < spikerow; i++)
-            {
-                for (int j = 0; j < spikecolm; j++)
-                {
-                    if (spikes[i, j].Width > 0)
+                    for (int j = 0; j < spikecolm; j++)
                     {
-                        Raylib.DrawRectangleRec(spikes[i, j], Color.RED);
-                        Raylib.DrawRectangleLinesEx(spikes[i, j], 2, Color.DARKPURPLE);
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes[i, j] = new Rectangle(i * 50 + 1150, j * 800 + 500, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow; i++)
+                {
+                    for (int j = 0; j < spikecolm; j++)
+                    {
+                        if (spikes[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes[i, j], Color.RED);
+                            Raylib.DrawRectangleLinesEx(spikes[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page1 ceiling
+                int spikerow2 = 5;
+                int spikecolm2 = 1;
+                int spikeheight2 = 50;
+                int spikewidth2 = 50;
+
+                Rectangle[,] spikes2 = new Rectangle[spikeheight2, spikewidth2];
+                for (int i = 0; i < spikerow2; i++)
+                {
+                    for (int j = 0; j < spikecolm2; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes2[i, j] = new Rectangle(i * 50 + 700, j * 0 + 0, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow2; i++)
+                {
+                    for (int j = 0; j < spikecolm2; j++)
+                    {
+                        if (spikes2[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes2[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes2[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page2 ceiling
+                int spikerow3 = 1;
+                int spikecolm3 = 1;
+                int spikeheight3 = 50;
+                int spikewidth3 = 50;
+
+                Rectangle[,] spikes3 = new Rectangle[spikeheight3, spikewidth3];
+                for (int i = 0; i < spikerow3; i++)
+                {
+                    for (int j = 0; j < spikecolm3; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes3[i, j] = new Rectangle(i * 50 + 1500, j * 0 + 0, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow3; i++)
+                {
+                    for (int j = 0; j < spikecolm3; j++)
+                    {
+                        if (spikes3[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes3[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes3[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page 3 floor
+                int spikerow4 = 7;
+                int spikecolm4 = 1;
+                int spikeheight4 = 50;
+                int spikewidth4 = 50;
+
+                Rectangle[,] spikes4 = new Rectangle[spikeheight4, spikewidth4];
+                for (int i = 0; i < spikerow4; i++)
+                {
+                    for (int j = 0; j < spikecolm4; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes4[i, j] = new Rectangle(i * 50 + 1800, j * 0 + 550, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow4; i++)
+                {
+                    for (int j = 0; j < spikecolm4; j++)
+                    {
+                        if (spikes4[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes4[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes4[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page3 floor 1 block
+                int spikerow5 = 2;
+                int spikecolm5 = 1;
+                int spikeheight5 = 50;
+                int spikewidth5 = 50;
+
+                Rectangle[,] spikes5 = new Rectangle[spikeheight5, spikewidth5];
+                for (int i = 0; i < spikerow5; i++)
+                {
+                    for (int j = 0; j < spikecolm5; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes5[i, j] = new Rectangle(i * 50 + 2200, j * 0 + 550, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow5; i++)
+                {
+                    for (int j = 0; j < spikecolm5; j++)
+                    {
+                        if (spikes5[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes5[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes5[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page3 ceiling 4 blocks
+                int spikerow6 = 4;
+                int spikecolm6 = 1;
+                int spikeheight6 = 50;
+                int spikewidth6 = 50;
+
+                Rectangle[,] spikes6 = new Rectangle[spikeheight6, spikewidth6];
+                for (int i = 0; i < spikerow6; i++)
+                {
+                    for (int j = 0; j < spikecolm6; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes6[i, j] = new Rectangle(i * 50 + 1700, j * 0 + 0, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow6; i++)
+                {
+                    for (int j = 0; j < spikecolm6; j++)
+                    {
+                        if (spikes6[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes6[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes6[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page3 ceiling 7 blocks
+                int spikerow7 = 7;
+                int spikecolm7 = 1;
+                int spikeheight7 = 50;
+                int spikewidth7 = 50;
+
+                Rectangle[,] spikes7 = new Rectangle[spikeheight7, spikewidth7];
+                for (int i = 0; i < spikerow7; i++)
+                {
+                    for (int j = 0; j < spikecolm7; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes7[i, j] = new Rectangle(i * 50 + 2050, j * 0 + 0, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow7; i++)
+                {
+                    for (int j = 0; j < spikecolm7; j++)
+                    {
+                        if (spikes7[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes7[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes7[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page4 ceiling 3blocks level 3
+                int spikerow8 = 3;
+                int spikecolm8 = 1;
+                int spikeheight8 = 50;
+                int spikewidth8 = 50;
+
+                Rectangle[,] spikes8 = new Rectangle[spikeheight8, spikewidth8];
+                for (int i = 0; i < spikerow8; i++)
+                {
+                    for (int j = 0; j < spikecolm8; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes8[i, j] = new Rectangle(i * 50 + 2500, j * 0 + 100, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow8; i++)
+                {
+                    for (int j = 0; j < spikecolm8; j++)
+                    {
+                        if (spikes8[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes8[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes8[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page4 ceiling 1 block level 1
+                int spikerow9 = 1;
+                int spikecolm9 = 1;
+                int spikeheight9 = 50;
+                int spikewidth9 = 50;
+
+                Rectangle[,] spikes9 = new Rectangle[spikeheight9, spikewidth9];
+                for (int i = 0; i < spikerow9; i++)
+                {
+                    for (int j = 0; j < spikecolm9; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes9[i, j] = new Rectangle(i * 50 + 2850, j * 0 + 0, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow9; i++)
+                {
+                    for (int j = 0; j < spikecolm9; j++)
+                    {
+                        if (spikes9[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes9[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes9[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page4 ceiling 1 block level 1
+                int spikerow10 = 1;
+                int spikecolm10 = 1;
+                int spikeheight10 = 50;
+                int spikewidth10 = 50;
+
+                Rectangle[,] spikes10 = new Rectangle[spikeheight10, spikewidth10];
+                for (int i = 0; i < spikerow10; i++)
+                {
+                    for (int j = 0; j < spikecolm10; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes10[i, j] = new Rectangle(i * 50 + 2950, j * 0 + 0, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow10; i++)
+                {
+                    for (int j = 0; j < spikecolm10; j++)
+                    {
+                        if (spikes10[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes10[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes10[i, j], 2, Color.DARKPURPLE);
+                        }
                     }
                 }
             }
+
         }
     }
-    }
-
+}
