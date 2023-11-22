@@ -61,7 +61,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static void Player()
         {
             Vector2 Move = new Vector2(-5, 0);
-            Vector2 GravityBasic = new Vector2(0, 10);
+            Vector2 GravityBasic = new Vector2(0, 15);
 
             //Bottom of cube 
             float PlayerBottomCorner = PlayerPosition.X + PlayerPosition.Y;
@@ -102,7 +102,7 @@ namespace Assignment_4_Group_2D_Game_Project
             bool BottomBrickHit = false;
 
             // Side Wall Collision 
-            if (PlayerPosition.X - PlayerWidth < 0 || PlayerPosition.X + PlayerWidth > 2000)
+            if (PlayerPosition.X - PlayerWidth < 0 || PlayerPosition.X + PlayerWidth > 10000000)
             {
                 GravityBasic = new Vector2(0, 0);
             }
