@@ -145,10 +145,10 @@ namespace Assignment_4_Group_2D_Game_Project
             // Brick Size 
             int brickheight = 80;
             int brickwidth = 80;
-            //pg1
+            //pg1 floor 1st level
             Rectangle FloorBrick = new Rectangle(0, 550, 1250, 50);
             Raylib.DrawRectangleRec(FloorBrick, Color.GREEN);
-            //pg1
+            //pg1 floor 2nd level
             Rectangle FloorBrick2 = new Rectangle(0, 500, 1150, 50);
             Raylib.DrawRectangleRec(FloorBrick2, Color.GREEN);
             //pg1 ceiling
@@ -159,28 +159,28 @@ namespace Assignment_4_Group_2D_Game_Project
             Rectangle FloorBrick4 = new Rectangle(520, 250, 110, 50);
             Raylib.DrawRectangleRec(FloorBrick4, Color.VIOLET);
             Raylib.DrawRectangleLinesEx(FloorBrick4, 2, Color.YELLOW);
-            //pg1
+            //pg1 safety net
             Rectangle FloorBrick5 = new Rectangle(490, 320, 170, 20);
             Raylib.DrawRectangleRec(FloorBrick5, Color.VIOLET);
-            //pg1
+            //pg1 safety net
             Rectangle FloorBrick6 = new Rectangle(490, 320, 20, 50);
             Raylib.DrawRectangleRec(FloorBrick6, Color.VIOLET);
-            //pg1
+            //pg1 safety net
             Rectangle FloorBrick7 = new Rectangle(640, 320, 20, 50);
             Raylib.DrawRectangleRec(FloorBrick7, Color.VIOLET);
-            //pg2 large block
+            //pg2 floor large block level 5
             Rectangle FloorBrick8 = new Rectangle(1250, 350, 450, 50);
             Raylib.DrawRectangleRec(FloorBrick8, Color.GREEN);
-            //pg2 large block
+            //pg2 floor large block level 4
             Rectangle FloorBrick9 = new Rectangle(1250, 400, 450, 50);
             Raylib.DrawRectangleRec(FloorBrick9, Color.GREEN);
-            //pg2
+            //pg2 floor large block level 3
             Rectangle FloorBrick10 = new Rectangle(1250, 450, 450, 50);
             Raylib.DrawRectangleRec(FloorBrick10, Color.GREEN);
-            //pg2
+            //pg2 floor large block level 1
             Rectangle FloorBrick11 = new Rectangle(1250, 550, 550, 50);
             Raylib.DrawRectangleRec(FloorBrick11, Color.GREEN);
-            //pg2
+            //pg2 floor large block level 2
             Rectangle FloorBrick12 = new Rectangle(1250, 500, 450, 50);
             Raylib.DrawRectangleRec(FloorBrick12, Color.GREEN);
             //pg2 ceiling
@@ -206,6 +206,18 @@ namespace Assignment_4_Group_2D_Game_Project
             //pg2 ceiling blocks third level
             Rectangle FloorBrick18 = new Rectangle(1450, 100, 200, 50);
             Raylib.DrawRectangleRec(FloorBrick18, Color.GREEN);
+
+            //page3 ceiling 3 blocks
+            Rectangle FloorBrick19 = new Rectangle(1900, 0, 150, 50);
+            Raylib.DrawRectangleRec(FloorBrick19, Color.GREEN);
+
+            //pg3 floor 1 block
+            Rectangle FloorBrick20 = new Rectangle(2150, 550, 50, 50);
+            Raylib.DrawRectangleRec(FloorBrick20, Color.GREEN);
+
+            //pg3/4 floor 11 block
+            Rectangle FloorBrick21 = new Rectangle(2300, 550, 550, 50);
+            Raylib.DrawRectangleRec(FloorBrick21, Color.GREEN);
 
 
         }
@@ -291,6 +303,114 @@ namespace Assignment_4_Group_2D_Game_Project
                             Raylib.DrawRectangleRec(spikes3[i, j], Color.RED);
 
                             Raylib.DrawRectangleLinesEx(spikes3[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page 3 floor
+                int spikerow4 = 7;
+                int spikecolm4 = 1;
+                int spikeheight4 = 50;
+                int spikewidth4 = 50;
+
+                Rectangle[,] spikes4 = new Rectangle[spikeheight4, spikewidth4];
+                for (int i = 0; i < spikerow4; i++)
+                {
+                    for (int j = 0; j < spikecolm4; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes4[i, j] = new Rectangle(i * 50 + 1800, j * 0 + 550, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow4; i++)
+                {
+                    for (int j = 0; j < spikecolm4; j++)
+                    {
+                        if (spikes4[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes4[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes4[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page3 floor 1 block
+                int spikerow5 = 2;
+                int spikecolm5 = 1;
+                int spikeheight5 = 50;
+                int spikewidth5 = 50;
+
+                Rectangle[,] spikes5 = new Rectangle[spikeheight5, spikewidth5];
+                for (int i = 0; i < spikerow5; i++)
+                {
+                    for (int j = 0; j < spikecolm5; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes5[i, j] = new Rectangle(i * 50 + 2200, j * 0 + 550, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow5; i++)
+                {
+                    for (int j = 0; j < spikecolm5; j++)
+                    {
+                        if (spikes5[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes5[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes5[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page3 ceiling 4 blocks
+                int spikerow6 = 4;
+                int spikecolm6 = 1;
+                int spikeheight6 = 50;
+                int spikewidth6 = 50;
+
+                Rectangle[,] spikes6 = new Rectangle[spikeheight6, spikewidth6];
+                for (int i = 0; i < spikerow6; i++)
+                {
+                    for (int j = 0; j < spikecolm6; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes6[i, j] = new Rectangle(i * 50 + 1700, j * 0 + 0, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow6; i++)
+                {
+                    for (int j = 0; j < spikecolm6; j++)
+                    {
+                        if (spikes6[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes6[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes6[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page3 ceiling 7 blocks
+                int spikerow7 = 7;
+                int spikecolm7 = 1;
+                int spikeheight7 = 50;
+                int spikewidth7 = 50;
+
+                Rectangle[,] spikes7 = new Rectangle[spikeheight7, spikewidth7];
+                for (int i = 0; i < spikerow7; i++)
+                {
+                    for (int j = 0; j < spikecolm7; j++)
+                    {
+                        // The 90 and 30 Determines the spacing. The +10 and +20 Determines its reach 
+                        spikes7[i, j] = new Rectangle(i * 50 + 2050, j * 0 + 0, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow7; i++)
+                {
+                    for (int j = 0; j < spikecolm7; j++)
+                    {
+                        if (spikes7[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes7[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes7[i, j], 2, Color.DARKPURPLE);
                         }
                     }
                 }
