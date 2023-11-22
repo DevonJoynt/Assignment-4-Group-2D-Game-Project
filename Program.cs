@@ -1,34 +1,29 @@
 ﻿using Raylib_cs;
-using System.Diagnostics;
+using System;
 using System.Numerics;
+//using static Raylib_cs.Raylib;
+
+namespace Enemy_Animation_Jake_deVos
 
 
-namespace Assignment_4_Group_2D_Game_Project
 {
-    
-    
-
     internal class Program
     {
-        static int WindowWidth = 1200;
-        static int WindowHeight = 800;
-        static bool Polarity{ get; set; } = true;
-        static int PolarityPressed;
-        static Vector2 PlayerPosition { get; set; } = new Vector2(WindowWidth/2,WindowHeight/2);
-        static Vector2 PlayerSize = new Vector2(50,50);
+        // If you need variables in the Program class (outside functions), you must mark them as static
+        static string title = "Enemy 1";
+        static Texture2D enemy;
 
-       
         static void Main(string[] args)
         {
             // Create a window to draw to. The arguments define width and height
-            Raylib.InitWindow(WindowWidth, WindowHeight, "Assignment-2D-Game-Project");
-            
+            Raylib.InitWindow(1200, 800, title);
+            // Set the target frames-per-second (FPS)
             Raylib.SetTargetFPS(60);
-            PolarityPressed = 0;
 
+            // Setup your game. This is a function YOU define.
             Setup();
 
-            
+            // Loop so long as window should not close
             while (!Raylib.WindowShouldClose())
             {
                 // Enable drawing to the canvas (window)
@@ -36,81 +31,41 @@ namespace Assignment_4_Group_2D_Game_Project
                 // Clear the canvas with one color
                 Raylib.ClearBackground(Color.WHITE);
 
-                //this is a code comment
-                
+                // Your game code here. This is a function YOU define.
                 Update();
-                Player();
 
-
-                Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame
+                // Stop drawing to the canvas, begin displaying the frame
+                Raylib.EndDrawing();
             }
-            
-            Raylib.CloseWindow(); // Close the window
+            // Close the window
+            Raylib.CloseWindow();
         }
 
-        static void Setup() // Your one-time setup code here
+        static void Setup()
         {
-            
-        }
-        
-
-        static void Player()
-        {
-            Vector2 Move = new Vector2(-5, 0);
-            Vector2 GravityBasic = new Vector2(0, 10);
-
-            
-
-
-            //Bottom of cube
-            float PlayerBottomCorner = PlayerPosition.X + PlayerPosition.Y;
-
-            //Draws Player
-            Raylib.DrawRectangle((int)PlayerPosition.X, (int)PlayerPosition.Y, (int)PlayerSize.X, (int)PlayerSize.Y, Color.BLUE);
-        
-            // Controls
-
-            if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
-            {
-                PlayerPosition = PlayerPosition - Move;
-            }
-            if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
-            {
-                PlayerPosition = PlayerPosition + Move;
-            }
-            if (Raylib.IsKeyPressed(KeyboardKey.KEY_W) || Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
-            {
-                // Allows button to be toggle-able, swaps Polarity
-                PolarityPressed++;
-                if (PolarityPressed == 1)
-                {
-                    Polarity = true;
-                }
-                else
-                {
-                    Polarity= false;
-                    PolarityPressed = 0;
-                }
-
-            }
-            
-            // Polarity Swap
-            if (Polarity == true)
-            {
-                PlayerPosition = PlayerPosition - GravityBasic;
-            }
-            else
-            {
-                PlayerPosition = PlayerPosition + GravityBasic;
-            }
-
-
-
+            enemy = LoadTexture2D("Enemy Design 1 - Jake deVos");
+         
         }
 
-        static void Update() // Your game code run each frame here
+        static void Update()
         {
-            
+            Raylib.DrawTexture(enemy, -600, -400, Color.WHITE);
+        }
+
+        static Texture2D LoadTexture2D(string filename)
+        {
+            Image image = Raylib.LoadImage("Enemy Design 1 - Jake deVos.png");
+            Texture2D texture = Raylib.LoadTextureFromImage(image);
+            return texture;
         }
     }
+
+
 }
+
+
+
+
+
+
+
