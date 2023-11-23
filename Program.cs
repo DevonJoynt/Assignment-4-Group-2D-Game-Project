@@ -139,7 +139,7 @@ namespace Assignment_4_Group_2D_Game_Project
             bool HitLWall = false;
             // Map Collision
           
-            // The First Block the plyer hits
+            // The First Block the player hits
             if (PlayerPosition.X > 1200 && PlayerPosition.X < 1700)
             {
                 HitRWall = true;
@@ -205,9 +205,13 @@ namespace Assignment_4_Group_2D_Game_Project
             //pg1 floor 1st level
             Rectangle FloorBrick = new Rectangle(0, 550, 1250, 50);
             Raylib.DrawRectangleRec(FloorBrick, Color.GREEN);
+
+
             //pg1 floor 2nd level
             Rectangle FloorBrick2 = new Rectangle(0, 500, 1150, 50);
             Raylib.DrawRectangleRec(FloorBrick2, Color.GREEN);
+          
+
             //pg1 ceiling
             Rectangle FloorBrick3 = new Rectangle(0, 0, 700, 50);
             Raylib.DrawRectangleRec(FloorBrick3, Color.GREEN);
