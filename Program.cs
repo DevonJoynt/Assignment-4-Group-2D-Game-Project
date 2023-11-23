@@ -23,6 +23,7 @@ namespace Enemy_Animation_Jake_deVos
 
             // Setup your game. This is a function YOU define.
             Setup();
+            Setup2();
 
             // Loop so long as window should not close
             while (!Raylib.WindowShouldClose())
@@ -34,6 +35,7 @@ namespace Enemy_Animation_Jake_deVos
 
                 // Your game code here. This is a function YOU define.
                 Update();
+                Update2();
 
                 // Stop drawing to the canvas, begin displaying the frame
                 Raylib.EndDrawing();
@@ -45,7 +47,7 @@ namespace Enemy_Animation_Jake_deVos
         // ENEMY NUMBER ONE (REGULAR ENEMY TYPE)
         static void Setup()
         {
-            enemy1 = LoadTexture2D("Enemy Design 1 - Jake deVos");
+            enemy1 = LoadTexture2D("Enemy Design 1 - Jake deVos.png");
 
         }
 
@@ -56,7 +58,7 @@ namespace Enemy_Animation_Jake_deVos
 
         static Texture2D LoadTexture2D(string filename)
         {
-            Image image = Raylib.LoadImage("Enemy Design 1 - Jake deVos.png");
+            Image image = Raylib.LoadImage(filename);
             Texture2D texture = Raylib.LoadTextureFromImage(image);
             return texture;
         }
@@ -67,21 +69,15 @@ namespace Enemy_Animation_Jake_deVos
         // ENEMY NUMBER TWO (SPIKY HEAD)
         static void Setup2()
         {
-            enemy2 = LoadTexture2("Enemy Design 2 - Jake deVos");
+            enemy2 = LoadTexture2D("Enemy Design 2 - Jake deVos.png");
 
         }
 
         static void Update2()
         {
-            Raylib.DrawTexture(enemy2, -550, -450, Color.WHITE);
+            Raylib.DrawTexture(enemy2, -500, -50, Color.WHITE);
         }
 
-        static Texture2D LoadTexture2(string filename)
-        {
-            Image image2 = Raylib.LoadImage("Enemy Design 2 - Jake deVos.png");
-            Texture2D texture2 = Raylib.LoadTextureFromImage(image2);
-            return texture2;
-        }
     }
 }
 
