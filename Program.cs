@@ -11,7 +11,8 @@ namespace Enemy_Animation_Jake_deVos
     {
         // If you need variables in the Program class (outside functions), you must mark them as static
         static string title = "Enemy 1";
-        static Texture2D enemy;
+        static Texture2D enemy1;
+        static Texture2D enemy2;
 
         static void Main(string[] args)
         {
@@ -41,15 +42,16 @@ namespace Enemy_Animation_Jake_deVos
             Raylib.CloseWindow();
         }
 
+        // ENEMY NUMBER ONE (REGULAR ENEMY TYPE)
         static void Setup()
         {
-            enemy = LoadTexture2D("Enemy Design 1 - Jake deVos");
-         
+            enemy1 = LoadTexture2D("Enemy Design 1 - Jake deVos");
+
         }
 
         static void Update()
         {
-            Raylib.DrawTexture(enemy, -600, -400, Color.WHITE);
+            Raylib.DrawTexture(enemy1, -600, -400, Color.WHITE);
         }
 
         static Texture2D LoadTexture2D(string filename)
@@ -58,10 +60,32 @@ namespace Enemy_Animation_Jake_deVos
             Texture2D texture = Raylib.LoadTextureFromImage(image);
             return texture;
         }
+    
+
+    
+
+        // ENEMY NUMBER TWO (SPIKY HEAD)
+        static void Setup2()
+        {
+            enemy2 = LoadTexture2("Enemy Design 2 - Jake deVos");
+
+        }
+
+        static void Update2()
+        {
+            Raylib.DrawTexture(enemy2, -550, -450, Color.WHITE);
+        }
+
+        static Texture2D LoadTexture2(string filename)
+        {
+            Image image2 = Raylib.LoadImage("Enemy Design 2 - Jake deVos.png");
+            Texture2D texture2 = Raylib.LoadTextureFromImage(image2);
+            return texture2;
+        }
     }
-
-
 }
+
+
 
 
 
