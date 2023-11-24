@@ -14,7 +14,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
 
-        static Vector2 PlayerPosition { get; set; } = new Vector2(WindowWidth / 2, WindowHeight / 2);
+        static Vector2 PlayerPosition { get; set; } = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
         static Vector2 PlayerSize = new Vector2(50, 50);
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
 
@@ -110,7 +110,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 GravityBasic = new Vector2(0, 0);
             }
             // Top Collisiom 
-            if (PlayerPosition.Y - 5 < 0)
+            if (PlayerPosition.Y - 5 < 50)
             {
                 GravityBasic = new Vector2(0, 0);
                 TopWall = true;
@@ -182,6 +182,22 @@ namespace Assignment_4_Group_2D_Game_Project
                 if (HitLWall && Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
                 {
                     PlayerPosition = PlayerPosition + Move;
+                }
+            }
+
+            // Floor Collison (Making it easier for myself)
+            if (PlayerPosition.X >= 1700)
+            {
+                if (PlayerPosition.Y >= 500)
+                {
+                    GravityBasic = new Vector2(0, 0);
+                    BottomWall = true;
+
+                    if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && BottomWall)
+                    {
+                        GravityBasic = new Vector2(0, 10);
+                        PlayerPosition = PlayerPosition - GravityBasic;
+                    }
                 }
             }
 
@@ -363,6 +379,13 @@ namespace Assignment_4_Group_2D_Game_Project
                         }
                     }
                 }
+
+                // Spike Collision
+                if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450)
+                {
+                    PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
+                }
+
                 //page1 ceiling
                 int spikerow2 = 5;
                 int spikecolm2 = 1;
@@ -390,6 +413,13 @@ namespace Assignment_4_Group_2D_Game_Project
                         }
                     }
                 }
+
+                // Spike Collision
+                if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50 )
+                {
+                    PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
+                }
+
                 //page2 ceiling
                 int spikerow3 = 1;
                 int spikecolm3 = 1;
@@ -444,6 +474,7 @@ namespace Assignment_4_Group_2D_Game_Project
                         }
                     }
                 }
+
                 //page3 floor 1 block
                 int spikerow5 = 2;
                 int spikecolm5 = 1;
