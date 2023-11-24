@@ -14,7 +14,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
 
-        static Vector2 PlayerPosition { get; set; } = new Vector2(WindowWidth / 2, WindowHeight / 2);
+        static Vector2 PlayerPosition { get; set; } = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
         static Vector2 PlayerSize = new Vector2(50, 50);
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
 
@@ -30,6 +30,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
             while (!Raylib.WindowShouldClose())
             {
+                Console.WriteLine(PlayerPosition);
                 // Camera Dimensions 
                 Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
                 Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
@@ -62,7 +63,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static void Player()
         {
             Vector2 Move = new Vector2(-5, 0);
-            Vector2 GravityBasic = new Vector2(0, 15);
+            Vector2 GravityBasic = new Vector2(0, 10);
 
             //Bottom of cube 
             float PlayerBottomCorner = PlayerPosition.X + PlayerPosition.Y;
@@ -79,6 +80,7 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 PlayerPosition = PlayerPosition - Move;
             }
+
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_W) || Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
 
@@ -108,7 +110,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 GravityBasic = new Vector2(0, 0);
             }
             // Top Collisiom 
-            if (PlayerPosition.Y - 5 < 0)
+            if (PlayerPosition.Y - 5 < 50)
             {
                 GravityBasic = new Vector2(0, 0);
                 TopWall = true;
@@ -119,8 +121,10 @@ namespace Assignment_4_Group_2D_Game_Project
                     PlayerPosition = PlayerPosition + GravityBasic;
                 }
             }
-            // Bottom Collision 
-            if (PlayerPosition.Y + 5 > FloorBrickHeight)
+
+
+            // Bottom Collision  
+            if (PlayerPosition.Y + 5 > FloorBrickHeight && PlayerPosition.X < 1345)
             {
                 GravityBasic = new Vector2(0, 0);
                 BottomWall = true;
@@ -131,6 +135,72 @@ namespace Assignment_4_Group_2D_Game_Project
                     PlayerPosition = PlayerPosition - GravityBasic;
                 }
             }
+            bool HitRWall = false;
+            bool HitLWall = false;
+            // Map Collision
+
+            // The First Block the player hits
+            if (PlayerPosition.X > 1200 && PlayerPosition.X < 1700)
+            {
+                HitRWall = true;
+                Move = new Vector2(5, 0);
+
+                // Prevents the Player from phasing FloorBlock8-10 from the left
+                if (PlayerPosition.X <= 1700)
+                {
+                    HitLWall = true;
+                }
+
+                // Allows the player to still move after hitting wall
+                if (PlayerPosition.Y <= 305)
+                {
+                    Move = new Vector2(-1, 0);
+                    HitRWall = false;
+                }
+
+                // Prevents the Player from phasing FloorBlock8 from the top
+                if (PlayerPosition.Y > 295)
+                {
+                    GravityBasic = new Vector2(0, 0);
+                    BottomWall = true;
+
+                    // To still be able to press Space
+                    if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && BottomWall)
+                    {
+                        GravityBasic = new Vector2(0, 10);
+                        PlayerPosition = PlayerPosition - GravityBasic;
+                    }
+
+                }
+
+                // This prevents phasing through the blocks Right and Left
+                if (HitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                {
+                    PlayerPosition = PlayerPosition - Move;
+                }
+
+                if (HitLWall && Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+            }
+
+            // Floor Collison (Making it easier for myself)
+            if (PlayerPosition.X >= 1700)
+            {
+                if (PlayerPosition.Y >= 500)
+                {
+                    GravityBasic = new Vector2(0, 0);
+                    BottomWall = true;
+
+                    if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && BottomWall)
+                    {
+                        GravityBasic = new Vector2(0, 10);
+                        PlayerPosition = PlayerPosition - GravityBasic;
+                    }
+                }
+            }
+
             // Polarity Swap 
             if (Polarity == true)
             {
@@ -147,14 +217,17 @@ namespace Assignment_4_Group_2D_Game_Project
             int brickheight = 80;
             int brickwidth = 80;
 
-            // Time to Clean Up
 
             //pg1 floor 1st level
             Rectangle FloorBrick = new Rectangle(0, 550, 1250, 50);
             Raylib.DrawRectangleRec(FloorBrick, Color.GREEN);
+
+
             //pg1 floor 2nd level
             Rectangle FloorBrick2 = new Rectangle(0, 500, 1150, 50);
             Raylib.DrawRectangleRec(FloorBrick2, Color.GREEN);
+
+
             //pg1 ceiling
             Rectangle FloorBrick3 = new Rectangle(0, 0, 700, 50);
             Raylib.DrawRectangleRec(FloorBrick3, Color.GREEN);
@@ -172,15 +245,22 @@ namespace Assignment_4_Group_2D_Game_Project
             //pg1 safety net
             Rectangle FloorBrick7 = new Rectangle(640, 320, 20, 50);
             Raylib.DrawRectangleRec(FloorBrick7, Color.VIOLET);
+
             //pg2 floor large block level 5
             Rectangle FloorBrick8 = new Rectangle(1250, 350, 450, 50);
             Raylib.DrawRectangleRec(FloorBrick8, Color.GREEN);
+
+            // Outline the blue for bottom and Orange for top
+            Raylib.DrawRectangleLinesEx(FloorBrick8, 5, Color.BLUE);
+
             //pg2 floor large block level 4
             Rectangle FloorBrick9 = new Rectangle(1250, 400, 450, 50);
             Raylib.DrawRectangleRec(FloorBrick9, Color.GREEN);
+
             //pg2 floor large block level 3
             Rectangle FloorBrick10 = new Rectangle(1250, 450, 450, 50);
             Raylib.DrawRectangleRec(FloorBrick10, Color.GREEN);
+
             //pg2 floor large block level 1
             Rectangle FloorBrick11 = new Rectangle(1250, 550, 550, 50);
             Raylib.DrawRectangleRec(FloorBrick11, Color.GREEN);
@@ -299,6 +379,13 @@ namespace Assignment_4_Group_2D_Game_Project
                         }
                     }
                 }
+
+                // Spike Collision
+                if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450)
+                {
+                    PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
+                }
+
                 //page1 ceiling
                 int spikerow2 = 5;
                 int spikecolm2 = 1;
@@ -326,6 +413,13 @@ namespace Assignment_4_Group_2D_Game_Project
                         }
                     }
                 }
+
+                // Spike Collision
+                if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50)
+                {
+                    PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
+                }
+
                 //page2 ceiling
                 int spikerow3 = 1;
                 int spikecolm3 = 1;
@@ -380,6 +474,7 @@ namespace Assignment_4_Group_2D_Game_Project
                         }
                     }
                 }
+
                 //page3 floor 1 block
                 int spikerow5 = 2;
                 int spikecolm5 = 1;
