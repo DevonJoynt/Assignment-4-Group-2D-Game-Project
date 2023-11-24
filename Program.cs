@@ -15,6 +15,7 @@ namespace Enemy_Animation_Jake_deVos
         static Texture2D enemy2;
         static Texture2D enemy3;
         static Texture2D enemy4;
+        static Texture2D enemy5;
 
         static void Main(string[] args)
         {
@@ -28,6 +29,7 @@ namespace Enemy_Animation_Jake_deVos
             Setup2();
             Setup3();
             Setup4();
+            Setup5();
 
             // Loop so long as window should not close
             while (!Raylib.WindowShouldClose())
@@ -42,6 +44,7 @@ namespace Enemy_Animation_Jake_deVos
                 Update2();
                 Update3();
                 Update4();
+                Update5();
 
                 // Stop drawing to the canvas, begin displaying the frame
                 Raylib.EndDrawing();
@@ -105,7 +108,19 @@ namespace Enemy_Animation_Jake_deVos
 
         static void Update4()
         {
-            Raylib.DrawTexture(enemy4, -250, -50, Color.WHITE);
+            Raylib.DrawTexture(enemy4, -250, -20, Color.WHITE);
+        }
+
+        // ENEMY NUMBER 4 (FINAL BIG ENEMY)
+        static void Setup5()
+        {
+            enemy5 = LoadTexture2D("Final Enemy Design - Jake deVos.png");
+
+        }
+
+        static void Update5()
+        {
+            Raylib.DrawTexture(enemy5, -250, -200, Color.WHITE);
         }
 
 
