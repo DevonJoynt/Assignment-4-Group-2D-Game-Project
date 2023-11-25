@@ -361,6 +361,44 @@ namespace Assignment_4_Group_2D_Game_Project
             Rectangle FloorBrick54 = new Rectangle(3950, 50, 50, 150);
             Raylib.DrawRectangleRec(FloorBrick54, Color.GREEN);
 
+            //---Page 6
+
+            //pg6 ceiling 13blocks  level 1
+            Rectangle FloorBrick55 = new Rectangle(4150, 0, 650, 50);
+            Raylib.DrawRectangleRec(FloorBrick55, Color.GREEN);
+
+            //pg6 middle 16blocks  
+            Rectangle FloorBrick56 = new Rectangle(4000, 300, 800, 50);
+            Raylib.DrawRectangleRec(FloorBrick56, Color.GREEN);
+
+            //pg6 bottom 1.3blocks  level 1
+            Rectangle FloorBrick57 = new Rectangle(4150, 534, 50, 100);
+            Raylib.DrawRectangleRec(FloorBrick57, Color.GREEN);
+
+            //pg6 bottom 1blocks  level 1
+            Rectangle FloorBrick58 = new Rectangle(4250, 550, 50, 50);
+            Raylib.DrawRectangleRec(FloorBrick58, Color.GREEN);
+
+            //pg6 bottom 1.3blocks  level 1
+            Rectangle FloorBrick59 = new Rectangle(4350, 534, 50, 100);
+            Raylib.DrawRectangleRec(FloorBrick59, Color.GREEN);
+
+            //pg6 bottom 7blocks  level 1
+            Rectangle FloorBrick60 = new Rectangle(4450, 550, 350, 50);
+            Raylib.DrawRectangleRec(FloorBrick60, Color.GREEN);
+
+            //pg6 bottom 2vertblocks  level 3
+            Rectangle FloorBrick61 = new Rectangle(4450, 450, 50, 100);
+            Raylib.DrawRectangleRec(FloorBrick61, Color.GREEN);
+
+            //pg6 bottom 2vertblocks  level 3
+            Rectangle FloorBrick62 = new Rectangle(4650, 450, 50, 100);
+            Raylib.DrawRectangleRec(FloorBrick62, Color.GREEN);
+
+            //pg6 middle 2vertblocks  
+            Rectangle FloorBrick63 = new Rectangle(4550, 350, 50, 100);
+            Raylib.DrawRectangleRec(FloorBrick63, Color.GREEN);
+
 
         }
         static void Update() // Your game code run each frame here 
@@ -871,6 +909,164 @@ namespace Assignment_4_Group_2D_Game_Project
                             Raylib.DrawRectangleRec(spikes19[i, j], Color.RED);
 
                             Raylib.DrawRectangleLinesEx(spikes19[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //---Page 6
+
+                //page6 bottom 1 spike 
+                int spikerow20 = 1;
+                int spikecolm20 = 1;
+                int spikeheight20 = 50;
+                int spikewidth20 = 50;
+
+                Rectangle[,] spikes20 = new Rectangle[spikeheight20, spikewidth20];
+                for (int i = 0; i < spikerow20; i++)
+                {
+                    for (int j = 0; j < spikecolm20; j++)
+                    {
+                        spikes20[i, j] = new Rectangle(i * 50 + 4100, j * 0 + 550, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow20; i++)
+                {
+                    for (int j = 0; j < spikecolm20; j++)
+                    {
+                        if (spikes20[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes20[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes20[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page6 bottom 1 spike
+                int spikerow21 = 1;
+                int spikecolm21 = 1;
+                int spikeheight21 = 50;
+                int spikewidth21 = 50;
+
+                Rectangle[,] spikes21 = new Rectangle[spikeheight21, spikewidth21];
+                for (int i = 0; i < spikerow21; i++)
+                {
+                    for (int j = 0; j < spikecolm21; j++)
+                    {
+                        spikes21[i, j] = new Rectangle(i * 50 + 4200, j * 0 + 550, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow21; i++)
+                {
+                    for (int j = 0; j < spikecolm21; j++)
+                    {
+                        if (spikes21[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes21[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes21[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page6 bottom 1 spike
+                int spikerow22 = 1;
+                int spikecolm22 = 1;
+                int spikeheight22 = 50;
+                int spikewidth22 = 50;
+
+                Rectangle[,] spikes22 = new Rectangle[spikeheight22, spikewidth22];
+                for (int i = 0; i < spikerow22; i++)
+                {
+                    for (int j = 0; j < spikecolm22; j++)
+                    {
+                        spikes22[i, j] = new Rectangle(i * 50 + 4300, j * 0 + 550, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow22; i++)
+                {
+                    for (int j = 0; j < spikecolm22; j++)
+                    {
+                        if (spikes22[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes22[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes22[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page6 bottom 1 spike level 4
+                int spikerow23 = 1;
+                int spikecolm23 = 1;
+                int spikeheight23 = 50;
+                int spikewidth23 = 50;
+
+                Rectangle[,] spikes23 = new Rectangle[spikeheight23, spikewidth23];
+                for (int i = 0; i < spikerow23; i++)
+                {
+                    for (int j = 0; j < spikecolm23; j++)
+                    {
+                        spikes23[i, j] = new Rectangle(i * 50 + 4450, j * 0 + 400, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow23; i++)
+                {
+                    for (int j = 0; j < spikecolm23; j++)
+                    {
+                        if (spikes23[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes23[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes23[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page6 bottom 1 spike level 3
+                int spikerow24 = 1;
+                int spikecolm24 = 1;
+                int spikeheight24 = 50;
+                int spikewidth24 = 50;
+
+                Rectangle[,] spikes24 = new Rectangle[spikeheight24, spikewidth24];
+                for (int i = 0; i < spikerow24; i++)
+                {
+                    for (int j = 0; j < spikecolm24; j++)
+                    {
+                        spikes24[i, j] = new Rectangle(i * 50 + 4550, j * 0 + 450, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow24; i++)
+                {
+                    for (int j = 0; j < spikecolm24; j++)
+                    {
+                        if (spikes24[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes24[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes24[i, j], 2, Color.DARKPURPLE);
+                        }
+                    }
+                }
+                //page6 bottom 1 spike level 4
+                int spikerow25 = 1;
+                int spikecolm25 = 1;
+                int spikeheight25 = 50;
+                int spikewidth25 = 50;
+
+                Rectangle[,] spikes25 = new Rectangle[spikeheight25, spikewidth25];
+                for (int i = 0; i < spikerow25; i++)
+                {
+                    for (int j = 0; j < spikecolm25; j++)
+                    {
+                        spikes25[i, j] = new Rectangle(i * 50 + 4650, j * 0 + 400, 50, 50);
+                    }
+                }
+                for (int i = 0; i < spikerow25; i++)
+                {
+                    for (int j = 0; j < spikecolm25; j++)
+                    {
+                        if (spikes25[i, j].Width > 0)
+                        {
+                            Raylib.DrawRectangleRec(spikes25[i, j], Color.RED);
+
+                            Raylib.DrawRectangleLinesEx(spikes25[i, j], 2, Color.DARKPURPLE);
                         }
                     }
                 }
