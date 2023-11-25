@@ -44,11 +44,12 @@ namespace Assignment_4_Group_2D_Game_Project
                 // Clear the canvas with one color 
                 Raylib.ClearBackground(Color.WHITE);
 
+                CheckCollision();
                 Update();
                 Player();
                 Floor();
                 Spikes();
-                CheckCollision();
+                
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame 
             }
             Raylib.CloseWindow(); // Close the window 
@@ -70,7 +71,17 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
             }
+            
+            if (PlayerPosition.X <= -2275)
+            {
+                if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                {
+                    Vector2 Move = new Vector2(5, 0);
+                    PlayerPosition = PlayerPosition + Move;
+                }
+            }
         }
+        
         static void Player()
         {
             Vector2 Move = new Vector2(-5, 0);
@@ -116,7 +127,7 @@ namespace Assignment_4_Group_2D_Game_Project
             bool BottomBrickHit = false;
 
             // Side Wall and Telportation Collision 
-            if (PlayerPosition.X - PlayerWidth > -1820 && PlayerPosition.X - PlayerWidth < -805 || PlayerPosition.X + PlayerWidth > 10000000)
+            if (PlayerPosition.X - PlayerWidth > -1980 && PlayerPosition.X - PlayerWidth < -805 || PlayerPosition.X + PlayerWidth > 10000000)
             {
 
                 GravityBasic = new Vector2(0, 0);
@@ -133,15 +144,25 @@ namespace Assignment_4_Group_2D_Game_Project
                 if (PlayerPosition.X <= -920 && PlayerPosition.X >= -930)
                 {
                     PlayerPosition = new Vector2(-1750, 250);
+                    Polarity = true;
                 }
 
-                if (PlayerPosition.X <= -1750)
+                if (PlayerPosition.X <= -1750 && PlayerPosition.X > -1970)
                 {
                     PlayerPosition = PlayerPosition + Move;
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                    {
+                        PlayerPosition = PlayerPosition - Move ;
+                    }
+                }
+                if (PlayerPosition.X >= -1740 && PlayerPosition.X < -1500)
+                {
+                    PlayerPosition = new Vector2(-900, 250);
+                    Polarity = false;
                 }
 
             }
-
+            
             // Top Collisiom 
             if (PlayerPosition.Y - 5 < 50)
             {
@@ -153,6 +174,7 @@ namespace Assignment_4_Group_2D_Game_Project
                     PlayerPosition = PlayerPosition + GravityBasic;
                 }
             }
+
 
 
             // Bottom Collision  
@@ -261,14 +283,14 @@ namespace Assignment_4_Group_2D_Game_Project
             Raylib.DrawRectangleRec(FloorBrick0, Color.GREEN);
 
             //ceiling 13 blocks 2 rows
-            Rectangle FloorBrick2 = new Rectangle(-2400, 0, 650, 100);
+            Rectangle FloorBrick2 = new Rectangle(-2400, 0, 650, 50);
             Raylib.DrawRectangleRec(FloorBrick2, Color.GREEN);
 
             Rectangle FloorBrick3 = new Rectangle(-1760, 150, 10, 300);
             Raylib.DrawRectangleRec(FloorBrick3, Color.GREEN);
 
             //top to bottom 8 blocks 3 rows
-            Rectangle FloorBrick4 = new Rectangle(-2400, 100, 150, 400);
+            Rectangle FloorBrick4 = new Rectangle(-2400, 50, 125, 700);
             Raylib.DrawRectangleRec(FloorBrick4, Color.GREEN);
 
             //top to bottom 8 blocks 3 rows
