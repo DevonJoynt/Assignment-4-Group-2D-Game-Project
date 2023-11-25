@@ -10,11 +10,9 @@ namespace Assignment_4_Group_2D_Game_Project
         static int WindowWidth = 800;
         static int WindowHeight = 600;
         static int FloorBrickHeight = 450;
-
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
-
-        static Vector2 PlayerPosition { get; set; } = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
+        static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
         static Vector2 PlayerSize = new Vector2(50, 50);
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
 
@@ -27,7 +25,7 @@ namespace Assignment_4_Group_2D_Game_Project
             PolarityPressed = 0;
 
             Setup();
-
+       
             while (!Raylib.WindowShouldClose())
             {
                 Console.WriteLine(PlayerPosition);
@@ -45,21 +43,33 @@ namespace Assignment_4_Group_2D_Game_Project
 
                 // Clear the canvas with one color 
                 Raylib.ClearBackground(Color.WHITE);
-
+               
                 Update();
                 Player();
                 Floor();
                 Spikes();
+                CheckCollision();
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame 
             }
             Raylib.CloseWindow(); // Close the window 
         }
         static void Setup() // Your one-time setup code here 
-
         {
-
-
-
+            
+        
+        }
+        static void CheckCollision()
+        {
+            // Spike Collision
+            if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450)
+            {
+                PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
+            }
+            
+            if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50)
+            {
+                PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
+            }
         }
         static void Player()
         {
@@ -105,17 +115,38 @@ namespace Assignment_4_Group_2D_Game_Project
             bool BottomWall = false;
             bool BottomBrickHit = false;
 
-            // Side Wall Collision 
-            if (PlayerPosition.X - PlayerWidth < 0 || PlayerPosition.X + PlayerWidth > 10000000)
+            // Side Wall and Telportation Collision 
+            if (PlayerPosition.X - PlayerWidth > -1820 && PlayerPosition.X - PlayerWidth < -805 || PlayerPosition.X + PlayerWidth > 10000000)
             {
+              
                 GravityBasic = new Vector2(0, 0);
+                if (PlayerPosition.X >= -900 && PlayerPosition.X < 750)
+                {
+                    Vector2 Move2 = new Vector2(5, 0); 
+                    PlayerPosition = PlayerPosition + Move2;
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition + Move;
+                    }
+                }
+
+                if (PlayerPosition.X <= -920 && PlayerPosition.X >= -930)
+                {
+                    PlayerPosition = new Vector2(-1750, 250);
+                }
+
+                if (PlayerPosition.X <= -1750)
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+
             }
+
             // Top Collisiom 
             if (PlayerPosition.Y - 5 < 50)
             {
                 GravityBasic = new Vector2(0, 0);
                 TopWall = true;
-
                 if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE) && TopWall)
                 {
                     GravityBasic = new Vector2(0, 10);
@@ -211,6 +242,11 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 PlayerPosition = PlayerPosition - GravityBasic;
             }
+        }
+        static void Update() // Your game code run each frame here 
+        {
+           
+
         }
         static void Floor()
         {
@@ -594,11 +630,7 @@ namespace Assignment_4_Group_2D_Game_Project
             Rectangle FloorBrick174 = new Rectangle(5500, 400, 100, 100);
             Raylib.DrawRectangleRec(FloorBrick174, Color.GREEN);
         }
-        static void Update() // Your game code run each frame here 
-        {
-            
-                
-        }
+       
         static void Spikes()
         {
             // MAKING AN ARRAY 
