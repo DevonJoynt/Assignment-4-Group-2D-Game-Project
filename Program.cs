@@ -80,11 +80,13 @@ namespace Enemy_Animation_Jake_deVos
         {
             enemy2 = LoadTexture2D("Enemy Design 2 - Jake deVos.png");
 
+        
         }
 
         static void Update2()
         {
             Raylib.DrawTexture(enemy3, -400, -50, Color.WHITE);
+
         }
 
         // ENEMY NUMBER TWO (SPIKY BOTTOM)
