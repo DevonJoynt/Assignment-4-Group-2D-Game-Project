@@ -65,13 +65,13 @@ namespace Assignment_4_Group_2D_Game_Project
         static void Setup() // Your one-time setup code here 
         {
           
-            spike1 = LoadTexture2D("Spike (Pointing Upwards).png");
-            spike2 = LoadTexture2D("Spike (Pointing Downwards).png");
-            spike3 = LoadTexture2D("Spike (Pointing Left).png");
-            spike4 = LoadTexture2D("Spike (Pointing Right).png");
-            background = LoadTexture2D("Screen Background - Jake deVos.png");
-            enemy2 = LoadTexture2D("Enemy Design 2 - Jake deVos.png");
-            enemy3 = LoadTexture2D("Enemy Design 2 (Opposite) - Jake deVos.png");
+            spike1 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Upwards).png");
+            spike2 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Downwards).png");
+            spike3 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Left).png");
+            spike4 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Right).png");
+            background = LoadTexture2D("../../../Assets Folder/Screen Background - Jake deVos.png");
+            enemy2 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 - Jake deVos.png");
+            enemy3 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 (Opposite) - Jake deVos.png");
         }
         static Texture2D LoadTexture2D(string filename)
         {
