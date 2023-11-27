@@ -56,7 +56,7 @@ namespace Enemy_Animation_Jake_deVos
         // ENEMY NUMBER ONE (REGULAR ENEMY TYPE)
         static void Setup()
         {
-            enemy1 = LoadTexture2D("Enemy Design 1 - Jake deVos.png");
+            enemy1 = LoadTexture2D("../../../Assets Folder/Enemy Design 1 - Jake deVos.png");
 
         }
 
@@ -78,7 +78,7 @@ namespace Enemy_Animation_Jake_deVos
         // ENEMY NUMBER TWO (SPIKY HEAD)
         static void Setup2()
         {
-            enemy2 = LoadTexture2D("Enemy Design 2 - Jake deVos.png");
+            enemy2 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 - Jake deVos.png");
 
         
         }
@@ -92,7 +92,7 @@ namespace Enemy_Animation_Jake_deVos
         // ENEMY NUMBER TWO (SPIKY BOTTOM)
         static void Setup3()
         {
-            enemy3 = LoadTexture2D("Enemy Design 2 (Opposite) - Jake deVos.png");
+            enemy3 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 (Opposite) - Jake deVos.png");
 
         }
 
@@ -104,7 +104,7 @@ namespace Enemy_Animation_Jake_deVos
         // ENEMY NUMBER 3 (8 SPIKES)
         static void Setup4()
         {
-            enemy4 = LoadTexture2D("Enemy Design 3 - Jake deVos.png");
+            enemy4 = LoadTexture2D("../../../Assets Folder/Enemy Design 3 - Jake deVos.png");
 
         }
 
@@ -116,7 +116,7 @@ namespace Enemy_Animation_Jake_deVos
         // ENEMY NUMBER 4 (FINAL BIG ENEMY)
         static void Setup5()
         {
-            enemy5 = LoadTexture2D("Final Enemy Design - Jake deVos.png");
+            enemy5 = LoadTexture2D("../../../Assets Folder/Final Enemy Design - Jake deVos.png");
 
         }
 
