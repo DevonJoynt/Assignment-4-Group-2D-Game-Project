@@ -12,6 +12,8 @@ namespace Assignment_4_Group_2D_Game_Project
         static int FloorBrickHeight = 450;
         static Texture2D spike1;
         static Texture2D spike2;
+        static Texture2D spike3;
+        static Texture2D spike4;
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
@@ -61,7 +63,8 @@ namespace Assignment_4_Group_2D_Game_Project
           
             spike1 = LoadTexture2D("Spike (Pointing Upwards).png");
             spike2 = LoadTexture2D("Spike (Pointing Downwards).png");
-
+            spike3 = LoadTexture2D("Spike (Pointing Left).png");
+            spike4 = LoadTexture2D("Spike (Pointing Right).png");
         }
         static Texture2D LoadTexture2D(string filename)
         {
@@ -701,11 +704,11 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes2[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i - 25, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i - 75, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i - 127, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i - 180, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i - 230, j - 550, Color.BLUE);
+                        Raylib.DrawTexture(spike2, i - 25, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i - 75, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i - 127, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i - 180, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i - 230, j - 550, Color.ORANGE);
                         
                     }
                 }
@@ -731,7 +734,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes3[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i + 567, j - 550, Color.BLUE);
+                        Raylib.DrawTexture(spike2, i + 567, j - 550, Color.ORANGE);
                     }
                 }
             }
@@ -813,10 +816,10 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes6[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i + 765, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i + 815, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i + 865, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i + 915, j - 550, Color.BLUE);
+                        Raylib.DrawTexture(spike2, i + 765, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 815, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 865, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 915, j - 550, Color.ORANGE);
                     }
                 }
             }
@@ -841,13 +844,13 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes7[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i + 1117, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i + 1167, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i + 1217, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i + 1267, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i + 1317, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i + 1367, j - 550, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i + 1417, j - 550, Color.BLUE);
+                        Raylib.DrawTexture(spike2, i + 1117, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1167, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1217, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1267, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1317, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1367, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1417, j - 550, Color.ORANGE);
                     }
                 }
             }
@@ -872,9 +875,9 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes8[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i + 1565, j - 450, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i + 1615, j - 450, Color.BLUE);
-                        Raylib.DrawTexture(spike2, i + 1665, j - 450, Color.BLUE);
+                        Raylib.DrawTexture(spike2, i + 1565, j - 450, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1615, j - 450, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1665, j - 450, Color.ORANGE);
                     }
                 }
             }
@@ -899,7 +902,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes9[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i + 1665, j - 450, Color.BLUE);
+                        Raylib.DrawTexture(spike2, i + 1665, j - 450, Color.ORANGE);
                     }
                 }
             }
@@ -924,9 +927,9 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes10[i, j].Width > 0)
                     {
-                        Raylib.DrawRectangleRec(spikes10[i, j], Color.RED);
-
-                        Raylib.DrawRectangleLinesEx(spikes10[i, j], 2, Color.DARKPURPLE);
+                        Raylib.DrawTexture(spike2, i + 1915, j - 570, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 2015, j - 570, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 2165, j - 570, Color.ORANGE);
                     }
                 }
             }
@@ -951,9 +954,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes11[i, j].Width > 0)
                     {
-                        Raylib.DrawRectangleRec(spikes11[i, j], Color.RED);
-
-                        Raylib.DrawRectangleLinesEx(spikes11[i, j], 2, Color.DARKPURPLE);
+                        Raylib.DrawTexture(spike1, i + 1960, j - 350, Color.BLUE);
                     }
                 }
             }
@@ -1002,9 +1003,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes13[i, j].Width > 0)
                     {
-                        Raylib.DrawRectangleRec(spikes13[i, j], Color.RED);
-
-                        Raylib.DrawRectangleLinesEx(spikes13[i, j], 2, Color.DARKPURPLE);
+                        Raylib.DrawTexture(spike3, i + 2180, j - 270, Color.BLUE);
                     }
                 }
             }
@@ -1028,9 +1027,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes14[i, j].Width > 0)
                     {
-                        Raylib.DrawRectangleRec(spikes14[i, j], Color.RED);
-
-                        Raylib.DrawRectangleLinesEx(spikes14[i, j], 2, Color.DARKPURPLE);
+                        Raylib.DrawTexture(spike4, i + 2040, j - 360, Color.BLUE);
                     }
                 }
             }
@@ -1104,9 +1101,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes17[i, j].Width > 0)
                     {
-                        Raylib.DrawRectangleRec(spikes17[i, j], Color.RED);
-
-                        Raylib.DrawRectangleLinesEx(spikes17[i, j], 2, Color.DARKPURPLE);
+                        Raylib.DrawTexture(spike3, i + 2675, j - 270, Color.BLUE);
                     }
                 }
             }
@@ -1130,9 +1125,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes18[i, j].Width > 0)
                     {
-                        Raylib.DrawRectangleRec(spikes18[i, j], Color.RED);
-
-                        Raylib.DrawRectangleLinesEx(spikes18[i, j], 2, Color.DARKPURPLE);
+                        Raylib.DrawTexture(spike3, i + 2840, j - 220, Color.BLUE);
                     }
                 }
             }
@@ -1156,9 +1149,12 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes19[i, j].Width > 0)
                     {
-                        Raylib.DrawRectangleRec(spikes19[i, j], Color.RED);
+                        Raylib.DrawTexture(spike3, i + 2990, j - 265, Color.ORANGE);
+                        Raylib.DrawTexture(spike3, i + 2990, j - 315, Color.ORANGE);
+                        Raylib.DrawTexture(spike3, i + 2990, j - 215, Color.BLUE);
+                        Raylib.DrawTexture(spike3, i + 2990, j - 165, Color.BLUE);
 
-                        Raylib.DrawRectangleLinesEx(spikes19[i, j], 2, Color.DARKPURPLE);
+                        
                     }
                 }
             }
@@ -1280,9 +1276,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes24[i, j].Width > 0)
                     {
-                        Raylib.DrawRectangleRec(spikes24[i, j], Color.RED);
-
-                        Raylib.DrawRectangleLinesEx(spikes24[i, j], 2, Color.DARKPURPLE);
+                        Raylib.DrawTexture(spike2, i + 3620, j - 150, Color.BLUE);
                     }
                 }
             }
