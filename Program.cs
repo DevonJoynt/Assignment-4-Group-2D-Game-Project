@@ -16,6 +16,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static Texture2D spike4;
         static Texture2D background;
         static Texture2D enemy2;
+        static Texture2D enemy3;
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
@@ -70,6 +71,7 @@ namespace Assignment_4_Group_2D_Game_Project
             spike4 = LoadTexture2D("Spike (Pointing Right).png");
             background = LoadTexture2D("Screen Background - Jake deVos.png");
             enemy2 = LoadTexture2D("Enemy Design 2 - Jake deVos.png");
+            enemy3 = LoadTexture2D("Enemy Design 2 (Opposite) - Jake deVos.png");
         }
         static Texture2D LoadTexture2D(string filename)
         {
@@ -1282,7 +1284,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes24[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i + 3620, j - 150, Color.BLUE);
+                        Raylib.DrawTexture(enemy3, i + 3650, j - 150, Color.WHITE);
                     }
                 }
             }
@@ -1306,7 +1308,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes25[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(enemy2, i + 3800, j - 130, Color.WHITE);
+                        Raylib.DrawTexture(enemy2, i + 3785, j - 130, Color.WHITE);
                     }
                 }
             }
