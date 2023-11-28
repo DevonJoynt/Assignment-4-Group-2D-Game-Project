@@ -18,6 +18,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static Texture2D enemy2;
         static Texture2D enemy3;
         static Texture2D maincharacter;
+        static Texture2D checkpointicon;
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
@@ -74,6 +75,7 @@ namespace Assignment_4_Group_2D_Game_Project
             enemy2 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 - Jake deVos.png");
             enemy3 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 (Opposite) - Jake deVos.png");
             maincharacter = LoadTexture2D("../../../Assets Folder/Main Character-neutral.png");
+            checkpointicon = LoadTexture2D("../../../Assets Folder/Checkpoint Icon - Jake deVos.png");
         }
         static Texture2D LoadTexture2D(string filename)
         {
@@ -290,7 +292,7 @@ namespace Assignment_4_Group_2D_Game_Project
             float PlayerBottomCorner = PlayerPosition.X + PlayerPosition.Y;
 
             //Draws Player 
-            Raylib.DrawTexture(maincharacter, (int)PlayerPosition.X - 525, (int)PlayerPosition.Y - 400, Color.WHITE);
+            Raylib.DrawTexture(maincharacter, (int)PlayerPosition.X - 500, (int)PlayerPosition.Y - 400, Color.WHITE);
 
             // Controls 
             if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
@@ -475,8 +477,7 @@ namespace Assignment_4_Group_2D_Game_Project
             int brickheight = 80;
             int brickwidth = 80;
 
-            //---Page 00
-
+            // page 00
             //bottom 13 blocks 2 rows
             Rectangle FloorBrick0 = new Rectangle(-2400, 500, 650, 100);
             Raylib.DrawRectangleRec(FloorBrick0, Color.GRAY);
@@ -547,6 +548,8 @@ namespace Assignment_4_Group_2D_Game_Project
             Raylib.DrawRectangleRec(FloorBrick26, Color.GRAY);
 
             //---Page 1
+            //FIRST CHECKPOINT LOCATION
+            Raylib.DrawTexture(checkpointicon, 1200, 140, Color.WHITE);
 
             Rectangle FloorBrick28 = new Rectangle(0, 550, 1250, 50);
             Raylib.DrawRectangleRec(FloorBrick28, Color.GRAY);
@@ -634,6 +637,9 @@ namespace Assignment_4_Group_2D_Game_Project
 
             //---Page 4
 
+            //---Page 00
+            //SECOND CHECKPOINT
+            Raylib.DrawTexture(checkpointicon, 2525, 190, Color.WHITE);
             //page4 ceiling 9 blocks level 1
             Rectangle FloorBrick70 = new Rectangle(2400, 0, 450, 50);
             Raylib.DrawRectangleRec(FloorBrick70, Color.GRAY);
