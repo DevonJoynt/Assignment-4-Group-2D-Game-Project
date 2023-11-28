@@ -137,13 +137,13 @@ namespace Assignment_4_Group_2D_Game_Project
             bool BottomBrickHit = false;
 
             // Side Wall and Telportation Collision 
-            if (PlayerPosition.X - PlayerWidth > -1820 && PlayerPosition.X - PlayerWidth < -805 || PlayerPosition.X + PlayerWidth > 10000000)
+            if (PlayerPosition.X - PlayerWidth > -1980 && PlayerPosition.X - PlayerWidth < -805 || PlayerPosition.X + PlayerWidth > 10000000)
             {
-              
+
                 GravityBasic = new Vector2(0, 0);
                 if (PlayerPosition.X >= -900 && PlayerPosition.X < 750)
                 {
-                    Vector2 Move2 = new Vector2(5, 0); 
+                    Vector2 Move2 = new Vector2(5, 0);
                     PlayerPosition = PlayerPosition + Move2;
                     if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
                     {
@@ -154,11 +154,21 @@ namespace Assignment_4_Group_2D_Game_Project
                 if (PlayerPosition.X <= -920 && PlayerPosition.X >= -930)
                 {
                     PlayerPosition = new Vector2(-1750, 250);
+                    Polarity = true;
                 }
 
-                if (PlayerPosition.X <= -1750)
+                if (PlayerPosition.X <= -1750 && PlayerPosition.X > -1970)
                 {
                     PlayerPosition = PlayerPosition + Move;
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+                if (PlayerPosition.X >= -1740 && PlayerPosition.X < -1500)
+                {
+                    PlayerPosition = new Vector2(-900, 250);
+                    Polarity = false;
                 }
 
             }
