@@ -93,6 +93,122 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
             }
+            // First Level
+
+            Vector2 Move = new Vector2(-5, 0);
+            Vector2 GravityBasic = new Vector2(0, 10);
+            bool hitRWall = false;
+            bool hitLWall = false;
+
+            // Spike Collision
+            if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450)
+            {
+                PlayerPosition = new Vector2(-900, 250);
+            }
+
+            if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50)
+            {
+                PlayerPosition = new Vector2(-900, 250);
+            }
+
+            // Obstacle Collision From Spawn
+            // First object 
+            if (PlayerPosition.X > -625 && PlayerPosition.X <= -470 && PlayerPosition.Y <= 399)
+            {
+                // LEFT Side
+                hitRWall = true;
+                if (hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+
+                // Top Side
+                if (PlayerPosition.Y < 400 && PlayerPosition.X > -625)
+                {
+                    PlayerPosition = PlayerPosition + GravityBasic;
+                    hitRWall = false;
+                    if (!hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+
+                // Right Side
+                if (PlayerPosition.X <= -465 && PlayerPosition.Y < 400)
+                {
+                    hitLWall = true;
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+
+            }
+
+            // 2nd object 
+            if (PlayerPosition.X > -375 && PlayerPosition.X <= -220 && PlayerPosition.Y >= 145)
+            {
+                // LEFT Side
+                hitRWall = true;
+                if (hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+
+                // Top Side
+                if (PlayerPosition.Y > 149 && PlayerPosition.X > -373)
+                {
+                    PlayerPosition = PlayerPosition - GravityBasic;
+                    hitRWall = false;
+                    if (!hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+
+                // Right Side
+                if (PlayerPosition.X <= -200 && PlayerPosition.Y > 150)
+                {
+                    hitLWall = true;
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+            }
+
+            // Small Sqaure up top
+
+            if (PlayerPosition.X > -125 && PlayerPosition.X <= -15 && PlayerPosition.Y <= 100)
+            {
+                // LEFT Side
+                hitRWall = true;
+                if (hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+
+                // Top Side
+                if (PlayerPosition.Y < 100 && PlayerPosition.X > -125)
+                {
+                    PlayerPosition = PlayerPosition + GravityBasic;
+                    hitRWall = false;
+                    if (!hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+
+                // Right Side
+                if (PlayerPosition.X < -15 && PlayerPosition.Y < 100)
+                {
+                    hitLWall = true;
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+            }
         }
         static void Player()
         {
