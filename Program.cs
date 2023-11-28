@@ -16,6 +16,7 @@ namespace Enemy_Animation_Jake_deVos
         static Texture2D enemy3;
         static Texture2D enemy4;
         static Texture2D enemy5;
+        static Texture2D button;
 
         static void Main(string[] args)
         {
@@ -30,6 +31,7 @@ namespace Enemy_Animation_Jake_deVos
             Setup3();
             Setup4();
             Setup5();
+            Setup6();
 
             // Loop so long as window should not close
             while (!Raylib.WindowShouldClose())
@@ -45,6 +47,7 @@ namespace Enemy_Animation_Jake_deVos
                 Update3();
                 Update4();
                 Update5();
+                Update6();
 
                 // Stop drawing to the canvas, begin displaying the frame
                 Raylib.EndDrawing();
@@ -126,6 +129,16 @@ namespace Enemy_Animation_Jake_deVos
         }
 
 
+        static void Setup6()
+        {
+            button = LoadTexture2D("../../../Assets Folder/Title Screen - Jake deVos.png");
+
+        }
+
+        static void Update6()
+        {
+            Raylib.DrawTexture(button, 0, 0, Color.WHITE);
+        }
 
     }
 }
