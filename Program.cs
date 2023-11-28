@@ -17,6 +17,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static Texture2D background;
         static Texture2D enemy2;
         static Texture2D enemy3;
+        static Texture2D maincharacter;
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
@@ -72,6 +73,7 @@ namespace Assignment_4_Group_2D_Game_Project
             background = LoadTexture2D("../../../Assets Folder/Screen Background - Jake deVos.png");
             enemy2 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 - Jake deVos.png");
             enemy3 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 (Opposite) - Jake deVos.png");
+            maincharacter = LoadTexture2D("../../../Assets Folder/Main Character-neutral.png");
         }
         static Texture2D LoadTexture2D(string filename)
         {
@@ -101,7 +103,7 @@ namespace Assignment_4_Group_2D_Game_Project
             float PlayerBottomCorner = PlayerPosition.X + PlayerPosition.Y;
 
             //Draws Player 
-            Raylib.DrawRectangle((int)PlayerPosition.X, (int)PlayerPosition.Y, (int)PlayerSize.X, (int)PlayerSize.Y, Color.BLUE);
+            Raylib.DrawTexture(maincharacter, (int)PlayerPosition.X - 100, (int)PlayerPosition.Y, Color.BLUE);
 
             // Controls 
             if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
