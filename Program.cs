@@ -103,7 +103,7 @@ namespace Assignment_4_Group_2D_Game_Project
             float PlayerBottomCorner = PlayerPosition.X + PlayerPosition.Y;
 
             //Draws Player 
-            Raylib.DrawTexture(maincharacter, (int)PlayerPosition.X - 100, (int)PlayerPosition.Y, Color.BLUE);
+            Raylib.DrawTexture(maincharacter, (int)PlayerPosition.X - 500, (int)PlayerPosition.Y - 400, Color.WHITE);
 
             // Controls 
             if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
