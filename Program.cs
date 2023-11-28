@@ -84,12 +84,14 @@ namespace Assignment_4_Group_2D_Game_Project
         static void CheckCollision()
         {
             // Spike Collision
+
             if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450)
             {
                 PlayerPosition = new Vector2(-900, 200);
             }
 
             // Top Spikes Page 1
+
             if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50)
             {
                 PlayerPosition = new Vector2(-900, 200);
@@ -111,6 +113,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // Page 2
+
             if (PlayerPosition.X >= 2440 && PlayerPosition.X <= 2615 && PlayerPosition.Y <= 150)
             {
                 PlayerPosition = new Vector2(2660, 300);
@@ -138,6 +141,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // Bottom Spikes Page 1
+
             if (PlayerPosition.X >= 1743 && PlayerPosition.X <= 2120 && PlayerPosition.Y >= 500)
             {
                 PlayerPosition = new Vector2(1365, 300);
@@ -149,7 +153,8 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // Bottom Spikes Page 2
-            if (PlayerPosition.X >= 2795 && PlayerPosition.X <= 2905 && PlayerPosition.Y >= 500)
+
+            if (PlayerPosition.X >= 2795 && PlayerPosition.X <= 2905 && PlayerPosition.Y >= 450)
             {
                 PlayerPosition = new Vector2(2660, 300);
             }
@@ -196,9 +201,11 @@ namespace Assignment_4_Group_2D_Game_Project
 
             // Obstacle Collision From Spawn
             // First object 
+
             if (PlayerPosition.X > -625 && PlayerPosition.X <= -470 && PlayerPosition.Y <= 399)
             {
                 // LEFT Side
+
                 hitRWall = true;
                 if (hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
                 {
@@ -206,6 +213,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
 
                 // Top Side
+
                 if (PlayerPosition.Y < 400 && PlayerPosition.X > -625)
                 {
                     PlayerPosition = PlayerPosition + GravityBasic;
@@ -217,6 +225,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
 
                 // Right Side
+
                 if (PlayerPosition.X <= -465 && PlayerPosition.Y < 400)
                 {
                     hitLWall = true;
@@ -229,9 +238,11 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // 2nd object 
+
             if (PlayerPosition.X > -375 && PlayerPosition.X <= -220 && PlayerPosition.Y >= 145)
             {
                 // LEFT Side
+
                 hitRWall = true;
                 if (hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
                 {
@@ -239,6 +250,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
 
                 // Top Side
+
                 if (PlayerPosition.Y > 149 && PlayerPosition.X > -373)
                 {
                     PlayerPosition = PlayerPosition - GravityBasic;
@@ -250,6 +262,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
 
                 // Right Side
+
                 if (PlayerPosition.X <= -200 && PlayerPosition.Y > 150)
                 {
                     hitLWall = true;
@@ -265,6 +278,7 @@ namespace Assignment_4_Group_2D_Game_Project
             if (PlayerPosition.X > -125 && PlayerPosition.X <= -15 && PlayerPosition.Y <= 100)
             {
                 // LEFT Side
+
                 hitRWall = true;
                 if (hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
                 {
@@ -272,17 +286,19 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
 
                 // Top Side
+
                 if (PlayerPosition.Y < 100 && PlayerPosition.X > -125)
                 {
                     PlayerPosition = PlayerPosition + GravityBasic;
                     hitRWall = false;
-                    if (!hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    if (!hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
                     {
                         PlayerPosition = PlayerPosition - Move;
                     }
                 }
 
                 // Right Side
+
                 if (PlayerPosition.X < -15 && PlayerPosition.Y < 100)
                 {
                     hitLWall = true;
@@ -291,6 +307,122 @@ namespace Assignment_4_Group_2D_Game_Project
                         PlayerPosition = PlayerPosition - Move;
                     }
                 }
+            }
+
+            // Second Checkpoint
+
+            if (PlayerPosition.X >= 1179 && PlayerPosition.X <= 1320 && PlayerPosition.Y <= 100 )
+            {
+                // Right Side
+
+                if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+
+                // TOP
+
+                if (PlayerPosition.X > 1180 && PlayerPosition.Y <= 90)
+                {
+                    PlayerPosition = PlayerPosition + GravityBasic;
+                    hitRWall = true;
+                    if (hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition + Move;
+                    }
+                }
+
+                // Right Side
+
+                if (PlayerPosition.X >= 1227 && PlayerPosition.X < 1335 && PlayerPosition.Y <= 150)
+                {
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                    {
+                        PlayerPosition = PlayerPosition + Move;
+                    }
+                }
+            }
+            if (PlayerPosition.X <= 1333 && PlayerPosition.X > 1180 && PlayerPosition.Y < 140)
+            {
+                if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                {
+                    PlayerPosition = PlayerPosition - Move * 6/5;
+                }
+            }
+            if (PlayerPosition.X >= 1230 && PlayerPosition.X < 1335 && PlayerPosition.Y <= 140)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            // Small Wedge
+            // Bottom
+
+            if (PlayerPosition.X >= 1390 & PlayerPosition.X <= 1470 && PlayerPosition.Y >= 51 && PlayerPosition.Y < 100)
+            {
+                    PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            // Top
+
+            if (PlayerPosition.X >= 1390 & PlayerPosition.X <= 1625 && PlayerPosition.Y >= 100 && PlayerPosition.Y <= 145)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            // Right
+
+            if (PlayerPosition.X < 1635 && PlayerPosition.X > 1620 && PlayerPosition.Y <= 145)
+            {
+                PlayerPosition = PlayerPosition - Move * 6/5;
+            }
+
+            // Left 
+
+            if (PlayerPosition.X < 1420 && PlayerPosition.X > 1375 && PlayerPosition.Y <= 101 && PlayerPosition.Y > 52)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+            
+            // CHECKPOINT #2
+            // Left
+            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2770 && PlayerPosition.Y > 360)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            // Top 
+            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2825 && PlayerPosition.Y >= 355)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            // Right
+            if (PlayerPosition.X > 2771 && PlayerPosition.X <= 2825 && PlayerPosition.Y > 360)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+            
+            // Top Next To Spikes
+
+            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2730 && PlayerPosition.Y <= 140)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            //Left
+            if (PlayerPosition.X > 2327 && PlayerPosition.X < 2730 && PlayerPosition.Y < 140)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            //Right
+            if (PlayerPosition.X > 2730 && PlayerPosition.X <= 2735 && PlayerPosition.Y < 140)
+            {
+                PlayerPosition = PlayerPosition - Move;
             }
         }
         static void Player()
@@ -388,7 +520,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
             // Bottom Collision  
-            if (PlayerPosition.Y + 5 > FloorBrickHeight && PlayerPosition.X < 1345)
+            if (PlayerPosition.Y + 5 > FloorBrickHeight && PlayerPosition.X < 1680 || PlayerPosition.X >= 2765 && PlayerPosition.X <= 3625 && PlayerPosition.Y + 5 > FloorBrickHeight)
             {
                 GravityBasic = new Vector2(0, 0);
                 BottomWall = true;
@@ -404,7 +536,7 @@ namespace Assignment_4_Group_2D_Game_Project
             // Map Collision
 
             // The First Block the player hits
-            if (PlayerPosition.X > 1200 && PlayerPosition.X < 1700)
+            if (PlayerPosition.X > 1182 && PlayerPosition.X < 1680)
             {
                 HitRWall = true;
                 Move = new Vector2(5, 0);
@@ -450,7 +582,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // Floor Collison (Making it easier for myself)
-            if (PlayerPosition.X >= 1700)
+            if (PlayerPosition.X >= 1680)
             {
                 if (PlayerPosition.Y >= 500)
                 {
