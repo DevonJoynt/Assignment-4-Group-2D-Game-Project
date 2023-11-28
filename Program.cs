@@ -89,10 +89,65 @@ namespace Assignment_4_Group_2D_Game_Project
                 PlayerPosition = new Vector2(-900, 200);
             }
 
+            // Top Spikes Page 1
             if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50)
             {
                 PlayerPosition = new Vector2(-900, 200);
             }
+
+            if (PlayerPosition.X >= 1455 && PlayerPosition.X <= 1500 && PlayerPosition.Y <= 50)
+            {
+                PlayerPosition = new Vector2(1365, 300);
+            }
+
+            if (PlayerPosition.X >= 1645 && PlayerPosition.X <= 1860 && PlayerPosition.Y <= 50)
+            {
+                PlayerPosition = new Vector2(1365, 300);
+            }
+
+            if (PlayerPosition.X >= 2003 && PlayerPosition.X <= 2368 && PlayerPosition.Y <= 50)
+            {
+                PlayerPosition = new Vector2(1365, 300);              
+            }
+
+            // Page 2
+            if (PlayerPosition.X >= 2440 && PlayerPosition.X <= 2615 && PlayerPosition.Y <= 150)
+            {
+                PlayerPosition = new Vector2(2545, 300);
+                Polarity = true;
+            }
+
+            if (PlayerPosition.X >= 2805 && PlayerPosition.X <= 2855 && PlayerPosition.Y <= 50)
+            {
+                PlayerPosition = new Vector2(2545, 300);
+            }
+
+            if (PlayerPosition.X >= 2910 && PlayerPosition.X <= 2950 && PlayerPosition.Y <= 50)
+            {
+                PlayerPosition = new Vector2(2545, 300);
+            }
+
+            if (PlayerPosition.X >= 3060 && PlayerPosition.X <= 3105 && PlayerPosition.Y <= 50)
+            {
+                PlayerPosition = new Vector2(2545, 300);
+            }
+
+            if (PlayerPosition.X >= 3855 && PlayerPosition.X <= 3950 && PlayerPosition.Y >= 200 && PlayerPosition.Y <= 350)
+            {
+                PlayerPosition = new Vector2(2545, 300);
+            }
+
+            // Bottom Spikes
+            if (PlayerPosition.X >= 1743 && PlayerPosition.X <= 2120 && PlayerPosition.Y >= 500)
+            {
+                PlayerPosition = new Vector2(1365, 300);
+            }
+
+            if (PlayerPosition.X >= 2148 && PlayerPosition.X <= 2268 && PlayerPosition.Y >= 500)
+            {
+                PlayerPosition = new Vector2(1365, 300);
+            }
+
             // First Level
 
             Vector2 Move = new Vector2(-5, 0);
