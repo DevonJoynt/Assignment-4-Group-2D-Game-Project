@@ -86,12 +86,12 @@ namespace Assignment_4_Group_2D_Game_Project
             // Spike Collision
             if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450)
             {
-                PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
+                PlayerPosition = new Vector2(-900, 200);
             }
 
             if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50)
             {
-                PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
+                PlayerPosition = new Vector2(-900, 200);
             }
             // First Level
 
