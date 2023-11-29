@@ -17,12 +17,37 @@ namespace Assignment_4_Group_2D_Game_Project
         static Texture2D background;
         static Texture2D enemy2;
         static Texture2D enemy3;
-        static Texture2D leftarrow;
+        static Texture2D enemy4;
+        static Texture2D enemyBoss;
+        static Texture2D maincharacter;
+        static Texture2D checkpointicon;
+
+        static bool TookDamage = false;
+        static bool ifMoved { get; set; } = false;
+        static int CheckPointCounter { get; set; } = 0;
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
+        static bool devMode { get; set; } = false;
+        static int devPressed;
+        static int health { get; set; } = 3;
+
+        static Vector2 EnemyPos1 { get; set; } = new Vector2(850, 35);
+        static Vector2 EnemyPos2 { get; set; } = new Vector2(800, -15);
+        static Vector2 EnemyPos3 { get; set; } = new Vector2(2950, -15);
+        static Vector2 EnemyPos4 { get; set; } = new Vector2(3000, -15);
+        static Vector2 EnemyPos5 { get; set; } = new Vector2(1500, -15);
+        static Vector2 EnemyPos6 { get; set; } = new Vector2(1700, -15);
+        static Vector2 BossMovement { get; set; } = new Vector2(1, 0);
+        static Vector2 EnemyBossPoss { get; set; } = new Vector2(3600, 235);
+        static Vector2 EnemySize = new Vector2(50, 50);
+        static Vector2 BossEnemySize = new Vector2(200, 200);
+        static Rectangle BossMove = new Rectangle(EnemyBossPoss.X + 400, EnemyBossPoss.Y, 1000000, 100000);
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
         static Vector2 PlayerSize = new Vector2(50, 50);
+        static Rectangle PlayerRec { get; set; } = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
+        static Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
+        static Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
 
         static void Main(string[] args)
         {
@@ -33,13 +58,17 @@ namespace Assignment_4_Group_2D_Game_Project
             PolarityPressed = 0;
 
             Setup();
-       
+
+            Raylib.InitAudioDevice();
+            Sound sound = Raylib.LoadSound("../../../Assets Folder/Ending.mp3");
+
             while (!Raylib.WindowShouldClose())
             {
+                CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
+                CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
                 Console.WriteLine(PlayerPosition);
                 // Camera Dimensions 
-                Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
-                Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
+
 
                 Camera2D Camera = new Camera2D(CameraOffset, CameraYLock, 0, 1);
 
@@ -52,28 +81,296 @@ namespace Assignment_4_Group_2D_Game_Project
                 // Clear the canvas with one color 
                 Raylib.ClearBackground(Color.WHITE);
 
+
                 Background();
+
                 Update();
                 Player();
+                DrawEnemies();
                 Floor();
                 Spikes();
-                CheckCollision();
-               
+                if (devMode == false)
+                {
+                    CheckCollision();
+                }
+                DrawHealth();
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame 
+                if (PlayerPosition.X > 5490 && PlayerPosition.Y > 300)
+                {
+                    // This will Teleport Them Somewhere Else. (Currently, Back to the Start)
+                    PlayerPosition = new Vector2(-900, 300);
+                    // This is 6min and 10 seconds long
+                    Raylib.PlaySound(sound);
+                }
+                if (Raylib.IsKeyPressed(KeyboardKey.KEY_M))
+                {
+                    Raylib.StopSound(sound);
+                }
             }
+            Raylib.UnloadSound(sound);
+            Raylib.CloseAudioDevice();
             Raylib.CloseWindow(); // Close the window 
         }
         static void Setup() // Your one-time setup code here 
         {
-          
-            spike1 = LoadTexture2D("Spike (Pointing Upwards).png");
-            spike2 = LoadTexture2D("Spike (Pointing Downwards).png");
-            spike3 = LoadTexture2D("Spike (Pointing Left).png");
-            spike4 = LoadTexture2D("Spike (Pointing Right).png");
-            background = LoadTexture2D("Screen Background - Jake deVos.png");
-            enemy2 = LoadTexture2D("Enemy Design 2 - Jake deVos.png");
-            enemy3 = LoadTexture2D("Enemy Design 2 (Opposite) - Jake deVos.png");
-            leftarrow = LoadTexture2D("../../../art asset for the game/Left arrow key.png");
+
+            spike1 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Upwards).png");
+            spike2 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Downwards).png");
+            spike3 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Left).png");
+            spike4 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Right).png");
+            background = LoadTexture2D("../../../Assets Folder/Screen Background - Jake deVos.png");
+            enemy2 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 - Jake deVos.png");
+            enemy3 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 (Opposite) - Jake deVos.png");
+            enemy4 = LoadTexture2D("../../../Assets Folder/Enemy Design 3 - Jake deVos.png");
+            enemyBoss = LoadTexture2D("../../../Assets Folder/Final Enemy Design - Jake deVos.png");
+            maincharacter = LoadTexture2D("../../../Assets Folder/Main Character-neutral.png");
+            checkpointicon = LoadTexture2D("../../../Assets Folder/Checkpoint Icon - Jake deVos.png");
+
+        }
+
+        static void DrawHealth()
+        {
+            //Background Battery
+            Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 20, (int)CameraYLock.Y - (WindowHeight / 2) + 20, 200, 50, Color.DARKGRAY);
+            Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 220, (int)CameraYLock.Y - (WindowHeight / 2) + 32, 25, 25, Color.DARKGRAY);
+
+            //Draw Health Based on Health Amount
+            if (health == 3)
+            {
+                Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 25, (int)CameraYLock.Y - (WindowHeight / 2) + 25, 180, 40, Color.GREEN);
+
+            }
+            else if (health == 2)
+            {
+                Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 25, (int)CameraYLock.Y - (WindowHeight / 2) + 25, 100, 40, Color.ORANGE);
+            }
+            else if (health == 1)
+            {
+                Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 25, (int)CameraYLock.Y - (WindowHeight / 2) + 25, 50, 40, Color.RED);
+
+            }
+
+            // Resets Health at Checkpoints
+            Rectangle PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle CheckPoint1 = new Rectangle(1350, 280, 70, 70);
+            Rectangle CheckPoint2 = new Rectangle(2675, 330, 70, 70);
+
+            bool Check1 = Raylib.CheckCollisionRecs(PlayerRec, CheckPoint1);
+            bool Check2 = Raylib.CheckCollisionRecs(PlayerRec, CheckPoint2);
+            if (Check1) { health = 3; }
+            if (Check2) { health = 3; }
+
+            if (Check1 == true && CheckPointCounter == 0) { CheckPointCounter++; }
+            if (Check2 == true && CheckPointCounter == 1) { CheckPointCounter++; }
+
+        }
+
+        static void DrawEnemies()
+        {
+            FallingEnemy1();
+            FallingEnemy2();
+            FallingEnemy3();
+            FallingEnemy4();
+            PolarityEnemy1();
+            PolarityEnemy2();
+            BossEnemy();
+
+        }
+        static void FallingEnemy1()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos1.X + 400, EnemyPos1.Y, EnemySize.X, EnemySize.Y);
+            //Raylib.DrawRectangleRec(EnemyRec, Color.RED);
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 8);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos1.X + 400, EnemyPos1.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy3, (int)EnemyPos1.X - 500, (int)EnemyPos1.Y - 500, Color.WHITE);
+
+            if (collision == true)
+            {
+                EnemyPos1 = EnemyPos1 + GravityBasic;
+            }
+
+            if (EnemyPlayerColl == true) { health--; }
+
+        }
+        static void FallingEnemy2()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos2.X + 400, EnemyPos2.Y, EnemySize.X, EnemySize.Y);
+
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 8);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos2.X + 400, EnemyPos2.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy3, (int)EnemyPos2.X - 500, (int)EnemyPos2.Y - 500, Color.WHITE);
+
+
+            if (collision == true)
+            {
+                EnemyPos2 = EnemyPos2 + GravityBasic;
+            }
+
+            if (EnemyPlayerColl == true) { health--; }
+
+
+        }
+        static void FallingEnemy3()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos3.X + 400, EnemyPos3.Y, EnemySize.X, EnemySize.Y);
+
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 8);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos3.X + 400, EnemyPos3.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy3, (int)EnemyPos3.X - 500, (int)EnemyPos3.Y - 500, Color.WHITE);
+
+
+            if (collision == true)
+            {
+                EnemyPos3 = EnemyPos3 + GravityBasic;
+            }
+
+            if (EnemyPlayerColl == true) { health--; }
+
+
+        }
+        static void FallingEnemy4()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos4.X + 400, EnemyPos4.Y, EnemySize.X, EnemySize.Y);
+
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 8);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos4.X + 400, EnemyPos4.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy3, (int)EnemyPos4.X - 500, (int)EnemyPos4.Y - 500, Color.WHITE);
+
+
+            if (collision == true)
+            {
+                EnemyPos4 = EnemyPos4 + GravityBasic;
+            }
+
+            if (EnemyPlayerColl == true) { health--; }
+
+
+        }
+
+        static void PolarityEnemy1()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos5.X + 400, EnemyPos5.Y, EnemySize.X, EnemySize.Y);
+
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 1);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos5.X + 400, EnemyPos5.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy4, (int)EnemyPos5.X - 500, (int)EnemyPos5.Y - 500, Color.WHITE);
+
+
+            if (Polarity == true)
+            {
+                EnemyPos5 = EnemyPos5 + GravityBasic;
+            }
+            else
+            {
+                EnemyPos5 = EnemyPos5 - GravityBasic;
+            }
+
+
+        }
+        static void PolarityEnemy2()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos6.X + 400, EnemyPos6.Y, EnemySize.X, EnemySize.Y);
+
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 1);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos6.X + 400, EnemyPos6.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy4, (int)EnemyPos6.X - 500, (int)EnemyPos6.Y - 500, Color.WHITE);
+
+
+            if (Polarity == true)
+            {
+                EnemyPos6 = EnemyPos6 + GravityBasic;
+            }
+            else
+            {
+                EnemyPos6 = EnemyPos6 - GravityBasic;
+            }
+
+
+        }
+        static void BossEnemy()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyBossPoss.X + 400, EnemyBossPoss.Y, BossEnemySize.X, BossEnemySize.Y);
+            //Raylib.DrawRectangleRec(BossMove, Color.RED);
+
+            //bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+            bool ShouldBossMove = Raylib.CheckCollisionRecs(PlayerRec, BossMove);
+            Vector2 NewMove = new Vector2(1, 1);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemyBoss, (int)EnemyBossPoss.X - 500, (int)EnemyBossPoss.Y - 500, Color.WHITE);
+
+            if (ShouldBossMove == true)
+            {
+                EnemyBossPoss = EnemyBossPoss + BossMovement;
+            }
+
+
+
+
+
         }
         static Texture2D LoadTexture2D(string filename)
         {
@@ -81,18 +378,453 @@ namespace Assignment_4_Group_2D_Game_Project
             Texture2D texture = Raylib.LoadTextureFromImage(image);
             return texture;
         }
+
+
         static void CheckCollision()
         {
-            // Spike Collision
-            if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450)
+
+            //Respawn Mechanics
+            //Spawn
+            if (CheckPointCounter == 0 && health <= 0)
             {
-                PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
+                PlayerPosition = new Vector2(-900, 200);
+                health = 3;
+
             }
-            
-            if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50)
+            //Checkpoint 1
+            if (CheckPointCounter == 1 && health <= 0)
             {
-                PlayerPosition = new Vector2(WindowWidth / 3 - 50, WindowHeight / 2);
+                PlayerPosition = new Vector2(1365, 300);
+                health = 3;
+
             }
+            //Checkpoint 2
+            if (CheckPointCounter == 2 && health <= 0)
+            {
+                PlayerPosition = new Vector2(2660, 300);
+                health = 3;
+
+            }
+            //WIP Damage Forgiving
+            if (TookDamage == true)
+            {
+                TookDamage = false;
+
+
+            }
+            else
+            {
+
+                // Spike Collision
+
+                if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450) { health--; TookDamage = true; }
+
+
+                // Top Spikes Page 1
+
+                if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 1455 && PlayerPosition.X <= 1500 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 1645 && PlayerPosition.X <= 1860 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 2003 && PlayerPosition.X <= 2368 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                // Page 2
+
+                if (PlayerPosition.X >= 2440 && PlayerPosition.X <= 2615 && PlayerPosition.Y <= 150) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 2825 && PlayerPosition.X < 2850 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 2920 && PlayerPosition.X <= 2950 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 3060 && PlayerPosition.X <= 3105 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 3855 && PlayerPosition.X <= 3945 && PlayerPosition.Y >= 200 && PlayerPosition.Y <= 350) { health--; TookDamage = true; }
+
+                // Bottom Spikes Page 1
+
+                if (PlayerPosition.X >= 1743 && PlayerPosition.X <= 2120 && PlayerPosition.Y >= 500) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 2148 && PlayerPosition.X <= 2268 && PlayerPosition.Y >= 500) { health--; TookDamage = true; }
+
+                // Bottom Spikes Page 2
+
+                if (PlayerPosition.X >= 2795 && PlayerPosition.X <= 2905 && PlayerPosition.Y >= 450) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 3195 && PlayerPosition.X <= 3265 && PlayerPosition.Y >= 450) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 3495 && PlayerPosition.X <= 3565 && PlayerPosition.Y >= 450) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 4050 && PlayerPosition.X <= 4110 && PlayerPosition.Y >= 500) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 4150 && PlayerPosition.X <= 4210 && PlayerPosition.Y >= 500) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 4250 && PlayerPosition.X <= 4310 && PlayerPosition.Y >= 500) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X > 2855 && PlayerPosition.X < 2910 && PlayerPosition.Y >= 100) { health--; TookDamage = true; }
+
+                // Spike Collision
+                if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                // Middle Spikes
+                if (PlayerPosition.X >= 3535 && PlayerPosition.X <= 3575 && PlayerPosition.Y <= 275 && PlayerPosition.Y >= 215) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X > 3695 && PlayerPosition.X <= 3775 && PlayerPosition.Y <= 375 && PlayerPosition.Y >= 265) { health--; TookDamage = true; }
+            }
+
+            // First Level
+
+            Vector2 Move = new Vector2(-5, 0);
+            Vector2 GravityBasic = new Vector2(0, 10);
+            bool hitRWall = false;
+            bool hitLWall = false;
+
+
+
+            // Obstacle Collision From Spawn
+            // First object 
+
+            if (PlayerPosition.X > -625 && PlayerPosition.X <= -470 && PlayerPosition.Y <= 399)
+            {
+                // LEFT Side
+
+                hitRWall = true;
+                if (hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+
+                // Top Side
+
+                if (PlayerPosition.Y < 400 && PlayerPosition.X > -625)
+                {
+                    PlayerPosition = PlayerPosition + GravityBasic;
+                    hitRWall = false;
+                    if (!hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+
+                // Right Side
+
+                if (PlayerPosition.X <= -465 && PlayerPosition.Y < 400)
+                {
+                    hitLWall = true;
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+
+            }
+
+            // 2nd object 
+
+            if (PlayerPosition.X > -375 && PlayerPosition.X <= -220 && PlayerPosition.Y >= 145)
+            {
+                // LEFT Side
+
+                hitRWall = true;
+                if (hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+
+                // Top Side
+
+                if (PlayerPosition.Y > 149 && PlayerPosition.X > -373)
+                {
+                    PlayerPosition = PlayerPosition - GravityBasic;
+                    hitRWall = false;
+                    if (!hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+
+                // Right Side
+
+                if (PlayerPosition.X <= -200 && PlayerPosition.Y > 150)
+                {
+                    hitLWall = true;
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+            }
+
+            // Small Sqaure up top
+
+            if (PlayerPosition.X > -125 && PlayerPosition.X <= -15 && PlayerPosition.Y <= 100)
+            {
+                // LEFT Side
+
+                hitRWall = true;
+                if (hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+
+                // Top Side
+
+                if (PlayerPosition.Y < 100 && PlayerPosition.X > -125)
+                {
+                    PlayerPosition = PlayerPosition + GravityBasic;
+                    hitRWall = false;
+                    if (!hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+
+                // Right Side
+
+                if (PlayerPosition.X < -15 && PlayerPosition.Y < 100)
+                {
+                    hitLWall = true;
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+            }
+
+            // Second Checkpoint
+
+            if (PlayerPosition.X >= 1179 && PlayerPosition.X <= 1320 && PlayerPosition.Y <= 100)
+            {
+                // Right Side
+
+                if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+
+                // TOP
+
+                if (PlayerPosition.X > 1180 && PlayerPosition.Y <= 90)
+                {
+                    PlayerPosition = PlayerPosition + GravityBasic;
+                    hitRWall = true;
+                    if (hitRWall && Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                    {
+                        PlayerPosition = PlayerPosition + Move;
+                    }
+                }
+
+                // Right Side
+
+                if (PlayerPosition.X >= 1227 && PlayerPosition.X < 1335 && PlayerPosition.Y <= 150)
+                {
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                    {
+                        PlayerPosition = PlayerPosition + Move;
+                    }
+                }
+            }
+            if (PlayerPosition.X <= 1333 && PlayerPosition.X > 1180 && PlayerPosition.Y < 140)
+            {
+                if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                {
+                    PlayerPosition = PlayerPosition - Move * 6 / 5;
+                }
+            }
+            if (PlayerPosition.X >= 1230 && PlayerPosition.X < 1335 && PlayerPosition.Y <= 140)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            // Small Wedge
+            // Bottom
+
+            if (PlayerPosition.X >= 1390 & PlayerPosition.X <= 1470 && PlayerPosition.Y >= 51 && PlayerPosition.Y < 100)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            // Top
+
+            if (PlayerPosition.X >= 1390 & PlayerPosition.X <= 1625 && PlayerPosition.Y >= 100 && PlayerPosition.Y <= 145)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            // Right
+
+            if (PlayerPosition.X < 1635 && PlayerPosition.X > 1620 && PlayerPosition.Y <= 145)
+            {
+                PlayerPosition = PlayerPosition - Move * 6 / 5;
+            }
+
+            // Left 
+
+            if (PlayerPosition.X < 1420 && PlayerPosition.X > 1375 && PlayerPosition.Y <= 101 && PlayerPosition.Y > 52)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            // CHECKPOINT #2
+            // Left
+            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2770 && PlayerPosition.Y > 360)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            // Top 
+            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2825 && PlayerPosition.Y >= 355)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            // Right
+            if (PlayerPosition.X > 2771 && PlayerPosition.X <= 2825 && PlayerPosition.Y > 360)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            // Top Next To Spikes
+
+            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2740 && PlayerPosition.Y <= 140)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            //Left
+            if (PlayerPosition.X > 2327 && PlayerPosition.X < 2730 && PlayerPosition.Y < 140)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            //Right
+            if (PlayerPosition.X > 2730 && PlayerPosition.X <= 2735 && PlayerPosition.Y < 140)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            // Finish Page
+            // # 1
+            if (PlayerPosition.X > 2725 && PlayerPosition.X < 2875 && PlayerPosition.Y >= 350)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 2725 && PlayerPosition.X < 2800 && PlayerPosition.Y >= 310)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 2785 && PlayerPosition.X <= 2800 && PlayerPosition.Y >= 100 && PlayerPosition.Y <= 300)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2740 && PlayerPosition.Y <= 140)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 2790 && PlayerPosition.X < 2985 && PlayerPosition.Y >= 110)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            if (PlayerPosition.X <= 2980 && PlayerPosition.X > 2920 && PlayerPosition.Y >= 110)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            if (PlayerPosition.X >= 2980 && PlayerPosition.X <= 3010 && PlayerPosition.Y >= 110 && PlayerPosition.Y < 160 && PlayerPosition.Y > 120)
+            {
+                PlayerPosition = new Vector2(2660, 300);
+            }
+
+            if (PlayerPosition.X > 3080 && PlayerPosition.X < 3180 && PlayerPosition.Y <= 350)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X > 3095 && PlayerPosition.X < 3225 && PlayerPosition.Y <= 390)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            if (PlayerPosition.X > 3045 && PlayerPosition.X <= 3130 && PlayerPosition.Y < 250 && PlayerPosition.Y > 200)
+            {
+                PlayerPosition = new Vector2(2660, 300);
+            }
+
+            if (PlayerPosition.X < 3230 && PlayerPosition.X > 3215 && PlayerPosition.Y < 350)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            // Top
+            if (PlayerPosition.X >= 3270 && PlayerPosition.X < 3325 && PlayerPosition.Y <= 90 || PlayerPosition.X >= 3395 && PlayerPosition.X <= 3455 && PlayerPosition.Y <= 90)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            // Right
+            if (PlayerPosition.X >= 3380 && PlayerPosition.X <= 3410 && PlayerPosition.Y <= 60 || PlayerPosition.X >= 3430 && PlayerPosition.X <= 3455 && PlayerPosition.Y <= 100)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            //Left
+            if (PlayerPosition.X >= 3230 && PlayerPosition.X <= 3325 && PlayerPosition.Y <= 60 || PlayerPosition.X >= 3230 && PlayerPosition.X <= 3280 && PlayerPosition.Y <= 100)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            if (PlayerPosition.X >= 3230 && PlayerPosition.X < 3275 && PlayerPosition.Y <= 140 || PlayerPosition.X >= 3445 && PlayerPosition.X <= 3510 && PlayerPosition.Y <= 140)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 3500 && PlayerPosition.X <= 3530 && PlayerPosition.Y <= 140)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            // Bottom 
+            if (PlayerPosition.X >= 3280 && PlayerPosition.X <= 3330 && PlayerPosition.Y >= 420 || PlayerPosition.X >= 3335 && PlayerPosition.X <= 3385 && PlayerPosition.Y >= 370)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 3300 && PlayerPosition.X < 3370 && PlayerPosition.Y >= 410 || PlayerPosition.X >= 3355 && PlayerPosition.X <= 3430 && PlayerPosition.Y >= 360 || PlayerPosition.X >= 3430 && PlayerPosition.X < 3475 && PlayerPosition.Y >= 410)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 3430 && PlayerPosition.X <= 3480 && PlayerPosition.Y >= 420 || PlayerPosition.X <= 3430 && PlayerPosition.X >= 3380 && PlayerPosition.Y >= 370)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            // Long Pillar
+            if (PlayerPosition.X >= 3578 && PlayerPosition.X <= 3628 && PlayerPosition.Y >= 110)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+            if (PlayerPosition.X >= 3583 && PlayerPosition.X < 3670 && PlayerPosition.Y >= 100)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+            if (PlayerPosition.X >= 3630 && PlayerPosition.X <= 3680 && PlayerPosition.Y >= 110)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+            //
         }
         static void Player()
         {
@@ -103,21 +835,28 @@ namespace Assignment_4_Group_2D_Game_Project
             float PlayerBottomCorner = PlayerPosition.X + PlayerPosition.Y;
 
             //Draws Player 
-            Raylib.DrawRectangle((int)PlayerPosition.X, (int)PlayerPosition.Y, (int)PlayerSize.X, (int)PlayerSize.Y, Color.BLUE);
+            Raylib.DrawTexture(maincharacter, (int)PlayerPosition.X - 500, (int)PlayerPosition.Y - 400, Color.WHITE);
 
             // Controls 
             if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
             {
                 PlayerPosition = PlayerPosition + Move;
+                ifMoved = true;
             }
             if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
             {
                 PlayerPosition = PlayerPosition - Move;
+                ifMoved = true;
+            }
+            if (Raylib.IsKeyDown(KeyboardKey.KEY_P)) // Dev Mode
+            {
+                devPressed++;
+                if (devPressed == 1) { devMode = true; } else { devMode = false; devPressed = 0; }
             }
 
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_W) || Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
-
+                ifMoved = true;
                 // Allows button to be toggle-able, swaps Polarity 
                 PolarityPressed++;
                 if (PolarityPressed == 1)
@@ -139,13 +878,13 @@ namespace Assignment_4_Group_2D_Game_Project
             bool BottomBrickHit = false;
 
             // Side Wall and Telportation Collision 
-            if (PlayerPosition.X - PlayerWidth > -1820 && PlayerPosition.X - PlayerWidth < -805 || PlayerPosition.X + PlayerWidth > 10000000)
+            if (PlayerPosition.X - PlayerWidth > -1980 && PlayerPosition.X - PlayerWidth < -805 || PlayerPosition.X + PlayerWidth > 10000000)
             {
-              
+
                 GravityBasic = new Vector2(0, 0);
                 if (PlayerPosition.X >= -900 && PlayerPosition.X < 750)
                 {
-                    Vector2 Move2 = new Vector2(5, 0); 
+                    Vector2 Move2 = new Vector2(5, 0);
                     PlayerPosition = PlayerPosition + Move2;
                     if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
                     {
@@ -156,11 +895,21 @@ namespace Assignment_4_Group_2D_Game_Project
                 if (PlayerPosition.X <= -920 && PlayerPosition.X >= -930)
                 {
                     PlayerPosition = new Vector2(-1750, 250);
+                    Polarity = true;
                 }
 
-                if (PlayerPosition.X <= -1750)
+                if (PlayerPosition.X <= -1750 && PlayerPosition.X > -1970)
                 {
                     PlayerPosition = PlayerPosition + Move;
+                    if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                    {
+                        PlayerPosition = PlayerPosition - Move;
+                    }
+                }
+                if (PlayerPosition.X >= -1740 && PlayerPosition.X < -1500)
+                {
+                    PlayerPosition = new Vector2(-900, 250);
+                    Polarity = false;
                 }
 
             }
@@ -179,7 +928,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
             // Bottom Collision  
-            if (PlayerPosition.Y + 5 > FloorBrickHeight && PlayerPosition.X < 1345)
+            if (PlayerPosition.Y + 5 > FloorBrickHeight && PlayerPosition.X < 1680 || PlayerPosition.X >= 2765 && PlayerPosition.X <= 3625 && PlayerPosition.Y + 5 > FloorBrickHeight)
             {
                 GravityBasic = new Vector2(0, 0);
                 BottomWall = true;
@@ -195,7 +944,7 @@ namespace Assignment_4_Group_2D_Game_Project
             // Map Collision
 
             // The First Block the player hits
-            if (PlayerPosition.X > 1200 && PlayerPosition.X < 1700)
+            if (PlayerPosition.X > 1182 && PlayerPosition.X < 1680)
             {
                 HitRWall = true;
                 Move = new Vector2(5, 0);
@@ -241,7 +990,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // Floor Collison (Making it easier for myself)
-            if (PlayerPosition.X >= 1700)
+            if (PlayerPosition.X >= 1680)
             {
                 if (PlayerPosition.Y >= 500)
                 {
@@ -268,18 +1017,17 @@ namespace Assignment_4_Group_2D_Game_Project
         }
         static void Update() // Your game code run each frame here 
         {
-           
+
 
         }
-        
+
         static void Floor()
         {
             // Brick Size 
             int brickheight = 80;
             int brickwidth = 80;
-
-            //---Page 00
-
+            // Devon's test merge commit for my block building area.
+            // page 00
             //bottom 13 blocks 2 rows
             Rectangle FloorBrick0 = new Rectangle(-2400, 500, 650, 100);
             Raylib.DrawRectangleRec(FloorBrick0, Color.GRAY);
@@ -350,6 +1098,8 @@ namespace Assignment_4_Group_2D_Game_Project
             Raylib.DrawRectangleRec(FloorBrick26, Color.GRAY);
 
             //---Page 1
+            //FIRST CHECKPOINT LOCATION
+            Raylib.DrawTexture(checkpointicon, 1200, 140, Color.WHITE);
 
             Rectangle FloorBrick28 = new Rectangle(0, 550, 1250, 50);
             Raylib.DrawRectangleRec(FloorBrick28, Color.GRAY);
@@ -437,6 +1187,9 @@ namespace Assignment_4_Group_2D_Game_Project
 
             //---Page 4
 
+            //---Page 00
+            //SECOND CHECKPOINT
+            Raylib.DrawTexture(checkpointicon, 2525, 190, Color.WHITE);
             //page4 ceiling 9 blocks level 1
             Rectangle FloorBrick70 = new Rectangle(2400, 0, 450, 50);
             Raylib.DrawRectangleRec(FloorBrick70, Color.GRAY);
@@ -654,7 +1407,7 @@ namespace Assignment_4_Group_2D_Game_Project
             Rectangle FloorBrick174 = new Rectangle(5500, 400, 100, 100);
             Raylib.DrawRectangleRec(FloorBrick174, Color.GRAY);
         }
-       
+
         static void Spikes()
         {
 
@@ -665,7 +1418,7 @@ namespace Assignment_4_Group_2D_Game_Project
             int spikeheight = 50;
             int spikewidth = 50;
 
-            
+
 
             Rectangle[,] spikes = new Rectangle[spikeheight, spikewidth];
 
@@ -683,14 +1436,15 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike1, i + 230, j + 20, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 235, j - 60, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 290, j - 60, Color.BLUE);
                     }
                 }
             }
 
-          
 
-            
+
+
 
 
             //page1 ceiling
@@ -714,12 +1468,12 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes2[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i - 25, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i - 75, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i - 127, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i - 180, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i - 230, j - 550, Color.ORANGE);
-                        
+                        Raylib.DrawTexture(spike2, i - 5, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i - 55, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i - 107, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i - 160, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i - 210, j - 550, Color.ORANGE);
+
                     }
                 }
             }
@@ -744,7 +1498,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes3[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i + 567, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 592, j - 550, Color.ORANGE);
                     }
                 }
             }
@@ -769,13 +1523,13 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes4[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike1, i + 1010, j + 80, Color.BLUE);
-                        Raylib.DrawTexture(spike1, i + 1060, j + 80, Color.BLUE);
-                        Raylib.DrawTexture(spike1, i + 1110, j + 80, Color.BLUE);
-                        Raylib.DrawTexture(spike1, i + 960, j + 80, Color.BLUE);
-                        Raylib.DrawTexture(spike1, i + 910, j + 80, Color.BLUE);
-                        Raylib.DrawTexture(spike1, i + 860, j + 80, Color.BLUE);
-                        Raylib.DrawTexture(spike1, i + 1160, j + 80, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 1030, j, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 1080, j, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 1130, j, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 980, j, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 930, j, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 880, j, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 1180, j, Color.BLUE);
                     }
                 }
             }
@@ -800,8 +1554,8 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes5[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike1, i + 1310, j + 80, Color.BLUE);
-                        Raylib.DrawTexture(spike1, i + 1260, j + 80, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 1340, j, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 1290, j, Color.BLUE);
                     }
                 }
             }
@@ -826,10 +1580,10 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes6[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i + 765, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 815, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 865, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 915, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 795, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 845, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 895, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 945, j - 550, Color.ORANGE);
                     }
                 }
             }
@@ -854,13 +1608,13 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes7[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i + 1117, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 1167, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 1217, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 1267, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 1317, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 1367, j - 550, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 1417, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1145, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1195, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1245, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1295, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1345, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1395, j - 550, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1445, j - 550, Color.ORANGE);
                     }
                 }
             }
@@ -885,9 +1639,9 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes8[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i + 1565, j - 450, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 1615, j - 450, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 1665, j - 450, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1590, j - 450, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1640, j - 450, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1690, j - 450, Color.ORANGE);
                     }
                 }
             }
@@ -937,9 +1691,9 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes10[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike2, i + 1915, j - 570, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 2015, j - 570, Color.ORANGE);
-                        Raylib.DrawTexture(spike2, i + 2165, j - 570, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 1945, j - 570, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 2045, j - 570, Color.ORANGE);
+                        Raylib.DrawTexture(spike2, i + 2195, j - 570, Color.ORANGE);
                     }
                 }
             }
@@ -964,7 +1718,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes11[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike1, i + 1960, j - 350, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 1987, j - 400, Color.ORANGE);
                     }
                 }
             }
@@ -988,8 +1742,8 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes12[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike1, i + 1960, j + 80, Color.BLUE);
-                        Raylib.DrawTexture(spike1, i + 1910, j + 80, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 1990, j - 15, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 1940, j - 15, Color.BLUE);
                     }
                 }
             }
@@ -1063,7 +1817,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes15[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike1, i + 2310, j + 40, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 2337, j - 60, Color.BLUE);
                     }
                 }
             }
@@ -1087,7 +1841,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes16[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike1, i + 2610, j + 40, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 2637, j - 60, Color.BLUE);
                     }
                 }
             }
@@ -1111,7 +1865,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes17[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike3, i + 2675, j - 270, Color.BLUE);
+                        Raylib.DrawTexture(spike3, i + 2685, j - 270, Color.BLUE);
                     }
                 }
             }
@@ -1135,7 +1889,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes18[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike3, i + 2840, j - 220, Color.BLUE);
+                        Raylib.DrawTexture(spike3, i + 2835, j - 210, Color.BLUE);
                     }
                 }
             }
@@ -1159,12 +1913,12 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes19[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike3, i + 2990, j - 265, Color.ORANGE);
-                        Raylib.DrawTexture(spike3, i + 2990, j - 315, Color.ORANGE);
-                        Raylib.DrawTexture(spike3, i + 2990, j - 215, Color.BLUE);
-                        Raylib.DrawTexture(spike3, i + 2990, j - 165, Color.BLUE);
+                        Raylib.DrawTexture(spike3, i + 3035, j - 265, Color.ORANGE);
+                        Raylib.DrawTexture(spike3, i + 3035, j - 315, Color.ORANGE);
+                        Raylib.DrawTexture(spike3, i + 3035, j - 215, Color.BLUE);
+                        Raylib.DrawTexture(spike3, i + 3035, j - 165, Color.BLUE);
 
-                        
+
                     }
                 }
             }
@@ -1190,7 +1944,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes20[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike1, i + 3160, j + 80, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 3190, j, Color.BLUE);
                     }
                 }
             }
@@ -1214,7 +1968,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes21[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike1, i + 3260, j + 80, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 3290, j, Color.BLUE);
                     }
                 }
             }
@@ -1238,7 +1992,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 {
                     if (spikes22[i, j].Width > 0)
                     {
-                        Raylib.DrawTexture(spike1, i + 3360, j + 80, Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 3390, j, Color.BLUE);
                     }
                 }
             }
@@ -1318,13 +2072,14 @@ namespace Assignment_4_Group_2D_Game_Project
         static void Background()
         {
             Raylib.DrawTexture(background, 0, 0, Color.RAYWHITE);
-            Raylib.DrawTexture(background, -1400, 5, Color.RAYWHITE);
-            Raylib.DrawTexture(background, 1600, 5, Color.RAYWHITE);
-            Raylib.DrawTexture(background, 3180, 5, Color.RAYWHITE);
-            Raylib.DrawTexture(background, 4780, 5, Color.RAYWHITE);
-
-            Raylib.DrawTexture(leftarrow, -1500, -80, Color.WHITE);
+            Raylib.DrawTexture(background, -1400, 0, Color.RAYWHITE);
+            Raylib.DrawTexture(background, -2720, 0, Color.RAYWHITE);
+            Raylib.DrawTexture(background, 1600, 0, Color.RAYWHITE);
+            Raylib.DrawTexture(background, 3180, 0, Color.RAYWHITE);
+            Raylib.DrawTexture(background, 4780, 0, Color.RAYWHITE);
         }
     }
- }
+}
+
+
 
