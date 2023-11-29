@@ -1,6 +1,7 @@
 ﻿using Raylib_cs;
 using System.Diagnostics;
 using System.Numerics;
+using System.Timers;
 
 
 namespace Assignment_4_Group_2D_Game_Project
@@ -19,11 +20,18 @@ namespace Assignment_4_Group_2D_Game_Project
         static Texture2D enemy3;
         static Texture2D maincharacter;
         static Texture2D checkpointicon;
+
+        static bool TookDamage = false;
+        static bool ifMoved { get; set; } = false;
+        static int CheckPointCounter { get; set; } = 0;
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
+        static int health { get; set; } = 3;
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
         static Vector2 PlayerSize = new Vector2(50, 50);
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
+        static Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
+        static Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
 
         static void Main(string[] args)
         {
@@ -37,14 +45,14 @@ namespace Assignment_4_Group_2D_Game_Project
 
             Raylib.InitAudioDevice();
             Sound sound = Raylib.LoadSound("../../../Assets Folder/Ending.mp3");
-             
+
             while (!Raylib.WindowShouldClose())
             {
-
+                CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
+                CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
                 Console.WriteLine(PlayerPosition);
                 // Camera Dimensions 
-                Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
-                Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
+
 
                 Camera2D Camera = new Camera2D(CameraOffset, CameraYLock, 0, 1);
 
@@ -57,12 +65,15 @@ namespace Assignment_4_Group_2D_Game_Project
                 // Clear the canvas with one color 
                 Raylib.ClearBackground(Color.WHITE);
 
+
                 Background();
+
                 Update();
                 Player();
                 Floor();
                 Spikes();
                 CheckCollision();
+                DrawHealth();
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame 
                 if (PlayerPosition.X > 5490 && PlayerPosition.Y > 300)
                 {
@@ -82,7 +93,7 @@ namespace Assignment_4_Group_2D_Game_Project
         }
         static void Setup() // Your one-time setup code here 
         {
-          
+
             spike1 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Upwards).png");
             spike2 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Downwards).png");
             spike3 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Left).png");
@@ -92,120 +103,145 @@ namespace Assignment_4_Group_2D_Game_Project
             enemy3 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 (Opposite) - Jake deVos.png");
             maincharacter = LoadTexture2D("../../../Assets Folder/Main Character-neutral.png");
             checkpointicon = LoadTexture2D("../../../Assets Folder/Checkpoint Icon - Jake deVos.png");
-            
+
         }
-       
+
+        static void DrawHealth()
+        {
+            //Background Battery
+            Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 20, (int)CameraYLock.Y - (WindowHeight / 2) + 20, 200, 50, Color.DARKGRAY);
+            Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 220, (int)CameraYLock.Y - (WindowHeight / 2) + 32, 25, 25, Color.DARKGRAY);
+
+            //Draw Health Based on Health Amount
+            if (health == 3)
+            {
+                Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 25, (int)CameraYLock.Y - (WindowHeight / 2) + 25, 180, 40, Color.GREEN);
+
+            }
+            else if (health == 2)
+            {
+                Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 25, (int)CameraYLock.Y - (WindowHeight / 2) + 25, 100, 40, Color.ORANGE);
+            }
+            else if (health == 1)
+            {
+                Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 25, (int)CameraYLock.Y - (WindowHeight / 2) + 25, 50, 40, Color.RED);
+
+            }
+
+            // Resets Health at Checkpoints
+            Rectangle PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle CheckPoint1 = new Rectangle(1350, 280, 70, 70);
+            Rectangle CheckPoint2 = new Rectangle(2675, 330, 70, 70);
+
+            bool Check1 = Raylib.CheckCollisionRecs(PlayerRec, CheckPoint1);
+            bool Check2 = Raylib.CheckCollisionRecs(PlayerRec, CheckPoint2);
+            if (Check1) { health = 3; }
+            if (Check2) { health = 3; }
+
+            if (Check1 == true && CheckPointCounter == 0) { CheckPointCounter++; }
+            if (Check2 == true && CheckPointCounter == 1) { CheckPointCounter++; }
+
+        }
+
         static Texture2D LoadTexture2D(string filename)
         {
             Image image = Raylib.LoadImage(filename);
             Texture2D texture = Raylib.LoadTextureFromImage(image);
             return texture;
         }
+
+       
         static void CheckCollision()
         {
-            // Spike Collision
-
-            if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450)
+            
+            //Respawn Mechanics
+            //Spawn
+            if (CheckPointCounter == 0 && health <= 0)
             {
                 PlayerPosition = new Vector2(-900, 200);
+                health = 3;
+
             }
-
-            // Top Spikes Page 1
-
-            if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50)
-            {
-                PlayerPosition = new Vector2(-900, 200);
-            }
-
-            if (PlayerPosition.X >= 1455 && PlayerPosition.X <= 1500 && PlayerPosition.Y <= 50)
+            //Checkpoint 1
+            if (CheckPointCounter == 1 && health <= 0)
             {
                 PlayerPosition = new Vector2(1365, 300);
+                health = 3;
+
             }
-
-            if (PlayerPosition.X >= 1645 && PlayerPosition.X <= 1860 && PlayerPosition.Y <= 50)
-            {
-                PlayerPosition = new Vector2(1365, 300);
-            }
-
-            if (PlayerPosition.X >= 2003 && PlayerPosition.X <= 2368 && PlayerPosition.Y <= 50)
-            {
-                PlayerPosition = new Vector2(1365, 300);
-            }
-
-            // Page 2
-
-            if (PlayerPosition.X >= 2440 && PlayerPosition.X <= 2615 && PlayerPosition.Y <= 150)
+            //Checkpoint 2
+            if (CheckPointCounter == 2 && health <= 0)
             {
                 PlayerPosition = new Vector2(2660, 300);
-                Polarity = true;
+                health = 3;
+
+            }
+            //WIP Damage Forgiving
+            if (TookDamage == true)
+            {
+                TookDamage = false;
+
+
+            }
+            else 
+            {
+
+                // Spike Collision
+
+                if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450) { health--; TookDamage = true; }
+
+
+                // Top Spikes Page 1
+
+                if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 1455 && PlayerPosition.X <= 1500 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 1645 && PlayerPosition.X <= 1860 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 2003 && PlayerPosition.X <= 2368 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                // Page 2
+
+                if (PlayerPosition.X >= 2440 && PlayerPosition.X <= 2615 && PlayerPosition.Y <= 150) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 2825 && PlayerPosition.X < 2850 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 2920 && PlayerPosition.X <= 2950 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 3060 && PlayerPosition.X <= 3105 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 3855 && PlayerPosition.X <= 3945 && PlayerPosition.Y >= 200 && PlayerPosition.Y <= 350) { health--; TookDamage = true; }
+
+                // Bottom Spikes Page 1
+
+                if (PlayerPosition.X >= 1743 && PlayerPosition.X <= 2120 && PlayerPosition.Y >= 500) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 2148 && PlayerPosition.X <= 2268 && PlayerPosition.Y >= 500) { health--; TookDamage = true; }
+
+                // Bottom Spikes Page 2
+
+                if (PlayerPosition.X >= 2795 && PlayerPosition.X <= 2905 && PlayerPosition.Y >= 450) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 3195 && PlayerPosition.X <= 3265 && PlayerPosition.Y >= 450) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 3495 && PlayerPosition.X <= 3565 && PlayerPosition.Y >= 450) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 4050 && PlayerPosition.X <= 4110 && PlayerPosition.Y >= 500) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 4150 && PlayerPosition.X <= 4210 && PlayerPosition.Y >= 500) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 4250 && PlayerPosition.X <= 4310 && PlayerPosition.Y >= 500) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X > 2855 && PlayerPosition.X < 2910 && PlayerPosition.Y >= 100) { health--; TookDamage = true; }
+
+                // Spike Collision
+                if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
+
             }
 
-            if (PlayerPosition.X >= 2825 && PlayerPosition.X < 2850 && PlayerPosition.Y <= 50)
-            {
-                PlayerPosition = new Vector2(2660, 300);
-            }
-
-            if (PlayerPosition.X >= 2920 && PlayerPosition.X <= 2950 && PlayerPosition.Y <= 50)
-            {
-                PlayerPosition = new Vector2(2660, 300);
-            }
-
-            if (PlayerPosition.X >= 3060 && PlayerPosition.X <= 3105 && PlayerPosition.Y <= 50)
-            {
-                PlayerPosition = new Vector2(2660, 300);
-            }
-
-            if (PlayerPosition.X >= 3855 && PlayerPosition.X <= 3945 && PlayerPosition.Y >= 200 && PlayerPosition.Y <= 350)
-            {
-                PlayerPosition = new Vector2(2660, 300);
-            }
-
-            // Bottom Spikes Page 1
-
-            if (PlayerPosition.X >= 1743 && PlayerPosition.X <= 2120 && PlayerPosition.Y >= 500)
-            {
-                PlayerPosition = new Vector2(1365, 300);
-            }
-
-            if (PlayerPosition.X >= 2148 && PlayerPosition.X <= 2268 && PlayerPosition.Y >= 500)
-            {
-                PlayerPosition = new Vector2(1365, 300);
-            }
-
-            // Bottom Spikes Page 2
-
-            if (PlayerPosition.X >= 2795 && PlayerPosition.X <= 2905 && PlayerPosition.Y >= 450)
-            {
-                PlayerPosition = new Vector2(2660, 300);
-            }
-
-            if (PlayerPosition.X >= 3195 && PlayerPosition.X <= 3265 && PlayerPosition.Y >= 450)
-            {
-                PlayerPosition = new Vector2(2660, 300);
-            }
-
-            if (PlayerPosition.X >= 3495 && PlayerPosition.X <= 3565 && PlayerPosition.Y >= 450)
-            {
-                PlayerPosition = new Vector2(2660, 300);
-            }
-
-            if (PlayerPosition.X >= 4050 && PlayerPosition.X <= 4110 && PlayerPosition.Y >= 500)
-            {
-                PlayerPosition = new Vector2(2660, 300);
-            }
-            if (PlayerPosition.X >= 4150 && PlayerPosition.X <= 4210 && PlayerPosition.Y >= 500)
-            {
-                PlayerPosition = new Vector2(2660, 300);
-            }
-            if (PlayerPosition.X >= 4250 && PlayerPosition.X <= 4310 && PlayerPosition.Y >= 500)
-            {
-                PlayerPosition = new Vector2(2660, 300);
-            }
-
-            if (PlayerPosition.X > 2855 && PlayerPosition.X < 2910 && PlayerPosition.Y >= 100)
-            {
-                PlayerPosition = new Vector2(2660, 300);
-            }
             // First Level
 
             Vector2 Move = new Vector2(-5, 0);
@@ -213,16 +249,7 @@ namespace Assignment_4_Group_2D_Game_Project
             bool hitRWall = false;
             bool hitLWall = false;
 
-            // Spike Collision
-            if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450)
-            {
-                PlayerPosition = new Vector2(-900, 250);
-            }
 
-            if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50)
-            {
-                PlayerPosition = new Vector2(-900, 250);
-            }
 
             // Obstacle Collision From Spawn
             // First object 
@@ -523,15 +550,17 @@ namespace Assignment_4_Group_2D_Game_Project
             if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
             {
                 PlayerPosition = PlayerPosition + Move;
+                ifMoved = true;
             }
             if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
             {
                 PlayerPosition = PlayerPosition - Move;
+                ifMoved = true;
             }
 
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_W) || Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
-
+                ifMoved = true;
                 // Allows button to be toggle-able, swaps Polarity 
                 PolarityPressed++;
                 if (PolarityPressed == 1)
@@ -692,10 +721,10 @@ namespace Assignment_4_Group_2D_Game_Project
         }
         static void Update() // Your game code run each frame here 
         {
-           
+
 
         }
-        
+
         static void Floor()
         {
             // Brick Size 
@@ -1082,7 +1111,7 @@ namespace Assignment_4_Group_2D_Game_Project
             Rectangle FloorBrick174 = new Rectangle(5500, 400, 100, 100);
             Raylib.DrawRectangleRec(FloorBrick174, Color.GRAY);
         }
-       
+
         static void Spikes()
         {
 
@@ -1093,7 +1122,7 @@ namespace Assignment_4_Group_2D_Game_Project
             int spikeheight = 50;
             int spikewidth = 50;
 
-            
+
 
             Rectangle[,] spikes = new Rectangle[spikeheight, spikewidth];
 
@@ -1117,9 +1146,9 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
             }
 
-          
 
-            
+
+
 
 
             //page1 ceiling
@@ -1148,7 +1177,7 @@ namespace Assignment_4_Group_2D_Game_Project
                         Raylib.DrawTexture(spike2, i - 107, j - 550, Color.ORANGE);
                         Raylib.DrawTexture(spike2, i - 160, j - 550, Color.ORANGE);
                         Raylib.DrawTexture(spike2, i - 210, j - 550, Color.ORANGE);
-                        
+
                     }
                 }
             }
@@ -1201,7 +1230,7 @@ namespace Assignment_4_Group_2D_Game_Project
                         Raylib.DrawTexture(spike1, i + 1030, j, Color.BLUE);
                         Raylib.DrawTexture(spike1, i + 1080, j, Color.BLUE);
                         Raylib.DrawTexture(spike1, i + 1130, j, Color.BLUE);
-                        Raylib.DrawTexture(spike1, i + 980, j , Color.BLUE);
+                        Raylib.DrawTexture(spike1, i + 980, j, Color.BLUE);
                         Raylib.DrawTexture(spike1, i + 930, j, Color.BLUE);
                         Raylib.DrawTexture(spike1, i + 880, j, Color.BLUE);
                         Raylib.DrawTexture(spike1, i + 1180, j, Color.BLUE);
@@ -1593,7 +1622,7 @@ namespace Assignment_4_Group_2D_Game_Project
                         Raylib.DrawTexture(spike3, i + 3035, j - 215, Color.BLUE);
                         Raylib.DrawTexture(spike3, i + 3035, j - 165, Color.BLUE);
 
-                        
+
                     }
                 }
             }
@@ -1754,5 +1783,5 @@ namespace Assignment_4_Group_2D_Game_Project
             Raylib.DrawTexture(background, 4780, 0, Color.RAYWHITE);
         }
     }
- }
+}
 
