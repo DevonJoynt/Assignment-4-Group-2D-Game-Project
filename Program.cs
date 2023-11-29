@@ -17,6 +17,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static Texture2D background;
         static Texture2D enemy2;
         static Texture2D enemy3;
+        static Texture2D leftarrow;
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
@@ -72,6 +73,7 @@ namespace Assignment_4_Group_2D_Game_Project
             background = LoadTexture2D("Screen Background - Jake deVos.png");
             enemy2 = LoadTexture2D("Enemy Design 2 - Jake deVos.png");
             enemy3 = LoadTexture2D("Enemy Design 2 (Opposite) - Jake deVos.png");
+            leftarrow = LoadTexture2D("../../../art asset for the game/Left arrow key.png");
         }
         static Texture2D LoadTexture2D(string filename)
         {
@@ -1320,6 +1322,8 @@ namespace Assignment_4_Group_2D_Game_Project
             Raylib.DrawTexture(background, 1600, 5, Color.RAYWHITE);
             Raylib.DrawTexture(background, 3180, 5, Color.RAYWHITE);
             Raylib.DrawTexture(background, 4780, 5, Color.RAYWHITE);
+
+            Raylib.DrawTexture(leftarrow, -1500, -80, Color.WHITE);
         }
     }
  }
