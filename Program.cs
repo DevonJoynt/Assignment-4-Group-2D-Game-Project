@@ -21,9 +21,12 @@ namespace Assignment_4_Group_2D_Game_Project
         static Texture2D checkpointicon;
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
+        static int health = 3;
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
         static Vector2 PlayerSize = new Vector2(50, 50);
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
+        static Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
+        static Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
 
         static void Main(string[] args)
         {
@@ -40,11 +43,11 @@ namespace Assignment_4_Group_2D_Game_Project
              
             while (!Raylib.WindowShouldClose())
             {
-
+                CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
+                CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
                 Console.WriteLine(PlayerPosition);
                 // Camera Dimensions 
-                Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
-                Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
+                
 
                 Camera2D Camera = new Camera2D(CameraOffset, CameraYLock, 0, 1);
 
@@ -57,12 +60,15 @@ namespace Assignment_4_Group_2D_Game_Project
                 // Clear the canvas with one color 
                 Raylib.ClearBackground(Color.WHITE);
 
+                
                 Background();
+                
                 Update();
                 Player();
                 Floor();
                 Spikes();
                 CheckCollision();
+                DrawHealth();
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame 
                 if (PlayerPosition.X > 5490 && PlayerPosition.Y > 300)
                 {
@@ -95,6 +101,31 @@ namespace Assignment_4_Group_2D_Game_Project
             
         }
        
+        static void DrawHealth()
+        {
+            //Background Battery
+            Raylib.DrawRectangle((int)CameraYLock.X- (WindowWidth/2)+20, (int)CameraYLock.Y- (WindowHeight/2)+20, 200, 50, Color.DARKGRAY);
+            Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 220, (int)CameraYLock.Y - (WindowHeight / 2) + 32, 25, 25, Color.DARKGRAY);
+
+
+            if (health == 3)
+            {
+                Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 25, (int)CameraYLock.Y - (WindowHeight / 2) + 25, 180, 40, Color.GREEN);
+
+            }
+            else if (health == 2)
+            {
+                Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 25, (int)CameraYLock.Y - (WindowHeight / 2) + 25, 100, 40, Color.ORANGE);
+            }
+            else if (health == 1)
+            {
+                Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 25, (int)CameraYLock.Y - (WindowHeight / 2) + 25, 50, 40, Color.RED);
+
+            }
+
+
+        }
+
         static Texture2D LoadTexture2D(string filename)
         {
             Image image = Raylib.LoadImage(filename);
