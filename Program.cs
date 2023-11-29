@@ -27,8 +27,13 @@ namespace Assignment_4_Group_2D_Game_Project
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
         static int health { get; set; } = 3;
+
+        static Vector2 EnemyPos1 { get; set; } = new Vector2(850, 35);
+        static Vector2 EnemyPos2 { get; set; } = new Vector2(800, -15);
+        static Vector2 EnemySize = new Vector2(50, 50);
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
         static Vector2 PlayerSize = new Vector2(50, 50);
+        static Rectangle PlayerRec { get; set; } = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
         static Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
         static Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
@@ -70,6 +75,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
                 Update();
                 Player();
+                DrawEnemies();
                 Floor();
                 Spikes();
                 CheckCollision();
@@ -143,6 +149,67 @@ namespace Assignment_4_Group_2D_Game_Project
 
         }
 
+        static void DrawEnemies()
+        {
+            FallingEnemy1();
+            FallingEnemy2();
+
+
+        }
+        static void FallingEnemy1()
+        {
+            
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos1.X + 400, EnemyPos1.Y, EnemySize.X, EnemySize.Y);
+            //Raylib.DrawRectangleRec(EnemyRec, Color.RED);
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 8);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos1.X+400, EnemyPos1.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy3, (int)EnemyPos1.X - 500, (int)EnemyPos1.Y - 500, Color.WHITE);
+
+            if (collision == true)
+            {
+                EnemyPos1 = EnemyPos1 + GravityBasic;
+            }
+
+            if (EnemyPlayerColl == true) { health--; }
+
+        }
+        static void FallingEnemy2()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos2.X + 400, EnemyPos2.Y, EnemySize.X, EnemySize.Y);
+
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 8);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos2.X + 400, EnemyPos2.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy3, (int)EnemyPos2.X - 500, (int)EnemyPos2.Y - 500, Color.WHITE);
+
+
+            if (collision == true)
+            {
+                EnemyPos2 = EnemyPos2 + GravityBasic;
+            }
+
+            if (EnemyPlayerColl == true) { health--; }
+
+
+        }
         static Texture2D LoadTexture2D(string filename)
         {
             Image image = Raylib.LoadImage(filename);
