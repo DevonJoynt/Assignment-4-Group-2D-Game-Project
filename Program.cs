@@ -505,7 +505,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
             // Bottom Collision  
-            if (PlayerPosition.Y + 5 > FloorBrickHeight && PlayerPosition.X < 1345)
+            if (PlayerPosition.Y + 5 > FloorBrickHeight && PlayerPosition.X < 1680 || PlayerPosition.X >= 2765 && PlayerPosition.X <= 3625 && PlayerPosition.Y + 5 > FloorBrickHeight)
             {
                 GravityBasic = new Vector2(0, 0);
                 BottomWall = true;
