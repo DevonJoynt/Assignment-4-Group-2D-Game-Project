@@ -59,7 +59,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
             Setup();
 
-            Raylib.InitAudioDevice();
+            Raylib.InitAudioDevice(); // DEVON DONT COPY THIS
             Sound sound = Raylib.LoadSound("../../../art asset for the game//Ending.mp3");
 
             while (!Raylib.WindowShouldClose())
@@ -108,7 +108,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
             }
             Raylib.UnloadSound(sound);
-            Raylib.CloseAudioDevice();
+            Raylib.CloseAudioDevice(); // DEVON DONT COPY THISS
             Raylib.CloseWindow(); // Close the window 
         }
         static void Setup() // Your one-time setup code here 
