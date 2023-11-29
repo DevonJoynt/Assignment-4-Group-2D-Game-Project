@@ -71,12 +71,11 @@ namespace Assignment_4_Group_2D_Game_Project
                     PlayerPosition = new Vector2(-900, 300);
                     // This is 6min and 10 seconds long
                     Raylib.PlaySound(sound);
-                    if (Raylib.IsKeyPressed(KeyboardKey.KEY_M))
-                    {
-                        Raylib.StopSound(sound);
-                    }
                 }
-               
+                if (Raylib.IsKeyPressed(KeyboardKey.KEY_M))
+                {
+                    Raylib.StopSound(sound);
+                }
             }
             Raylib.UnloadSound(sound);
             Raylib.CloseAudioDevice();
