@@ -63,7 +63,6 @@ namespace Assignment_4_Group_2D_Game_Project
                 Floor();
                 Spikes();
                 CheckCollision();
-                LoadMusicEnding();
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame 
                 if (PlayerPosition.X > 5490 && PlayerPosition.Y > 300)
                 {
@@ -95,14 +94,7 @@ namespace Assignment_4_Group_2D_Game_Project
             checkpointicon = LoadTexture2D("../../../Assets Folder/Checkpoint Icon - Jake deVos.png");
             
         }
-        static void LoadMusicEnding()
-        {
-            if (PlayerPosition.X > 5490 && PlayerPosition.Y > 300)
-            {
-                Sound sound = Raylib.LoadSound("../../../Assets Folder/Ending.mp3");
-                Raylib.PlaySound(sound);
-            }
-        }
+       
         static Texture2D LoadTexture2D(string filename)
         {
             Image image = Raylib.LoadImage(filename);
