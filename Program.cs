@@ -34,9 +34,13 @@ namespace Assignment_4_Group_2D_Game_Project
             PolarityPressed = 0;
 
             Setup();
-       
+
+            Raylib.InitAudioDevice();
+            Sound sound = Raylib.LoadSound("../../../Assets Folder/Ending.mp3");
+             
             while (!Raylib.WindowShouldClose())
             {
+
                 Console.WriteLine(PlayerPosition);
                 // Camera Dimensions 
                 Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
@@ -59,9 +63,23 @@ namespace Assignment_4_Group_2D_Game_Project
                 Floor();
                 Spikes();
                 CheckCollision();
-               
+                LoadMusicEnding();
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame 
+                if (PlayerPosition.X > 5490 && PlayerPosition.Y > 300)
+                {
+                    // This will Teleport Them Somewhere Else. (Currently, Back to the Start)
+                    PlayerPosition = new Vector2(-900, 300);
+                    // This is 6min and 10 seconds long
+                    Raylib.PlaySound(sound);
+                    if (Raylib.IsKeyPressed(KeyboardKey.KEY_M))
+                    {
+                        Raylib.StopSound(sound);
+                    }
+                }
+               
             }
+            Raylib.UnloadSound(sound);
+            Raylib.CloseAudioDevice();
             Raylib.CloseWindow(); // Close the window 
         }
         static void Setup() // Your one-time setup code here 
@@ -76,6 +94,15 @@ namespace Assignment_4_Group_2D_Game_Project
             enemy3 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 (Opposite) - Jake deVos.png");
             maincharacter = LoadTexture2D("../../../Assets Folder/Main Character-neutral.png");
             checkpointicon = LoadTexture2D("../../../Assets Folder/Checkpoint Icon - Jake deVos.png");
+            
+        }
+        static void LoadMusicEnding()
+        {
+            if (PlayerPosition.X > 5490 && PlayerPosition.Y > 300)
+            {
+                Sound sound = Raylib.LoadSound("../../../Assets Folder/Ending.mp3");
+                Raylib.PlaySound(sound);
+            }
         }
         static Texture2D LoadTexture2D(string filename)
         {
