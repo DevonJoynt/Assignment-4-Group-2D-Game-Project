@@ -791,7 +791,7 @@ namespace Assignment_4_Group_2D_Game_Project
             // Brick Size 
             int brickheight = 80;
             int brickwidth = 80;
-
+            // Devon's test merge commit for my block building area.
             // page 00
             //bottom 13 blocks 2 rows
             Rectangle FloorBrick0 = new Rectangle(-2400, 500, 650, 100);
