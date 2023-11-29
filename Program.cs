@@ -240,6 +240,10 @@ namespace Assignment_4_Group_2D_Game_Project
 
                 if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
 
+                // Middle Spikes
+                if (PlayerPosition.X >= 3535 && PlayerPosition.X <= 3575 && PlayerPosition.Y <= 275 && PlayerPosition.Y >= 215) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X > 3695 && PlayerPosition.X <= 3775 && PlayerPosition.Y <= 375 && PlayerPosition.Y >= 265) { health--; TookDamage = true; }
             }
 
             // First Level
@@ -534,6 +538,63 @@ namespace Assignment_4_Group_2D_Game_Project
                 PlayerPosition = PlayerPosition - Move;
             }
 
+            // Top
+            if (PlayerPosition.X >= 3270 && PlayerPosition.X < 3325 && PlayerPosition.Y <= 90 || PlayerPosition.X >= 3395 && PlayerPosition.X <= 3455 && PlayerPosition.Y <= 90)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            // Right
+            if (PlayerPosition.X >= 3380 && PlayerPosition.X <= 3410 && PlayerPosition.Y <= 60 || PlayerPosition.X >= 3430 && PlayerPosition.X <= 3455 && PlayerPosition.Y <= 100)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            //Left
+            if (PlayerPosition.X >= 3230 && PlayerPosition.X <= 3325 && PlayerPosition.Y <= 60 || PlayerPosition.X >= 3230 && PlayerPosition.X <= 3280 && PlayerPosition.Y <= 100)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            if (PlayerPosition.X >= 3230 && PlayerPosition.X < 3275 && PlayerPosition.Y <= 140 || PlayerPosition.X >= 3445 && PlayerPosition.X <= 3510 && PlayerPosition.Y <= 140)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 3500 && PlayerPosition.X <= 3530 && PlayerPosition.Y <= 140)
+            { 
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            // Bottom 
+            if (PlayerPosition.X >= 3280 && PlayerPosition.X <= 3330 && PlayerPosition.Y >= 420 || PlayerPosition.X >= 3335 && PlayerPosition.X <= 3385 && PlayerPosition.Y >= 370)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 3300 && PlayerPosition.X < 3370 && PlayerPosition.Y >= 410 || PlayerPosition.X >= 3355 && PlayerPosition.X <= 3430 && PlayerPosition.Y >= 360 || PlayerPosition.X >= 3430 && PlayerPosition.X < 3475 && PlayerPosition.Y >= 410)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 3430 && PlayerPosition.X <= 3480 && PlayerPosition.Y >= 420 || PlayerPosition.X <= 3430 && PlayerPosition.X >= 3380 && PlayerPosition.Y >= 370)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            // Long Pillar
+            if (PlayerPosition.X >= 3578 && PlayerPosition.X <= 3628 && PlayerPosition.Y >= 110 )
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+            if (PlayerPosition.X >= 3583 && PlayerPosition.X < 3670 && PlayerPosition.Y >= 100)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+            if(PlayerPosition.X >= 3630 && PlayerPosition.X <= 3680 && PlayerPosition.Y >= 110)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
         }
         static void Player()
         {
