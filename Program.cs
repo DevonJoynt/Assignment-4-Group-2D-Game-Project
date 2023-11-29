@@ -21,7 +21,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static Texture2D checkpointicon;
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
-        static int health = 3;
+        static int health { get; set; } = 3;
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
         static Vector2 PlayerSize = new Vector2(50, 50);
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
@@ -122,6 +122,16 @@ namespace Assignment_4_Group_2D_Game_Project
                 Raylib.DrawRectangle((int)CameraYLock.X - (WindowWidth / 2) + 25, (int)CameraYLock.Y - (WindowHeight / 2) + 25, 50, 40, Color.RED);
 
             }
+            
+            Rectangle PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle CheckPoint1 = new Rectangle(1350, 280, 70, 70);
+            Rectangle CheckPoint2 = new Rectangle(2675, 330, 70, 70);
+
+            bool Check1 = Raylib.CheckCollisionRecs(PlayerRec, CheckPoint1);
+            bool Check2 = Raylib.CheckCollisionRecs(PlayerRec, CheckPoint2);
+            if (Check1) { health = 3; }
+            if (Check2) {  health = 3; }
+            
 
 
         }
