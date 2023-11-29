@@ -60,7 +60,7 @@ namespace Assignment_4_Group_2D_Game_Project
             Setup();
 
             Raylib.InitAudioDevice();
-            Sound sound = Raylib.LoadSound("../../../Assets Folder/Ending.mp3");
+            Sound sound = Raylib.LoadSound("../../../art asset for the game//Ending.mp3");
 
             while (!Raylib.WindowShouldClose())
             {
@@ -114,17 +114,17 @@ namespace Assignment_4_Group_2D_Game_Project
         static void Setup() // Your one-time setup code here 
         {
 
-            spike1 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Upwards).png");
-            spike2 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Downwards).png");
-            spike3 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Left).png");
-            spike4 = LoadTexture2D("../../../Assets Folder/Spike (Pointing Right).png");
-            background = LoadTexture2D("../../../Assets Folder/Screen Background - Jake deVos.png");
-            enemy2 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 - Jake deVos.png");
-            enemy3 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 (Opposite) - Jake deVos.png");
-            enemy4 = LoadTexture2D("../../../Assets Folder/Enemy Design 3 - Jake deVos.png");
-            enemyBoss = LoadTexture2D("../../../Assets Folder/Final Enemy Design - Jake deVos.png");
-            maincharacter = LoadTexture2D("../../../Assets Folder/Main Character-neutral.png");
-            checkpointicon = LoadTexture2D("../../../Assets Folder/Checkpoint Icon - Jake deVos.png");
+            spike1 = LoadTexture2D("../../../art asset for the game/Spike (Pointing Upwards).png");
+            spike2 = LoadTexture2D("../../../art asset for the game//Spike (Pointing Downwards).png");
+            spike3 = LoadTexture2D("../../../art asset for the game//Spike (Pointing Left).png");
+            spike4 = LoadTexture2D("../../../art asset for the game//Spike (Pointing Right).png");
+            background = LoadTexture2D("../../../art asset for the game//Screen Background - Jake deVos.png");
+            enemy2 = LoadTexture2D("../../../art asset for the game//Enemy Design 2 - Jake deVos.png");
+            enemy3 = LoadTexture2D("../../../art asset for the game//Enemy Design 2 (Opposite) - Jake deVos.png");
+            enemy4 = LoadTexture2D("../../../art asset for the game//Enemy Design 3 - Jake deVos.png");
+            enemyBoss = LoadTexture2D("../../../art asset for the game//Final Enemy Design - Jake deVos.png");
+            maincharacter = LoadTexture2D("../../../art asset for the game//Main Character-neutral.png");
+            checkpointicon = LoadTexture2D("../../../art asset for the game//Checkpoint Icon - Jake deVos.png");
 
         }
 
