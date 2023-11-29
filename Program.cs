@@ -18,6 +18,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static Texture2D background;
         static Texture2D enemy2;
         static Texture2D enemy3;
+        static Texture2D enemy4;
         static Texture2D maincharacter;
         static Texture2D checkpointicon;
 
@@ -26,10 +27,16 @@ namespace Assignment_4_Group_2D_Game_Project
         static int CheckPointCounter { get; set; } = 0;
         static bool Polarity { get; set; } = true;
         static int PolarityPressed;
+        static bool devMode { get; set; } = false;
+        static int devPressed;
         static int health { get; set; } = 3;
 
         static Vector2 EnemyPos1 { get; set; } = new Vector2(850, 35);
         static Vector2 EnemyPos2 { get; set; } = new Vector2(800, -15);
+        static Vector2 EnemyPos3 { get; set; } = new Vector2(2950, -15);
+        static Vector2 EnemyPos4 { get; set; } = new Vector2(3000, -15);
+        static Vector2 EnemyPos5 { get; set; } = new Vector2(1500, -15);
+        static Vector2 EnemyPos6 { get; set; } = new Vector2(1700, -15);
         static Vector2 EnemySize = new Vector2(50, 50);
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
         static Vector2 PlayerSize = new Vector2(50, 50);
@@ -78,7 +85,10 @@ namespace Assignment_4_Group_2D_Game_Project
                 DrawEnemies();
                 Floor();
                 Spikes();
-                CheckCollision();
+                if (devMode == false)
+                {
+                    CheckCollision();
+                }
                 DrawHealth();
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame 
                 if (PlayerPosition.X > 5490 && PlayerPosition.Y > 300)
@@ -107,6 +117,7 @@ namespace Assignment_4_Group_2D_Game_Project
             background = LoadTexture2D("../../../Assets Folder/Screen Background - Jake deVos.png");
             enemy2 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 - Jake deVos.png");
             enemy3 = LoadTexture2D("../../../Assets Folder/Enemy Design 2 (Opposite) - Jake deVos.png");
+            enemy4 = LoadTexture2D("../../../Assets Folder/Enemy Design 3 - Jake deVos.png");
             maincharacter = LoadTexture2D("../../../Assets Folder/Main Character-neutral.png");
             checkpointicon = LoadTexture2D("../../../Assets Folder/Checkpoint Icon - Jake deVos.png");
 
@@ -153,7 +164,10 @@ namespace Assignment_4_Group_2D_Game_Project
         {
             FallingEnemy1();
             FallingEnemy2();
-
+            FallingEnemy3();
+            FallingEnemy4();
+            PolarityEnemy1();
+            PolarityEnemy2();
 
         }
         static void FallingEnemy1()
@@ -207,6 +221,123 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             if (EnemyPlayerColl == true) { health--; }
+
+
+        }
+        static void FallingEnemy3()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos3.X + 400, EnemyPos3.Y, EnemySize.X, EnemySize.Y);
+
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 8);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos3.X + 400, EnemyPos3.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy3, (int)EnemyPos3.X - 500, (int)EnemyPos3.Y - 500, Color.WHITE);
+
+
+            if (collision == true)
+            {
+                EnemyPos3 = EnemyPos3 + GravityBasic;
+            }
+
+            if (EnemyPlayerColl == true) { health--; }
+
+
+        }
+        static void FallingEnemy4()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos4.X + 400, EnemyPos4.Y, EnemySize.X, EnemySize.Y);
+
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 8);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos4.X + 400, EnemyPos4.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy3, (int)EnemyPos4.X - 500, (int)EnemyPos4.Y - 500, Color.WHITE);
+
+
+            if (collision == true)
+            {
+                EnemyPos4 = EnemyPos4 + GravityBasic;
+            }
+
+            if (EnemyPlayerColl == true) { health--; }
+
+
+        }
+
+        static void PolarityEnemy1()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos5.X + 400, EnemyPos5.Y, EnemySize.X, EnemySize.Y);
+
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 1);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos5.X + 400, EnemyPos5.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy4, (int)EnemyPos5.X - 500, (int)EnemyPos5.Y - 500, Color.WHITE);
+
+
+            if (Polarity == true)
+            {
+                EnemyPos5 = EnemyPos5 + GravityBasic;
+            }
+            else
+            {
+                EnemyPos5 = EnemyPos5 - GravityBasic;
+            }
+
+
+        }
+        static void PolarityEnemy2()
+        {
+
+            PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
+            Rectangle EnemyRec = new Rectangle(EnemyPos5.X + 400, EnemyPos5.Y, EnemySize.X, EnemySize.Y);
+
+            Vector2 Move = new Vector2(-5, 0);
+            bool BottomWall = false;
+            Vector2 GravityBasic = new Vector2(0, 1);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos5.X + 400, EnemyPos5.Y, EnemySize.X, 1000000);
+            //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
+            bool fall = false;
+            bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
+            bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
+
+            //Draws Enemy
+            Raylib.DrawTexture(enemy4, (int)EnemyPos5.X - 500, (int)EnemyPos5.Y - 500, Color.WHITE);
+
+
+            if (Polarity == true)
+            {
+                EnemyPos5 = EnemyPos5 + GravityBasic;
+            }
+            else
+            {
+                EnemyPos5 = EnemyPos5 - GravityBasic;
+            }
 
 
         }
@@ -623,6 +754,11 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 PlayerPosition = PlayerPosition - Move;
                 ifMoved = true;
+            }
+            if (Raylib.IsKeyDown(KeyboardKey.KEY_P)) // Dev Mode
+            {
+                devPressed++;
+                if (devPressed == 1) { devMode = true; } else { devMode = false; devPressed = 0; }
             }
 
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_W) || Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
