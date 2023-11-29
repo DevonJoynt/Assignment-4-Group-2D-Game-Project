@@ -104,12 +104,14 @@ namespace Assignment_4_Group_2D_Game_Project
         static void CheckCollision()
         {
             // Spike Collision
+
             if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450)
             {
                 PlayerPosition = new Vector2(-900, 200);
             }
 
             // Top Spikes Page 1
+
             if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50)
             {
                 PlayerPosition = new Vector2(-900, 200);
@@ -131,18 +133,19 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // Page 2
+
             if (PlayerPosition.X >= 2440 && PlayerPosition.X <= 2615 && PlayerPosition.Y <= 150)
             {
                 PlayerPosition = new Vector2(2660, 300);
                 Polarity = true;
             }
 
-            if (PlayerPosition.X >= 2805 && PlayerPosition.X <= 2855 && PlayerPosition.Y <= 50)
+            if (PlayerPosition.X >= 2825 && PlayerPosition.X < 2850 && PlayerPosition.Y <= 50)
             {
                 PlayerPosition = new Vector2(2660, 300);
             }
 
-            if (PlayerPosition.X >= 2910 && PlayerPosition.X <= 2950 && PlayerPosition.Y <= 50)
+            if (PlayerPosition.X >= 2920 && PlayerPosition.X <= 2950 && PlayerPosition.Y <= 50)
             {
                 PlayerPosition = new Vector2(2660, 300);
             }
@@ -152,12 +155,13 @@ namespace Assignment_4_Group_2D_Game_Project
                 PlayerPosition = new Vector2(2660, 300);
             }
 
-            if (PlayerPosition.X >= 3855 && PlayerPosition.X <= 3950 && PlayerPosition.Y >= 200 && PlayerPosition.Y <= 350)
+            if (PlayerPosition.X >= 3855 && PlayerPosition.X <= 3945 && PlayerPosition.Y >= 200 && PlayerPosition.Y <= 350)
             {
                 PlayerPosition = new Vector2(2660, 300);
             }
 
             // Bottom Spikes Page 1
+
             if (PlayerPosition.X >= 1743 && PlayerPosition.X <= 2120 && PlayerPosition.Y >= 500)
             {
                 PlayerPosition = new Vector2(1365, 300);
@@ -169,7 +173,8 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // Bottom Spikes Page 2
-            if (PlayerPosition.X >= 2795 && PlayerPosition.X <= 2905 && PlayerPosition.Y >= 500)
+
+            if (PlayerPosition.X >= 2795 && PlayerPosition.X <= 2905 && PlayerPosition.Y >= 450)
             {
                 PlayerPosition = new Vector2(2660, 300);
             }
@@ -195,12 +200,29 @@ namespace Assignment_4_Group_2D_Game_Project
             if (PlayerPosition.X >= 4250 && PlayerPosition.X <= 4310 && PlayerPosition.Y >= 500)
             {
                 PlayerPosition = new Vector2(2660, 300);
-            }            
+            }
+
+            if (PlayerPosition.X > 2855 && PlayerPosition.X < 2910 && PlayerPosition.Y >= 100)
+            {
+                PlayerPosition = new Vector2(2660, 300);
+            }
+            // First Level
 
             Vector2 Move = new Vector2(-5, 0);
             Vector2 GravityBasic = new Vector2(0, 10);
             bool hitRWall = false;
             bool hitLWall = false;
+
+            // Spike Collision
+            if (PlayerPosition.X >= 1125 && PlayerPosition.X <= 1200 && PlayerPosition.Y >= 450)
+            {
+                PlayerPosition = new Vector2(-900, 250);
+            }
+
+            if (PlayerPosition.X >= 675 && PlayerPosition.X <= 925 && PlayerPosition.Y <= 50)
+            {
+                PlayerPosition = new Vector2(-900, 250);
+            }
 
             // Obstacle Collision From Spawn
             // First object 
@@ -411,7 +433,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
             // Top Next To Spikes
 
-            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2730 && PlayerPosition.Y <= 140)
+            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2740 && PlayerPosition.Y <= 140)
             {
                 PlayerPosition = PlayerPosition + GravityBasic;
             }
@@ -427,6 +449,64 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 PlayerPosition = PlayerPosition - Move;
             }
+
+            // Finish Page
+            // # 1
+            if (PlayerPosition.X > 2725 && PlayerPosition.X < 2875 && PlayerPosition.Y >= 350)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 2725 && PlayerPosition.X < 2800 && PlayerPosition.Y >= 310)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 2785 && PlayerPosition.X <= 2800 && PlayerPosition.Y >= 100 && PlayerPosition.Y <= 300)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2740 && PlayerPosition.Y <= 140)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 2790 && PlayerPosition.X < 2985 && PlayerPosition.Y >= 110)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            if (PlayerPosition.X <= 2980 && PlayerPosition.X > 2920 && PlayerPosition.Y >= 110)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            if (PlayerPosition.X >= 2980 && PlayerPosition.X <= 3010 && PlayerPosition.Y >= 110 && PlayerPosition.Y < 160 && PlayerPosition.Y > 120)
+            {
+                PlayerPosition = new Vector2(2660, 300);
+            }
+
+            if (PlayerPosition.X > 3080 && PlayerPosition.X < 3180 && PlayerPosition.Y <= 350)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X > 3095 && PlayerPosition.X < 3225 && PlayerPosition.Y <= 390)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            if (PlayerPosition.X > 3045 && PlayerPosition.X <= 3130 && PlayerPosition.Y < 250 && PlayerPosition.Y > 200)
+            {
+                PlayerPosition = new Vector2(2660, 300);
+            }
+
+            if (PlayerPosition.X < 3230 && PlayerPosition.X > 3215 && PlayerPosition.Y < 350)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
         }
         static void Player()
         {
@@ -539,7 +619,7 @@ namespace Assignment_4_Group_2D_Game_Project
             // Map Collision
 
             // The First Block the player hits
-            if (PlayerPosition.X > 1200 && PlayerPosition.X < 1700)
+            if (PlayerPosition.X > 1182 && PlayerPosition.X < 1680)
             {
                 HitRWall = true;
                 Move = new Vector2(5, 0);
@@ -585,7 +665,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // Floor Collison (Making it easier for myself)
-            if (PlayerPosition.X >= 1700)
+            if (PlayerPosition.X >= 1680)
             {
                 if (PlayerPosition.Y >= 500)
                 {
