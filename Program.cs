@@ -1,7 +1,7 @@
 ﻿using Raylib_cs;
-using System.Diagnostics;
+using System;
 using System.Numerics;
-using System.Timers;
+using static Raylib_cs.Raylib;
 
 
 namespace Assignment_4_Group_2D_Game_Project
@@ -54,7 +54,6 @@ namespace Assignment_4_Group_2D_Game_Project
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
         static Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
         static Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
-
         static void Main(string[] args)
         {
             // Create a window to draw to. The arguments define width and height 
@@ -86,10 +85,9 @@ namespace Assignment_4_Group_2D_Game_Project
 
                 // Clear the canvas with one color 
                 Raylib.ClearBackground(Color.WHITE);
-
+                DrawText("Thanks For Playing!", -5250, 300, 50, Color.GREEN);
 
                 Background();
-
                 Update();
                 Player();
                 DrawEnemies();
@@ -101,11 +99,9 @@ namespace Assignment_4_Group_2D_Game_Project
                 }
                 DrawHealth();
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame 
-                if (PlayerPosition.X > 5490 && PlayerPosition.Y > 300)
+                if (PlayerPosition.X > 5450)
                 {
-                    // This will Teleport Them Somewhere Else. (Currently, Back to the Start)
-                    PlayerPosition = new Vector2(-900, 300);
-                    // This is 6min and 10 seconds long
+                    PlayerPosition = new Vector2(-5000, 300);
                     Raylib.PlaySound(sound);
                 }
                 if (Raylib.IsKeyPressed(KeyboardKey.KEY_M))
@@ -115,6 +111,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
             Raylib.UnloadSound(sound);
             Raylib.CloseAudioDevice();
+          
             Raylib.CloseWindow(); // Close the window 
         }
         static void Setup() // Your one-time setup code here 
@@ -188,14 +185,14 @@ namespace Assignment_4_Group_2D_Game_Project
         }
         static void FallingEnemy1()
         {
-            
+
             PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
             Rectangle EnemyRec = new Rectangle(EnemyPos1.X + 400, EnemyPos1.Y, EnemySize.X, EnemySize.Y);
             //Raylib.DrawRectangleRec(EnemyRec, Color.RED);
             Vector2 Move = new Vector2(-5, 0);
             bool BottomWall = false;
             Vector2 GravityBasic = new Vector2(0, 8);
-            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos1.X+400, EnemyPos1.Y, EnemySize.X, 1000000);
+            Rectangle PlayerUnderDetect = new Rectangle(EnemyPos1.X + 400, EnemyPos1.Y, EnemySize.X, 1000000);
             //Raylib.DrawRectangleRec(PlayerUnderDetect, Color.RED);
             bool fall = false;
             bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
@@ -237,8 +234,6 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             if (EnemyPlayerColl == true) { health--; }
-
-
         }
         static void FallingEnemy3()
         {
@@ -265,8 +260,6 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             if (EnemyPlayerColl == true) { health--; }
-
-
         }
         static void FallingEnemy4()
         {
@@ -293,7 +286,6 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             if (EnemyPlayerColl == true) { health--; }
-
 
         }
 
@@ -355,7 +347,6 @@ namespace Assignment_4_Group_2D_Game_Project
                 EnemyPos6 = EnemyPos6 - GravityBasic;
             }
 
-
         }
         static void BossEnemy()
         {
@@ -363,7 +354,7 @@ namespace Assignment_4_Group_2D_Game_Project
             PlayerRec = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
             Rectangle EnemyRec = new Rectangle(EnemyBossPoss.X + 400, EnemyBossPoss.Y, BossEnemySize.X, BossEnemySize.Y);
             //Raylib.DrawRectangleRec(BossMove, Color.RED);
-            
+
             //bool collision = Raylib.CheckCollisionRecs(PlayerRec, PlayerUnderDetect);
             bool EnemyPlayerColl = Raylib.CheckCollisionRecs(PlayerRec, EnemyRec);
             bool ShouldBossMove = Raylib.CheckCollisionRecs(PlayerRec, BossMove);
@@ -376,11 +367,6 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 EnemyBossPoss = EnemyBossPoss + BossMovement;
             }
-            
-
-
-
-
         }
         static Texture2D LoadTexture2D(string filename)
         {
@@ -389,40 +375,38 @@ namespace Assignment_4_Group_2D_Game_Project
             return texture;
         }
 
-       
+
         static void CheckCollision()
         {
-            
+
             //Respawn Mechanics
             //Spawn
             if (CheckPointCounter == 0 && health <= 0)
             {
                 PlayerPosition = new Vector2(-900, 200);
                 health = 3;
-
             }
+
             //Checkpoint 1
             if (CheckPointCounter == 1 && health <= 0)
             {
                 PlayerPosition = new Vector2(1365, 300);
                 health = 3;
-
             }
+
             //Checkpoint 2
             if (CheckPointCounter == 2 && health <= 0)
             {
                 PlayerPosition = new Vector2(2660, 300);
                 health = 3;
-
             }
+
             //WIP Damage Forgiving
             if (TookDamage == true)
             {
                 TookDamage = false;
-
-
             }
-            else 
+            else
             {
 
                 // Spike Collision
@@ -450,7 +434,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
                 if (PlayerPosition.X >= 3060 && PlayerPosition.X <= 3105 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
 
-                if (PlayerPosition.X >= 3855 && PlayerPosition.X <= 3945 && PlayerPosition.Y >= 200 && PlayerPosition.Y <= 350) { health--; TookDamage = true; }
+                if (PlayerPosition.X >= 3855 && PlayerPosition.X <= 3985 && PlayerPosition.Y >= 200 && PlayerPosition.Y <= 350) { health--; TookDamage = true; }
 
                 // Bottom Spikes Page 1
 
@@ -483,6 +467,16 @@ namespace Assignment_4_Group_2D_Game_Project
                 if (PlayerPosition.X >= 3535 && PlayerPosition.X <= 3575 && PlayerPosition.Y <= 275 && PlayerPosition.Y >= 215) { health--; TookDamage = true; }
 
                 if (PlayerPosition.X > 3695 && PlayerPosition.X <= 3775 && PlayerPosition.Y <= 375 && PlayerPosition.Y >= 265) { health--; TookDamage = true; }
+
+                // Stationary Enemey Spikes 
+                if (PlayerPosition.X > 4600 && PlayerPosition.X <= 4655 && PlayerPosition.Y > 360) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X > 4400 && PlayerPosition.X <= 4455 && PlayerPosition.Y > 360) { health--; TookDamage = true; }
+
+                if (PlayerPosition.X > 4510 && PlayerPosition.X <= 4565 && PlayerPosition.Y < 485) { health--; TookDamage = true; }
+
+
+
             }
 
             // First Level
@@ -737,7 +731,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 PlayerPosition = PlayerPosition + Move;
             }
 
-            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2740 && PlayerPosition.Y <= 140)
+            if (PlayerPosition.X >= 2330 && PlayerPosition.X <= 2735 && PlayerPosition.Y <= 140)
             {
                 PlayerPosition = PlayerPosition + GravityBasic;
             }
@@ -801,7 +795,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             if (PlayerPosition.X >= 3500 && PlayerPosition.X <= 3530 && PlayerPosition.Y <= 140)
-            { 
+            {
                 PlayerPosition = PlayerPosition - Move;
             }
 
@@ -822,7 +816,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // Long Pillar
-            if (PlayerPosition.X >= 3578 && PlayerPosition.X <= 3628 && PlayerPosition.Y >= 110 )
+            if (PlayerPosition.X >= 3578 && PlayerPosition.X <= 3628 && PlayerPosition.Y >= 110)
             {
                 PlayerPosition = PlayerPosition + Move;
             }
@@ -830,9 +824,137 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 PlayerPosition = PlayerPosition - GravityBasic;
             }
-            if(PlayerPosition.X >= 3630 && PlayerPosition.X <= 3680 && PlayerPosition.Y >= 110)
+
+            if (PlayerPosition.X >= 3630 && PlayerPosition.X <= 3680 && PlayerPosition.Y >= 110)
             {
                 PlayerPosition = PlayerPosition - Move;
+            }
+
+            // Bottom Wedge
+            if (PlayerPosition.X >= 3685 && PlayerPosition.X <= 3735 && PlayerPosition.Y >= 350 && PlayerPosition.Y < 475)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 3690 && PlayerPosition.X < 3770 && PlayerPosition.Y <= 490 && PlayerPosition.Y > 350 || PlayerPosition.X >= 3780 && PlayerPosition.X <= 3970 && PlayerPosition.Y >= 400 && PlayerPosition.Y <= 440 || PlayerPosition.X >= 3840 && PlayerPosition.X < 3925 && PlayerPosition.Y >= 450 && PlayerPosition.Y <= 490)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 3740 && PlayerPosition.X <= 3780 && PlayerPosition.Y >= 400 && PlayerPosition.Y <= 450 || PlayerPosition.X <= 3930 && PlayerPosition.X >= 3890 && PlayerPosition.Y >= 400 && PlayerPosition.Y <= 450)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            if (PlayerPosition.X >= 3830 && PlayerPosition.X <= 3850 && PlayerPosition.Y >= 360 && PlayerPosition.Y <= 450)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            // U Box
+            if (PlayerPosition.X >= 3745 && PlayerPosition.X <= 3815 && PlayerPosition.Y >= 250 && PlayerPosition.Y <= 300 || PlayerPosition.X <= 3970 && PlayerPosition.X >= 3815 && PlayerPosition.Y >= 350 && PlayerPosition.Y <= 400)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 3790 && PlayerPosition.X <= 3825 && PlayerPosition.Y <= 350 && PlayerPosition.Y >= 300)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            if (PlayerPosition.X >= 3880 && PlayerPosition.X <= 3930 && PlayerPosition.Y <= 150)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            // Long Boss Platform
+            if (PlayerPosition.X >= 3980 && PlayerPosition.X <= 5035 && PlayerPosition.Y <= 340 && PlayerPosition.Y >= 300)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            // Mini enemies bottom
+            if (PlayerPosition.X >= 4380 && PlayerPosition.X <= 4415 && PlayerPosition.Y >= 425 || PlayerPosition.X >= 4575 && PlayerPosition.X <= 4595 && PlayerPosition.Y >= 425)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 4440 && PlayerPosition.X <= 4480 && PlayerPosition.Y >= 425 || PlayerPosition.X <= 4675 && PlayerPosition.X >= 4645 && PlayerPosition.Y >= 425)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            // Top 
+            if (PlayerPosition.X >= 4480 && PlayerPosition.X <= 4530 && PlayerPosition.Y <= 375)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X <= 4585 && PlayerPosition.X >= 4530 && PlayerPosition.Y <= 375)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            if (PlayerPosition.X >= 4830 && PlayerPosition.X <= 4870 && PlayerPosition.Y >= 475 || PlayerPosition.X >= 4880 && PlayerPosition.X <= 4930 && PlayerPosition.Y >= 450)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 4835 && PlayerPosition.X <= 4880 && PlayerPosition.Y >= 450 || PlayerPosition.X >= 4885 && PlayerPosition.X <= 4970 && PlayerPosition.Y >= 400)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 4975 && PlayerPosition.X <= 5025 && PlayerPosition.Y <= 400)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X <= 5080 && PlayerPosition.X >= 5030 && PlayerPosition.Y <= 400)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            if (PlayerPosition.X >= 4990 && PlayerPosition.X <= 5075 && PlayerPosition.Y <= 440)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 4930 && PlayerPosition.X <= 4980 && PlayerPosition.Y >= 410)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            // End
+
+            if (PlayerPosition.X >= 5380 && PlayerPosition.X <= 5430 && PlayerPosition.Y >= 470)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 5380 && PlayerPosition.X <= 5430 && PlayerPosition.Y <= 80)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 5430 && PlayerPosition.X <= 5480 && PlayerPosition.Y <= 150)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 5430 && PlayerPosition.X <= 5480 && PlayerPosition.Y >= 400)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 5400 && PlayerPosition.X <= 5490 && PlayerPosition.Y <= 90)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 5400 && PlayerPosition.X <= 5490 && PlayerPosition.Y >= 460)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
             }
         }
         static void Player()
@@ -923,6 +1045,17 @@ namespace Assignment_4_Group_2D_Game_Project
 
             }
 
+            if (PlayerPosition.X < -3000 && PlayerPosition.X > -6500)
+            {
+                if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+                if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                {
+                    PlayerPosition = PlayerPosition - Move;
+                }
+            }
             // Top Collisiom 
             if (PlayerPosition.Y - 5 < 50)
             {
