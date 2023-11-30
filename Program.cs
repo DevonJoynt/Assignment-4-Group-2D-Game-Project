@@ -1,7 +1,7 @@
 ﻿using Raylib_cs;
-using System.Diagnostics;
+using System;
 using System.Numerics;
-using System.Timers;
+using static Raylib_cs.Raylib;
 
 
 namespace Assignment_4_Group_2D_Game_Project
@@ -43,13 +43,12 @@ namespace Assignment_4_Group_2D_Game_Project
         static Vector2 EnemySize = new Vector2(50, 50);
         static Vector2 BossEnemySize = new Vector2(200, 200);
         static Rectangle BossMove = new Rectangle(EnemyBossPoss.X + 400, EnemyBossPoss.Y, 1000000, 100000);
-        static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
+        static Vector2 PlayerPosition { get; set; } = new Vector2(5400, 250);
         static Vector2 PlayerSize = new Vector2(50, 50);
         static Rectangle PlayerRec { get; set; } = new Rectangle(PlayerPosition.X, PlayerPosition.Y, PlayerSize.X, PlayerSize.Y);
         static Rectangle FloorBricks = new Rectangle(800, 0, 100, 100);
         static Vector2 CameraOffset = new Vector2(WindowWidth / 2, WindowHeight / 2);
         static Vector2 CameraYLock = new Vector2(PlayerPosition.X, WindowHeight / 2);
-
         static void Main(string[] args)
         {
             // Create a window to draw to. The arguments define width and height 
@@ -81,10 +80,9 @@ namespace Assignment_4_Group_2D_Game_Project
 
                 // Clear the canvas with one color 
                 Raylib.ClearBackground(Color.WHITE);
-
+                DrawText("Thanks For Playing!", -5250, 300, 50, Color.GREEN);
 
                 Background();
-
                 Update();
                 Player();
                 DrawEnemies();
@@ -98,9 +96,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 Raylib.EndDrawing();  // Stop drawing to the canvas, begin displaying the frame 
                 if (PlayerPosition.X > 5450)
                 {
-                    // This will Teleport Them Somewhere Else. (Currently, Back to the Start)
-                    PlayerPosition = new Vector2(-900, 300);
-                    // This is 6min and 10 seconds long
+                    PlayerPosition = new Vector2(-5000, 300);
                     Raylib.PlaySound(sound);
                 }
                 if (Raylib.IsKeyPressed(KeyboardKey.KEY_M))
@@ -110,6 +106,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
             Raylib.UnloadSound(sound);
             Raylib.CloseAudioDevice();
+          
             Raylib.CloseWindow(); // Close the window 
         }
         static void Setup() // Your one-time setup code here 
@@ -228,8 +225,6 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             if (EnemyPlayerColl == true) { health--; }
-
-
         }
         static void FallingEnemy3()
         {
@@ -256,8 +251,6 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             if (EnemyPlayerColl == true) { health--; }
-
-
         }
         static void FallingEnemy4()
         {
@@ -284,7 +277,6 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             if (EnemyPlayerColl == true) { health--; }
-
 
         }
 
@@ -346,7 +338,6 @@ namespace Assignment_4_Group_2D_Game_Project
                 EnemyPos6 = EnemyPos6 - GravityBasic;
             }
 
-
         }
         static void BossEnemy()
         {
@@ -367,11 +358,6 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 EnemyBossPoss = EnemyBossPoss + BossMovement;
             }
-
-
-
-
-
         }
         static Texture2D LoadTexture2D(string filename)
         {
@@ -1050,6 +1036,17 @@ namespace Assignment_4_Group_2D_Game_Project
 
             }
 
+            if (PlayerPosition.X < -3000 && PlayerPosition.X > -6500)
+            {
+                if (Raylib.IsKeyDown(KeyboardKey.KEY_D) || Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+                {
+                    PlayerPosition = PlayerPosition + Move;
+                }
+                if (Raylib.IsKeyDown(KeyboardKey.KEY_A) || Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+                {
+                    PlayerPosition = PlayerPosition - Move;
+                }
+            }
             // Top Collisiom 
             if (PlayerPosition.Y - 5 < 50)
             {
