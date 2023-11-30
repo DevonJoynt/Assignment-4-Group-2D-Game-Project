@@ -21,6 +21,9 @@ namespace Assignment_4_Group_2D_Game_Project
         static Texture2D enemyBoss;
         static Texture2D maincharacter;
         static Texture2D checkpointicon;
+        static Texture2D rightarrow;
+        static Texture2D leftarrow;
+        static Texture2D spacebar;
 
         static bool TookDamage = false;
         static bool ifMoved { get; set; } = false;
@@ -83,7 +86,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
                 Background();
-
+                
                 Update();
                 Player();
                 DrawEnemies();
@@ -125,8 +128,11 @@ namespace Assignment_4_Group_2D_Game_Project
             enemyBoss = LoadTexture2D("../../../art asset for the game//Final Enemy Design - Jake deVos.png");
             maincharacter = LoadTexture2D("../../../art asset for the game//Main Character-neutral.png");
             checkpointicon = LoadTexture2D("../../../art asset for the game//Checkpoint Icon - Jake deVos.png");
-
+            rightarrow = LoadTexture2D("../../../art asset for the game//Right arrow key.png");
+            leftarrow = LoadTexture2D("../../../art asset for the game//Left arrow key.png");
+            spacebar = LoadTexture2D("../../../art asset for the game//Spacebar.png");
         }
+
 
         static void DrawHealth()
         {
@@ -1076,18 +1082,15 @@ namespace Assignment_4_Group_2D_Game_Project
 
             //spacebar
             Rectangle FloorBrick18 = new Rectangle(-430, 200, 110, 50);
-            Raylib.DrawRectangleRec(FloorBrick18, Color.VIOLET);
-            Raylib.DrawRectangleLinesEx(FloorBrick18, 2, Color.YELLOW);
+            Raylib.DrawTexture(spacebar, -945, -190, Color.WHITE);
 
             //Arrow Key
             Rectangle FloorBrick20 = new Rectangle(-750, 200, 50, 50);
-            Raylib.DrawRectangleRec(FloorBrick20, Color.VIOLET);
-            Raylib.DrawRectangleLinesEx(FloorBrick20, 2, Color.YELLOW);
+            Raylib.DrawTexture(leftarrow, -1300, -190, Color.WHITE);
 
             //Arrow Key
             Rectangle FloorBrick22 = new Rectangle(-650, 200, 50, 50);
-            Raylib.DrawRectangleRec(FloorBrick22, Color.VIOLET);
-            Raylib.DrawRectangleLinesEx(FloorBrick22, 2, Color.YELLOW);
+            Raylib.DrawTexture(rightarrow, -1170, -190, Color.WHITE);
 
             //top to bottom vert blocks - beginning of maze
             Rectangle FloorBrick24 = new Rectangle(-950, 0, 100, 600);
@@ -1112,8 +1115,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
             //spacebar
             Rectangle FloorBrick34 = new Rectangle(520, 250, 110, 50);
-            Raylib.DrawRectangleRec(FloorBrick34, Color.VIOLET);
-            Raylib.DrawRectangleLinesEx(FloorBrick34, 2, Color.YELLOW);
+            Raylib.DrawTexture(spacebar, 0, -190, Color.WHITE);
 
             //pg1
             Rectangle FloorBrick36 = new Rectangle(490, 320, 170, 20);
@@ -1129,7 +1131,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
             //pg2 large block
             Rectangle FloorBrick42 = new Rectangle(1250, 350, 450, 50);
-            Raylib.DrawRectangleRec(FloorBrick42, Color.GRAY);
+            Raylib.DrawRectangleRec(FloorBrick42, Color.BLUE);
 
             //pg2 large block
             Rectangle FloorBrick44 = new Rectangle(1250, 400, 450, 50);
@@ -2078,6 +2080,8 @@ namespace Assignment_4_Group_2D_Game_Project
             Raylib.DrawTexture(background, 3180, 0, Color.RAYWHITE);
             Raylib.DrawTexture(background, 4780, 0, Color.RAYWHITE);
         }
+
+       
     }
 }
 
