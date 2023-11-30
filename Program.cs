@@ -3,6 +3,7 @@ using System;
 using System.Numerics;
 using static Raylib_cs.Raylib;
 
+
 namespace Assignment_4_Group_2D_Game_Project
 {
     internal class Program
@@ -105,7 +106,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
             Raylib.UnloadSound(sound);
             Raylib.CloseAudioDevice();
-
+          
             Raylib.CloseWindow(); // Close the window 
         }
         static void Setup() // Your one-time setup code here 
@@ -2212,6 +2213,4 @@ namespace Assignment_4_Group_2D_Game_Project
         }
     }
 }
-
-
 
