@@ -383,7 +383,7 @@ namespace Assignment_4_Group_2D_Game_Project
        
         static void CheckCollision()
         {
-            
+
             //Respawn Mechanics
             //Spawn
             if (CheckPointCounter == 0 && health <= 0)
@@ -413,7 +413,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
 
             }
-            else 
+            else
             {
 
                 // Spike Collision
@@ -441,7 +441,7 @@ namespace Assignment_4_Group_2D_Game_Project
 
                 if (PlayerPosition.X >= 3060 && PlayerPosition.X <= 3105 && PlayerPosition.Y <= 50) { health--; TookDamage = true; }
 
-                if (PlayerPosition.X >= 3855 && PlayerPosition.X <= 3945 && PlayerPosition.Y >= 200 && PlayerPosition.Y <= 350) { health--; TookDamage = true; }
+                if (PlayerPosition.X >= 3855 && PlayerPosition.X <= 3985 && PlayerPosition.Y >= 200 && PlayerPosition.Y <= 350) { health--; TookDamage = true; }
 
                 // Bottom Spikes Page 1
 
@@ -728,7 +728,7 @@ namespace Assignment_4_Group_2D_Game_Project
                 PlayerPosition = PlayerPosition + Move;
             }
 
-            if (PlayerPosition.X >= 2330 && PlayerPosition.X < 2740 && PlayerPosition.Y <= 140)
+            if (PlayerPosition.X >= 2330 && PlayerPosition.X <= 2735 && PlayerPosition.Y <= 140)
             {
                 PlayerPosition = PlayerPosition + GravityBasic;
             }
@@ -792,7 +792,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             if (PlayerPosition.X >= 3500 && PlayerPosition.X <= 3530 && PlayerPosition.Y <= 140)
-            { 
+            {
                 PlayerPosition = PlayerPosition - Move;
             }
 
@@ -813,7 +813,7 @@ namespace Assignment_4_Group_2D_Game_Project
             }
 
             // Long Pillar
-            if (PlayerPosition.X >= 3578 && PlayerPosition.X <= 3628 && PlayerPosition.Y >= 110 )
+            if (PlayerPosition.X >= 3578 && PlayerPosition.X <= 3628 && PlayerPosition.Y >= 110)
             {
                 PlayerPosition = PlayerPosition + Move;
             }
@@ -821,9 +821,53 @@ namespace Assignment_4_Group_2D_Game_Project
             {
                 PlayerPosition = PlayerPosition - GravityBasic;
             }
-            if(PlayerPosition.X >= 3630 && PlayerPosition.X <= 3680 && PlayerPosition.Y >= 110)
+
+            if (PlayerPosition.X >= 3630 && PlayerPosition.X <= 3680 && PlayerPosition.Y >= 110)
             {
                 PlayerPosition = PlayerPosition - Move;
+            }
+
+            // Bottom Wedge
+            if (PlayerPosition.X >= 3685 && PlayerPosition.X <= 3735 && PlayerPosition.Y >= 350 && PlayerPosition.Y < 475)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            if (PlayerPosition.X >= 3690 && PlayerPosition.X < 3770 && PlayerPosition.Y <= 490 && PlayerPosition.Y > 350 || PlayerPosition.X >= 3780 && PlayerPosition.X <= 3970 && PlayerPosition.Y >= 400 && PlayerPosition.Y <= 440 || PlayerPosition.X >= 3840 && PlayerPosition.X < 3925 && PlayerPosition.Y >= 450 && PlayerPosition.Y <= 490)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 3740 && PlayerPosition.X <= 3780 && PlayerPosition.Y >= 400 && PlayerPosition.Y <= 450 || PlayerPosition.X <= 3930 && PlayerPosition.X >= 3890 && PlayerPosition.Y >= 400 && PlayerPosition.Y <= 450)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            if (PlayerPosition.X >= 3830 && PlayerPosition.X <= 3850 && PlayerPosition.Y >= 360 && PlayerPosition.Y <= 450)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            // U Box
+            if (PlayerPosition.X >= 3745 && PlayerPosition.X <= 3815 && PlayerPosition.Y >= 250 && PlayerPosition.Y <= 300 || PlayerPosition.X <= 3970 && PlayerPosition.X >= 3815 && PlayerPosition.Y >= 350 && PlayerPosition.Y <= 400)
+            {
+                PlayerPosition = PlayerPosition - GravityBasic;
+            }
+
+            if (PlayerPosition.X >= 3790 && PlayerPosition.X <= 3825 && PlayerPosition.Y <= 350 && PlayerPosition.Y >= 300)
+            {
+                PlayerPosition = PlayerPosition - Move;
+            }
+
+            if (PlayerPosition.X >= 3880 && PlayerPosition.X <= 3930 && PlayerPosition.Y <= 150)
+            {
+                PlayerPosition = PlayerPosition + Move;
+            }
+
+            // Long Boss Platform
+            if (PlayerPosition.X >= 3980 && PlayerPosition.X <= 5035 && PlayerPosition.Y <= 340 && PlayerPosition.Y >= 300)
+            {
+                PlayerPosition = PlayerPosition + GravityBasic;
             }
         }
         static void Player()
