@@ -45,7 +45,7 @@ namespace Assignment_4_Group_2D_Game_Project
         static Vector2 EnemyPos6 { get; set; } = new Vector2(1700, -15);
         static Vector2 BossMovement { get; set; } = new Vector2(1, 0);
         static Vector2 EnemyBossPoss { get; set; } = new Vector2(3600, 235);
-        static Vector2 EnemySize = new Vector2(50, 50);
+        static Vector2 EnemySize = new Vector2(10, 10);
         static Vector2 BossEnemySize = new Vector2(200, 200);
         static Rectangle BossMove = new Rectangle(EnemyBossPoss.X + 400, EnemyBossPoss.Y, 1000000, 100000);
         static Vector2 PlayerPosition { get; set; } = new Vector2(-900, 250);
